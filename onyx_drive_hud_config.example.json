@@ -1,0 +1,11 @@
+{
+  "udp_host": "0.0.0.0",
+  "udp_port": 5607,
+  "language": "en",
+  "manager_theme": "Blackout Blue",
+  "edit_mode": true,
+  "click_through": false,
+  "opacity": 0.92,
+  "scale": 1.0,
+  "background_alpha": 115
+}
