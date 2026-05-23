@@ -4,7 +4,7 @@ title ONYX Drive HUD v4 OneEXE - Builder
 cd /d "%~dp0"
 
 echo ==========================================
-echo  ONYX DRIVE HUD v4.2 SafeExit - Builder
+echo  ONYX DRIVE HUD v4.3 International Units - Builder
 echo ==========================================
 echo.
 
@@ -34,12 +34,12 @@ if exist release rmdir /s /q release
 
 echo.
 echo [3/5] Single EXE bauen...
-%PY% -m PyInstaller --noconfirm --clean --onefile --windowed --name ONYX_Drive_HUD_v4_2_2 --icon onyx_icon.ico --add-data "onyx_icon.ico;." --add-data "onyx_icon.png;." onyx_app.py
+%PY% -m PyInstaller --noconfirm --clean --onefile --windowed --name ONYX_Drive_HUD_v4_3_3_2 --icon onyx_icon.ico --add-data "onyx_icon.ico;." --add-data "onyx_icon.png;." onyx_app.py
 
 echo.
 echo [4/5] Release-Ordner erstellen...
 mkdir release
-copy /Y dist\ONYX_Drive_HUD_v4_2_2.exe release\ONYX_Drive_HUD_v4_2_2.exe
+copy /Y dist\ONYX_Drive_HUD_v4_3_3_2.exe release\ONYX_Drive_HUD_v4_3_3_2.exe
 copy /Y onyx_icon.ico release\onyx_icon.ico
 copy /Y onyx_icon.png release\onyx_icon.png
 copy /Y README.md release\README.md
@@ -50,6 +50,6 @@ copy /Y LICENSE.txt release\LICENSE.txt
 echo.
 echo [5/5] Fertig.
 echo Single EXE:
-echo release\ONYX_Drive_HUD_v4_2_2.exe
+echo release\ONYX_Drive_HUD_v4_3_3_2.exe
 echo.
 pause

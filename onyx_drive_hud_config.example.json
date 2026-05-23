@@ -7,5 +7,10 @@
   "click_through": false,
   "opacity": 0.92,
   "scale": 1.0,
-  "background_alpha": 115
+  "background_alpha": 115,
+  "unit_system": "Metric",
+  "speed_unit": "KMH",
+  "power_unit": "PS",
+  "boost_unit": "bar",
+  "gear_label": "GEAR"
 }

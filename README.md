@@ -1,4 +1,4 @@
-# ONYX Drive HUD v4.2 SafeExit
+# ONYX Drive HUD v4.3 International Units
 
 ONYX Drive HUD v4 is a single executable external telemetry HUD for Forza Data Out UDP.
 
@@ -42,7 +42,7 @@ build_one_exe.bat
 Output:
 
 ```text
-release\ONYX_Drive_HUD_v4_2.exe
+release\ONYX_Drive_HUD_v4_3.exe
 ```
 
 ## Forza settings
@@ -92,3 +92,20 @@ Closing the manager with the red X now:
 - force-exits the process with `os._exit(0)`
 
 There is also an **Exit ONYX** button and `Ctrl+Q` shortcut.
+
+
+## v4.3 International Units
+
+New Units tab:
+
+- Metric preset: KMH / PS / bar
+- Imperial preset: MPH / HP / PSI
+- Custom mode
+- Speed unit: KMH or MPH
+- Power unit: PS, HP or kW
+- Boost unit: bar or PSI
+- Gear label: GEAR or GANG
+
+Overlay values are converted live.
+CSV/XLSX export uses the selected unit names in the column headers.
+English remains the default language.

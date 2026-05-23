@@ -26,3 +26,8 @@ The dyno graph is a local visualization of UDP telemetry. It does not access gam
 ## v4.2 SafeExit
 
 The app includes a local exit/killswitch path. It only terminates its own process and does not interact with other processes.
+
+
+## v4.3 International Units
+
+The app includes a local unit conversion tab. Unit conversion happens locally in the UI/export layer only.

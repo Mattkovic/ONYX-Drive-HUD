@@ -58,10 +58,10 @@ LANGUAGES = {
 
 TEXT = {
     "en": {
-        "title": "ONYX Drive HUD v4.2 SafeExit",
-        "subtitle": "DRIVE HUD CONTROL CENTER · ONE PROCESS · SAFE EXIT · DYNO CLEAN",
+        "title": "ONYX Drive HUD v4.3 International Units",
+        "subtitle": "DRIVE HUD CONTROL CENTER · ONE PROCESS · INTERNATIONAL UNITS",
         "general": "General", "tiles": "Tiles", "peak": "Peak Measurements",
-        "design": "Design", "language": "Language", "hotkeys": "Keybinds",
+        "design": "Design", "language": "Language", "hotkeys": "Keybinds", "units": "Units",
         "save": "Save", "show_overlay": "Show Overlay", "hide_overlay": "Hide Overlay",
         "reset": "Reset all", "exit_app": "Exit ONYX", "start_recording": "Start Recording", "stop": "Stop",
         "reset_peaks": "Reset Peaks", "export_csv": "Export CSV", "export_xlsx": "Export XLSX",
@@ -73,12 +73,15 @@ TEXT = {
         "apply_tile": "Apply tile", "theme": "Theme", "lang_hint": "English is default. German is included. Other major languages are available with mostly translated UI labels.",
         "saved": "Saved", "saved_msg": "Configuration saved. Overlay updates immediately.",
         "one_exe_note": "Overlay, Manager and Peak Measurements now share one UDP receiver in the same EXE.",
+        "unit_system": "Unit system", "metric": "Metric", "imperial": "Imperial", "custom": "Custom",
+        "speed_unit": "Speed unit", "power_unit": "Power unit", "boost_unit": "Boost unit", "gear_label": "Gear label",
+        "units_hint": "Metric uses KMH, PS and bar. Imperial uses MPH, HP and PSI. Custom lets you choose each unit manually.",
     },
     "de": {
-        "title": "ONYX Drive HUD v4.2 SafeExit",
+        "title": "ONYX Drive HUD v4.3 International Units",
         "subtitle": "DRIVE HUD KONTROLLZENTRUM · EIN PROZESS · BLACKOUT BLUE",
         "general": "Allgemein", "tiles": "Kacheln", "peak": "Peak-Werte",
-        "design": "Design", "language": "Sprache", "hotkeys": "Tasten",
+        "design": "Design", "language": "Sprache", "hotkeys": "Tasten", "units": "Einheiten",
         "save": "Speichern", "show_overlay": "Overlay anzeigen", "hide_overlay": "Overlay verstecken",
         "reset": "Alles zurücksetzen", "exit_app": "ONYX beenden", "start_recording": "Aufnahme starten", "stop": "Stop",
         "reset_peaks": "Peak-Werte zurücksetzen", "export_csv": "CSV exportieren", "export_xlsx": "XLSX exportieren",
@@ -90,6 +93,9 @@ TEXT = {
         "apply_tile": "Kachel übernehmen", "theme": "Theme", "lang_hint": "Englisch ist Standard. Deutsch ist vollständig drin. Weitere Hauptsprachen sind mit den wichtigsten UI-Labels drin.",
         "saved": "Gespeichert", "saved_msg": "Konfiguration gespeichert. Overlay aktualisiert sich direkt.",
         "one_exe_note": "Overlay, Manager und Peak Measurements teilen sich jetzt einen UDP-Empfänger in derselben EXE.",
+        "unit_system": "Einheitensystem", "metric": "Metrisch", "imperial": "Imperial", "custom": "Benutzerdefiniert",
+        "speed_unit": "Geschwindigkeit", "power_unit": "Leistung", "boost_unit": "Ladedruck", "gear_label": "Gang-Label",
+        "units_hint": "Metrisch nutzt KMH, PS und bar. Imperial nutzt MPH, HP und PSI. Benutzerdefiniert erlaubt freie Auswahl.",
     },
 }
 
@@ -127,6 +133,11 @@ DEFAULT_CONFIG = {
     "udp_port": 5607,
     "language": "en",
     "manager_theme": "Blackout Blue",
+    "unit_system": "Metric",
+    "speed_unit": "KMH",
+    "power_unit": "PS",
+    "boost_unit": "bar",
+    "gear_label": "GEAR",
     "edit_mode": True,
     "click_through": False,
     "opacity": 0.92,
@@ -143,7 +154,7 @@ DEFAULT_CONFIG = {
     }
 }
 
-CARD_LABELS = {"speed":"KMH","rpm":"RPM","gear":"Gear","power":"PS","boost":"Boost"}
+CARD_LABELS = {"speed":"Speed","rpm":"RPM","gear":"Gear","power":"Power","boost":"Boost"}
 
 
 def deep_copy(obj):
@@ -251,6 +262,37 @@ QFrame#Header {{
 }}
 """
 
+
+
+def speed_value(tel, cfg):
+    kmh = tel.speed_kmh
+    if cfg.get("speed_unit", "KMH") == "MPH":
+        return kmh * 0.621371
+    return kmh
+
+def speed_label(cfg):
+    return "MPH" if cfg.get("speed_unit", "KMH") == "MPH" else "KMH"
+
+def power_value(tel, cfg):
+    ps = max(0.0, tel.power_w) / 735.49875
+    unit = cfg.get("power_unit", "PS")
+    if unit == "HP":
+        return ps * 0.986320
+    if unit == "kW":
+        return ps * 0.735499
+    return ps
+
+def power_label(cfg):
+    return cfg.get("power_unit", "PS")
+
+def boost_value(tel, cfg):
+    bar = tel.boost
+    if cfg.get("boost_unit", "bar") == "PSI":
+        return bar * 14.5038
+    return bar
+
+def boost_label(cfg):
+    return cfg.get("boost_unit", "bar")
 
 @dataclass
 class Telemetry:
@@ -420,13 +462,20 @@ class Card:
         return self.rect.contains(float(p.x()), float(p.y()))
 
     def value(self, tel):
+        cfg = self.cfg.get("_global_config", {})
         if tel is None:
-            return {"speed":"0","rpm":"0","gear":"N","power":"0","boost":"0,00"}.get(self.key,"-")
-        if self.key == "speed": return f"{tel.speed_kmh:.0f}"
-        if self.key == "rpm": return f"{tel.rpm:,}".replace(",", ".")
-        if self.key == "gear": return "R/N" if tel.gear == 0 else str(tel.gear)
-        if self.key == "power": return str(tel.power_ps)
-        if self.key == "boost": return f"{tel.boost:.2f}".replace(".", ",")
+            return {"speed":"0","rpm":"0","gear":"N","power":"0","boost":"0.00"}.get(self.key,"-")
+        if self.key == "speed":
+            return f"{speed_value(tel, cfg):.0f}"
+        if self.key == "rpm":
+            return f"{tel.rpm:,}".replace(",", ".")
+        if self.key == "gear":
+            return "R/N" if tel.gear == 0 else str(tel.gear)
+        if self.key == "power":
+            return f"{power_value(tel, cfg):.0f}"
+        if self.key == "boost":
+            decimals = 1 if cfg.get("boost_unit", "bar") == "PSI" else 2
+            return f"{boost_value(tel, cfg):.{decimals}f}".replace(".", ",")
         return "-"
 
 
@@ -435,7 +484,7 @@ class OverlayWindow(QWidget):
         super().__init__()
         self.manager = manager
         self.config = manager.config
-        self.cards = {k: Card(k, self.config["cards"][k]) for k in self.config["cards"]}
+        self.cards = {k: Card(k, {**self.config["cards"][k], "_global_config": self.config}) for k in self.config["cards"]}
         self.telemetry = None
         self.selected = None
         self.shortcuts = []
@@ -449,7 +498,7 @@ class OverlayWindow(QWidget):
 
     def sync_config(self):
         self.config = self.manager.config
-        self.cards = {k: Card(k, self.config["cards"][k]) for k in self.config["cards"]}
+        self.cards = {k: Card(k, {**self.config["cards"][k], "_global_config": self.config}) for k in self.config["cards"]}
         self.apply_window_flags()
         self.register_shortcuts()
         self.update()
@@ -564,8 +613,15 @@ class OverlayWindow(QWidget):
         p.setFont(QFont(self.config["font_family"], int(15*scale), QFont.Weight.Bold))
         p.setPen(col)
         label = c.cfg.get("label", c.key.upper())
-        if c.key == "boost":
-            label = label + "  bar" if "bar" not in label.lower() else label
+        cfg = c.cfg.get("_global_config", {})
+        if c.key == "speed":
+            label = speed_label(cfg)
+        elif c.key == "power":
+            label = power_label(cfg)
+        elif c.key == "boost":
+            label = boost_label(cfg)
+        elif c.key == "gear":
+            label = cfg.get("gear_label", "GEAR")
         p.drawText(QRectF(x+47,y+h-35,w-60,32), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, label)
         p.setPen(QPen(QColor(col.red(), col.green(), col.blue(), 160), 2))
         p.setBrush(Qt.BrushStyle.NoBrush)
@@ -584,7 +640,12 @@ class DynoGraph(QWidget):
     def __init__(self):
         super().__init__()
         self.samples = []
+        self.config = DEFAULT_CONFIG
         self.setMinimumHeight(330)
+
+    def set_config(self, config):
+        self.config = config
+        self.update()
 
     def set_samples(self, samples):
         self.samples = samples[-12000:]
@@ -684,9 +745,9 @@ class DynoGraph(QWidget):
 
         min_rpm = max(0, min(s.rpm for s in points) - 250)
         max_rpm = max(s.rpm for s in points) + 250
-        max_ps = max(1, max(s.power_ps for s in points))
+        max_ps = max(1, max(power_value(s, self.config) for s in points))
         max_nm = max(1, max(abs(s.torque_nm) for s in points))
-        max_boost = max(0.01, max(abs(s.boost) for s in points))
+        max_boost = max(0.01, max(abs(boost_value(s, self.config)) for s in points))
         y_max = max(max_ps, max_nm)
 
         def x_for(rpm):
@@ -710,19 +771,19 @@ class DynoGraph(QWidget):
                 prev = pt
 
         # PS curve
-        draw_curve([(s, s.power_ps) for s in points], cyan, 3, False)
+        draw_curve([(s, power_value(s, self.config)) for s in points], cyan, 3, False)
 
         # NM curve
         draw_curve([(s, abs(s.torque_nm)) for s in points], amber, 2, False)
 
         # Boost curve, scaled to graph height
         if max_boost > 0.05:
-            draw_curve([(s, s.boost) for s in points], purple, 2, True)
+            draw_curve([(s, boost_value(s, self.config)) for s in points], purple, 2, True)
 
         # Labels
         p.setFont(QFont("Segoe UI", 9, QFont.Weight.Bold))
         p.setPen(cyan)
-        p.drawText(plot.left() + 8, plot.top() + 20, "PS")
+        p.drawText(plot.left() + 8, plot.top() + 20, power_label(self.config))
         p.setPen(amber)
         p.drawText(plot.left() + 48, plot.top() + 20, "NM")
         p.setPen(purple)
@@ -739,7 +800,7 @@ class DynoGraph(QWidget):
         p.drawText(
             plot.left() + 160,
             rect.bottom() - 20,
-            f"Peak {peak_ps.power_ps:.0f} PS @ {peak_ps.rpm:.0f} rpm · {abs(peak_nm.torque_nm):.0f} NM · {peak_boost.boost:.2f} bar · {peak_speed.speed_kmh:.1f} km/h"
+            f"Peak {power_value(peak_ps, self.config):.0f} {power_label(self.config)} @ {peak_ps.rpm:.0f} rpm · {abs(peak_nm.torque_nm):.0f} NM · {boost_value(peak_boost, self.config):.2f} {boost_label(self.config)} · {speed_value(peak_speed, self.config):.1f} {speed_label(self.config)}"
         )
 
 
@@ -782,6 +843,7 @@ class PeakTab(QWidget):
         self.btn_xlsx.clicked.connect(self.export_xlsx)
         row.addWidget(self.btn_xlsx)
         self.graph = DynoGraph()
+        self.graph.set_config(self.manager.config)
         root.addWidget(self.graph, 1)
         hint = QLabel("Tip: Clean dyno uses only RPM, KMH, PS, NM and Boost from full-throttle pull samples. Steering/braking/coasting are filtered out.")
         hint.setWordWrap(True)
@@ -807,6 +869,7 @@ class PeakTab(QWidget):
             if len(self.samples) > 60000:
                 self.samples = self.samples[-60000:]
             self.update_labels()
+            self.graph.set_config(self.manager.config)
             self.graph.set_samples(self.samples)
 
     def calc_accel(self, low, high):
@@ -837,9 +900,9 @@ class PeakTab(QWidget):
         peak_ps = max(self.samples, key=lambda s:s.power_ps)
         peak_nm = max(self.samples, key=lambda s:abs(s.torque_nm))
         self.labels["samples"].setText(f"Samples: {len(self.samples)}")
-        self.labels["peak_speed"].setText(f"Peak Speed: {peak_speed.speed_kmh:.1f} km/h")
+        self.labels["peak_speed"].setText(f"Peak Speed: {speed_value(peak_speed, self.manager.config):.1f} {speed_label(self.manager.config)}")
         self.labels["peak_rpm"].setText(f"Peak RPM: {peak_rpm.rpm:.0f}")
-        self.labels["peak_ps"].setText(f"Peak PS: {peak_ps.power_ps:.0f} @ {peak_ps.rpm:.0f} rpm")
+        self.labels["peak_ps"].setText(f"Peak {power_label(self.manager.config)}: {power_value(peak_ps, self.manager.config):.0f} @ {peak_ps.rpm:.0f} rpm")
         self.labels["peak_nm"].setText(f"Peak NM: {abs(peak_nm.torque_nm):.0f} @ {peak_nm.rpm:.0f} rpm")
         self.labels["100_200"].setText(f"100–200: {self.calc_accel(100,200)}")
         self.labels["200_300"].setText(f"200–300: {self.calc_accel(200,300)}")
@@ -847,16 +910,20 @@ class PeakTab(QWidget):
     def rows(self):
         if not self.samples: return []
         t0 = self.samples[0].timestamp
+        cfg = self.manager.config
+        su = speed_label(cfg).lower()
+        pu = power_label(cfg).lower()
+        bu = boost_label(cfg).lower()
         return [{
             "time_s": round(s.timestamp-t0,4),
-            "speed_kmh": round(s.speed_kmh,3),
+            f"speed_{su}": round(speed_value(s, cfg),3),
             "rpm": round(s.rpm,1),
-            "power_ps": round(s.power_ps,3),
+            f"power_{pu}": round(power_value(s, cfg),3),
             "torque_nm": round(s.torque_nm,3),
             "gear": s.gear,
             "throttle_pct": round(s.throttle_pct,2),
             "brake_pct": round(s.brake_pct,2),
-            "boost_bar": round(s.boost,4),
+            f"boost_{bu}": round(boost_value(s, cfg),4),
         } for s in self.samples]
 
     def export_csv(self):
@@ -957,6 +1024,7 @@ class ManagerWindow(QMainWindow):
         self.peak_tab = PeakTab(self)
         self.tabs.addTab(self.peak_tab, tr(self.lang(), "peak"))
         self.tabs.addTab(self.build_design_tab(), tr(self.lang(), "design"))
+        self.tabs.addTab(self.build_units_tab(), tr(self.lang(), "units"))
         self.tabs.addTab(self.build_language_tab(), tr(self.lang(), "language"))
         self.tabs.addTab(self.build_hotkeys_tab(), tr(self.lang(), "hotkeys"))
         row = QHBoxLayout()
@@ -1017,6 +1085,97 @@ class ManagerWindow(QMainWindow):
         self.theme_select.currentTextChanged.connect(self.apply_theme_preview)
         form.addRow(tr(self.lang(),"theme")+":", self.theme_select)
         outer.addStretch(1); return w
+
+
+    def build_units_tab(self):
+        w = QWidget()
+        outer = QVBoxLayout(w)
+
+        box = QGroupBox(tr(self.lang(), "unit_system"))
+        form = QFormLayout(box)
+        outer.addWidget(box)
+
+        self.unit_system_select = QComboBox()
+        for val, label_key in [("Metric", "metric"), ("Imperial", "imperial"), ("Custom", "custom")]:
+            self.unit_system_select.addItem(tr(self.lang(), label_key), val)
+        idx = self.unit_system_select.findData(self.config.get("unit_system", "Metric"))
+        if idx >= 0:
+            self.unit_system_select.setCurrentIndex(idx)
+        self.unit_system_select.currentIndexChanged.connect(self.apply_unit_preset_from_combo)
+        form.addRow(tr(self.lang(), "unit_system") + ":", self.unit_system_select)
+
+        self.speed_unit_select = QComboBox()
+        for val in ["KMH", "MPH"]:
+            self.speed_unit_select.addItem(val, val)
+        idx = self.speed_unit_select.findData(self.config.get("speed_unit", "KMH"))
+        if idx >= 0:
+            self.speed_unit_select.setCurrentIndex(idx)
+        form.addRow(tr(self.lang(), "speed_unit") + ":", self.speed_unit_select)
+
+        self.power_unit_select = QComboBox()
+        for val in ["PS", "HP", "kW"]:
+            self.power_unit_select.addItem(val, val)
+        idx = self.power_unit_select.findData(self.config.get("power_unit", "PS"))
+        if idx >= 0:
+            self.power_unit_select.setCurrentIndex(idx)
+        form.addRow(tr(self.lang(), "power_unit") + ":", self.power_unit_select)
+
+        self.boost_unit_select = QComboBox()
+        for val in ["bar", "PSI"]:
+            self.boost_unit_select.addItem(val, val)
+        idx = self.boost_unit_select.findData(self.config.get("boost_unit", "bar"))
+        if idx >= 0:
+            self.boost_unit_select.setCurrentIndex(idx)
+        form.addRow(tr(self.lang(), "boost_unit") + ":", self.boost_unit_select)
+
+        self.gear_label_select = QComboBox()
+        for val in ["GEAR", "GANG"]:
+            self.gear_label_select.addItem(val, val)
+        idx = self.gear_label_select.findData(self.config.get("gear_label", "GEAR"))
+        if idx >= 0:
+            self.gear_label_select.setCurrentIndex(idx)
+        form.addRow(tr(self.lang(), "gear_label") + ":", self.gear_label_select)
+
+        hint = QLabel(tr(self.lang(), "units_hint"))
+        hint.setWordWrap(True)
+        form.addRow("Info:", hint)
+
+        btn_metric = QPushButton("Metric: KMH / PS / bar")
+        btn_metric.clicked.connect(lambda: self.set_unit_preset("Metric"))
+        form.addRow(btn_metric)
+
+        btn_imperial = QPushButton("Imperial: MPH / HP / PSI")
+        btn_imperial.clicked.connect(lambda: self.set_unit_preset("Imperial"))
+        form.addRow(btn_imperial)
+
+        outer.addStretch(1)
+        return w
+
+    def apply_unit_preset_from_combo(self):
+        if not hasattr(self, "unit_system_select"):
+            return
+        system = self.unit_system_select.currentData()
+        if system in ("Metric", "Imperial"):
+            self.set_unit_preset(system, save_now=False)
+
+    def set_unit_preset(self, system, save_now=True):
+        if not hasattr(self, "speed_unit_select"):
+            return
+        if system == "Metric":
+            self.unit_system_select.setCurrentIndex(self.unit_system_select.findData("Metric"))
+            self.speed_unit_select.setCurrentIndex(self.speed_unit_select.findData("KMH"))
+            self.power_unit_select.setCurrentIndex(self.power_unit_select.findData("PS"))
+            self.boost_unit_select.setCurrentIndex(self.boost_unit_select.findData("bar"))
+            self.gear_label_select.setCurrentIndex(self.gear_label_select.findData("GEAR"))
+        elif system == "Imperial":
+            self.unit_system_select.setCurrentIndex(self.unit_system_select.findData("Imperial"))
+            self.speed_unit_select.setCurrentIndex(self.speed_unit_select.findData("MPH"))
+            self.power_unit_select.setCurrentIndex(self.power_unit_select.findData("HP"))
+            self.boost_unit_select.setCurrentIndex(self.boost_unit_select.findData("PSI"))
+            self.gear_label_select.setCurrentIndex(self.gear_label_select.findData("GEAR"))
+        if save_now:
+            self.save_from_forms()
+
 
     def build_language_tab(self):
         w = QWidget(); outer = QVBoxLayout(w)
@@ -1086,6 +1245,18 @@ class ManagerWindow(QMainWindow):
         self.config["click_through"] = self.click.isChecked()
         self.config["manager_theme"] = self.theme_select.currentText() if hasattr(self,"theme_select") else self.config.get("manager_theme","Blackout Blue")
         self.config["language"] = self.language_select.currentData() if hasattr(self,"language_select") else self.lang()
+        if hasattr(self, "unit_system_select"):
+            self.config["unit_system"] = self.unit_system_select.currentData()
+            self.config["speed_unit"] = self.speed_unit_select.currentData()
+            self.config["power_unit"] = self.power_unit_select.currentData()
+            self.config["boost_unit"] = self.boost_unit_select.currentData()
+            self.config["gear_label"] = self.gear_label_select.currentData()
+            if (self.config["speed_unit"], self.config["power_unit"], self.config["boost_unit"]) == ("KMH", "PS", "bar"):
+                self.config["unit_system"] = "Metric"
+            elif (self.config["speed_unit"], self.config["power_unit"], self.config["boost_unit"]) == ("MPH", "HP", "PSI"):
+                self.config["unit_system"] = "Imperial"
+            else:
+                self.config["unit_system"] = "Custom"
         self.config["hotkeys"] = {
             "toggle_edit": self.hk_toggle_edit.text().strip(),
             "toggle_click": self.hk_toggle_click.text().strip(),
