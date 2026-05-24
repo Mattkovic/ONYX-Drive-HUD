@@ -12,5 +12,9 @@
   "speed_unit": "KMH",
   "power_unit": "PS",
   "boost_unit": "bar",
-  "gear_label": "GEAR"
+  "gear_label": "GEAR",
+  "dyno_ui_fps": 10,
+  "dyno_max_samples": 20000,
+  "dyno_zoom": 1.0,
+  "dyno_record_mode": "full_record"
 }

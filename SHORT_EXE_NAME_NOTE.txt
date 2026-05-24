@@ -1,0 +1,2 @@
+The build output EXE name is now ONYX_Drive_HUD.exe.
+Internal app version remains ONYX Drive HUD v4.8 DynoAxisFullRecord.

@@ -10,6 +10,7 @@ import subprocess
 import sys
 import threading
 import time
+import traceback
 from dataclasses import dataclass
 from pathlib import Path
 from queue import Queue, Empty
@@ -39,6 +40,18 @@ except Exception:
 APP_NAME = "ONYX Drive HUD"
 CONFIG_PATH = Path("onyx_drive_hud_config.json")
 ICON_PATH = Path("onyx_icon.ico")
+LOG_DIR = Path("logs")
+CRASH_LOG_PATH = LOG_DIR / "onyx_crash.log"
+
+def log_error(where: str, exc: BaseException):
+    try:
+        LOG_DIR.mkdir(exist_ok=True)
+        with CRASH_LOG_PATH.open("a", encoding="utf-8") as f:
+            f.write("\n" + "=" * 80 + "\n")
+            f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} | {where}\n")
+            f.write("".join(traceback.format_exception(type(exc), exc, exc.__traceback__)))
+    except Exception:
+        pass
 
 
 LANGUAGES = {
@@ -58,10 +71,10 @@ LANGUAGES = {
 
 TEXT = {
     "en": {
-        "title": "ONYX Drive HUD v4.3 International Units",
-        "subtitle": "DRIVE HUD CONTROL CENTER · ONE PROCESS · INTERNATIONAL UNITS",
+        "title": "ONYX Drive HUD v4.8 DynoAxisFullRecord",
+        "subtitle": "DRIVE HUD CONTROL CENTER · ONE PROCESS · DYNO AXIS FULL RECORD",
         "general": "General", "tiles": "Tiles", "peak": "Peak Measurements",
-        "design": "Design", "language": "Language", "hotkeys": "Keybinds", "units": "Units",
+        "design": "Design", "language": "Language", "hotkeys": "Keybinds", "units": "Units", "stability": "Stability",
         "save": "Save", "show_overlay": "Show Overlay", "hide_overlay": "Hide Overlay",
         "reset": "Reset all", "exit_app": "Exit ONYX", "start_recording": "Start Recording", "stop": "Stop",
         "reset_peaks": "Reset Peaks", "export_csv": "Export CSV", "export_xlsx": "Export XLSX",
@@ -76,12 +89,15 @@ TEXT = {
         "unit_system": "Unit system", "metric": "Metric", "imperial": "Imperial", "custom": "Custom",
         "speed_unit": "Speed unit", "power_unit": "Power unit", "boost_unit": "Boost unit", "gear_label": "Gear label",
         "units_hint": "Metric uses KMH, PS and bar. Imperial uses MPH, HP and PSI. Custom lets you choose each unit manually.",
+        "crash_log": "Crash log", "crash_log_hint": "If ONYX catches an internal UI/Dyno error, details are written to logs/onyx_crash.log.",
+        "boost_fix_note": "BoostFix: Forza raw boost is interpreted as PSI. PSI displays raw value; bar converts PSI / 14.5038.",
+        "dyno_perf_note": "DynoPerformanceFix: graph and labels are throttled so long recordings do not freeze the manager window.",
     },
     "de": {
-        "title": "ONYX Drive HUD v4.3 International Units",
-        "subtitle": "DRIVE HUD KONTROLLZENTRUM · EIN PROZESS · BLACKOUT BLUE",
+        "title": "ONYX Drive HUD v4.8 DynoAxisFullRecord",
+        "subtitle": "DRIVE HUD CONTROL CENTER · ONE PROCESS · DYNO AXIS FULL RECORD",
         "general": "Allgemein", "tiles": "Kacheln", "peak": "Peak-Werte",
-        "design": "Design", "language": "Sprache", "hotkeys": "Tasten", "units": "Einheiten",
+        "design": "Design", "language": "Sprache", "hotkeys": "Tasten", "units": "Einheiten", "stability": "Stabilität",
         "save": "Speichern", "show_overlay": "Overlay anzeigen", "hide_overlay": "Overlay verstecken",
         "reset": "Alles zurücksetzen", "exit_app": "ONYX beenden", "start_recording": "Aufnahme starten", "stop": "Stop",
         "reset_peaks": "Peak-Werte zurücksetzen", "export_csv": "CSV exportieren", "export_xlsx": "XLSX exportieren",
@@ -96,6 +112,9 @@ TEXT = {
         "unit_system": "Einheitensystem", "metric": "Metrisch", "imperial": "Imperial", "custom": "Benutzerdefiniert",
         "speed_unit": "Geschwindigkeit", "power_unit": "Leistung", "boost_unit": "Ladedruck", "gear_label": "Gang-Label",
         "units_hint": "Metrisch nutzt KMH, PS und bar. Imperial nutzt MPH, HP und PSI. Benutzerdefiniert erlaubt freie Auswahl.",
+        "crash_log": "Crash-Log", "crash_log_hint": "Wenn ONYX einen internen UI-/Dyno-Fehler abfängt, stehen Details in logs/onyx_crash.log.",
+        "boost_fix_note": "BoostFix: Forza-Rohboost wird als PSI behandelt. PSI zeigt den Rohwert; bar rechnet PSI / 14.5038.",
+        "dyno_perf_note": "DynoPerformanceFix: Graph und Labels werden gedrosselt, damit lange Aufnahmen das Manager-Fenster nicht einfrieren.",
     },
 }
 
@@ -138,6 +157,10 @@ DEFAULT_CONFIG = {
     "power_unit": "PS",
     "boost_unit": "bar",
     "gear_label": "GEAR",
+    "dyno_ui_fps": 10,
+    "dyno_max_samples": 20000,
+    "dyno_zoom": 1.0,
+    "dyno_record_mode": "full_record",
     "edit_mode": True,
     "click_through": False,
     "opacity": 0.92,
@@ -265,7 +288,13 @@ QFrame#Header {{
 
 
 def speed_value(tel, cfg):
-    kmh = tel.speed_kmh
+    if tel is None:
+        return 0.0
+    kmh_attr = getattr(tel, "speed_kmh", 0.0)
+    try:
+        kmh = float(kmh_attr() if callable(kmh_attr) else kmh_attr)
+    except Exception:
+        kmh = 0.0
     if cfg.get("speed_unit", "KMH") == "MPH":
         return kmh * 0.621371
     return kmh
@@ -274,7 +303,15 @@ def speed_label(cfg):
     return "MPH" if cfg.get("speed_unit", "KMH") == "MPH" else "KMH"
 
 def power_value(tel, cfg):
-    ps = max(0.0, tel.power_w) / 735.49875
+    if tel is None:
+        return 0.0
+    try:
+        if hasattr(tel, "power_w"):
+            ps = max(0.0, float(getattr(tel, "power_w", 0.0) or 0.0)) / 735.49875
+        else:
+            ps = max(0.0, float(getattr(tel, "power_ps", 0.0) or 0.0))
+    except Exception:
+        ps = 0.0
     unit = cfg.get("power_unit", "PS")
     if unit == "HP":
         return ps * 0.986320
@@ -286,10 +323,24 @@ def power_label(cfg):
     return cfg.get("power_unit", "PS")
 
 def boost_value(tel, cfg):
-    bar = tel.boost
+    """
+    HOTFIX v4.5:
+    Forza Data Out / Dash boost is treated as PSI.
+    Correct display:
+    - PSI mode: raw boost value
+    - bar mode: raw PSI / 14.5038
+
+    Example: -11.02 PSI -> -0.76 bar.
+    """
+    if tel is None:
+        return 0.0
+    try:
+        raw_psi = float(getattr(tel, "boost", 0.0) or 0.0)
+    except Exception:
+        raw_psi = 0.0
     if cfg.get("boost_unit", "bar") == "PSI":
-        return bar * 14.5038
-    return bar
+        return raw_psi
+    return raw_psi / 14.5038
 
 def boost_label(cfg):
     return cfg.get("boost_unit", "bar")
@@ -437,7 +488,17 @@ class UdpReceiver:
                     tel = self.parser.parse(data)
                     if tel:
                         self.parsed_count += 1
-                        self.queue.put(tel)
+                        try:
+                            self.queue.put_nowait(tel)
+                        except Exception:
+                            try:
+                                self.queue.get_nowait()
+                            except Exception:
+                                pass
+                            try:
+                                self.queue.put_nowait(tel)
+                            except Exception:
+                                pass
                 except socket.timeout:
                     pass
                 except OSError:
@@ -465,17 +526,22 @@ class Card:
         cfg = self.cfg.get("_global_config", {})
         if tel is None:
             return {"speed":"0","rpm":"0","gear":"N","power":"0","boost":"0.00"}.get(self.key,"-")
-        if self.key == "speed":
-            return f"{speed_value(tel, cfg):.0f}"
-        if self.key == "rpm":
-            return f"{tel.rpm:,}".replace(",", ".")
-        if self.key == "gear":
-            return "R/N" if tel.gear == 0 else str(tel.gear)
-        if self.key == "power":
-            return f"{power_value(tel, cfg):.0f}"
-        if self.key == "boost":
-            decimals = 1 if cfg.get("boost_unit", "bar") == "PSI" else 2
-            return f"{boost_value(tel, cfg):.{decimals}f}".replace(".", ",")
+        try:
+            if self.key == "speed":
+                return f"{speed_value(tel, cfg):.0f}"
+            if self.key == "rpm":
+                return f"{getattr(tel, 'rpm', 0):,}".replace(",", ".")
+            if self.key == "gear":
+                gear = getattr(tel, "gear", 0)
+                return "R/N" if gear == 0 else str(gear)
+            if self.key == "power":
+                return f"{power_value(tel, cfg):.0f}"
+            if self.key == "boost":
+                decimals = 1 if cfg.get("boost_unit", "bar") == "PSI" else 2
+                return f"{boost_value(tel, cfg):.{decimals}f}".replace(".", ",")
+        except Exception as exc:
+            log_error("Card.value", exc)
+            return "-"
         return "-"
 
 
@@ -576,13 +642,16 @@ class OverlayWindow(QWidget):
         self.selected = None
 
     def paintEvent(self, event):
-        p = QPainter(self)
-        p.setRenderHint(QPainter.RenderHint.Antialiasing)
-        if self.config.get("edit_mode", True):
-            self.draw_hint(p)
-        for c in self.cards.values():
-            if c.cfg.get("visible", True):
-                self.draw_card(p, c)
+        try:
+            p = QPainter(self)
+            p.setRenderHint(QPainter.RenderHint.Antialiasing)
+            if self.config.get("edit_mode", True):
+                self.draw_hint(p)
+            for c in self.cards.values():
+                if c.cfg.get("visible", True):
+                    self.draw_card(p, c)
+        except Exception as exc:
+            log_error("OverlayWindow.paintEvent", exc)
 
     def draw_hint(self, p):
         p.setPen(QColor(0, 220, 255, 210))
@@ -641,14 +710,29 @@ class DynoGraph(QWidget):
         super().__init__()
         self.samples = []
         self.config = DEFAULT_CONFIG
+        self.zoom = 1.0
         self.setMinimumHeight(330)
+
+    def set_zoom(self, zoom):
+        try:
+            self.zoom = max(0.6, min(3.0, float(zoom)))
+        except Exception:
+            self.zoom = 1.0
+        self.update()
 
     def set_config(self, config):
         self.config = config
-        self.update()
+        try:
+            self.zoom = max(0.6, min(3.0, float(config.get("dyno_zoom", self.zoom))))
+        except Exception:
+            pass
 
     def set_samples(self, samples):
-        self.samples = samples[-12000:]
+        try:
+            cap = int(self.config.get("dyno_max_samples", 20000))
+        except Exception:
+            cap = 20000
+        self.samples = samples[-cap:]
         self.update()
 
     def _build_dyno_points(self):
@@ -702,17 +786,31 @@ class DynoGraph(QWidget):
             p.rpm = s.rpm
             p.speed_kmh = sum(x.speed_kmh for x in window) / len(window)
             p.power_ps = sum(x.power_ps for x in window) / len(window)
+            p.power_w = p.power_ps * 735.49875
             p.torque_nm = sum(x.torque_nm for x in window) / len(window)
             p.boost = sum(x.boost for x in window) / len(window)
             smoothed.append(p)
         return smoothed
 
     def paintEvent(self, event):
+        try:
+            self._paint_safe(event)
+        except Exception as exc:
+            log_error("DynoGraph.paintEvent", exc)
+            try:
+                p = QPainter(self)
+                p.setPen(QColor(0, 217, 255))
+                p.setFont(QFont("Segoe UI", 12, QFont.Weight.Bold))
+                p.drawText(self.rect(), Qt.AlignmentFlag.AlignCenter, "Dyno graph error skipped. See logs/onyx_crash.log")
+            except Exception:
+                pass
+
+    def _paint_safe(self, event):
         p = QPainter(self)
         p.setRenderHint(QPainter.RenderHint.Antialiasing)
 
         rect = self.rect().adjusted(14, 14, -14, -14)
-        plot = rect.adjusted(62, 42, -34, -56)
+        plot = rect.adjusted(82, 48, -42, -72)
 
         bg = QColor(3, 9, 15)
         grid = QColor(0, 180, 255, 65)
@@ -733,9 +831,13 @@ class DynoGraph(QWidget):
             y = plot.top() + plot.height() * i / 4
             p.drawLine(plot.left(), int(y), plot.right(), int(y))
 
+        # Axis frame
+        p.setPen(QPen(QColor(0, 184, 255, 150), 1))
+        p.drawRect(plot)
+
         p.setFont(QFont("Segoe UI", 11, QFont.Weight.Bold))
         p.setPen(QColor(220, 250, 255))
-        p.drawText(rect.left() + 18, rect.top() + 24, "PEAK MEASUREMENTS · DYNO CLEAN VIEW")
+        p.drawText(rect.left() + 18, rect.top() + 24, "PEAK MEASUREMENTS · DYNO CLEAN VIEW · FULL RECORD")
 
         points = self._build_dyno_points()
         if len(points) < 4:
@@ -743,12 +845,43 @@ class DynoGraph(QWidget):
             p.drawText(plot, Qt.AlignmentFlag.AlignCenter, "No clean pull yet. Use one gear, full throttle, no braking.")
             return
 
-        min_rpm = max(0, min(s.rpm for s in points) - 250)
-        max_rpm = max(s.rpm for s in points) + 250
+        raw_min_rpm = max(0, min(s.rpm for s in points) - 250)
+        raw_max_rpm = max(s.rpm for s in points) + 250
+        rpm_center = (raw_min_rpm + raw_max_rpm) / 2
+        rpm_half = max(500, (raw_max_rpm - raw_min_rpm) / 2) * self.zoom
+        min_rpm = max(0, rpm_center - rpm_half)
+        max_rpm = rpm_center + rpm_half
+
         max_ps = max(1, max(power_value(s, self.config) for s in points))
         max_nm = max(1, max(abs(s.torque_nm) for s in points))
         max_boost = max(0.01, max(abs(boost_value(s, self.config)) for s in points))
-        y_max = max(max_ps, max_nm)
+        y_max = max(max_ps, max_nm) * self.zoom
+        max_boost = max_boost * self.zoom
+
+        # Axis labels: left = power/torque scale, bottom = RPM scale.
+        axis_pen = QColor(200, 235, 245)
+        p.setFont(QFont("Segoe UI", 8))
+        p.setPen(axis_pen)
+
+        for i in range(5):
+            ratio = i / 4
+            val = y_max * (1 - ratio)
+            y = plot.top() + plot.height() * ratio
+            p.drawText(rect.left() + 8, int(y) - 7, 64, 16, Qt.AlignmentFlag.AlignRight, f"{val:.0f}")
+
+        for i in range(7):
+            ratio = i / 6
+            val = min_rpm + (max_rpm - min_rpm) * ratio
+            x = plot.left() + plot.width() * ratio
+            p.drawText(int(x) - 34, plot.bottom() + 8, 68, 16, Qt.AlignmentFlag.AlignCenter, f"{val:.0f}")
+
+        p.setFont(QFont("Segoe UI", 8, QFont.Weight.Bold))
+        p.setPen(QColor(0, 217, 255))
+        p.drawText(rect.left() + 8, plot.top() - 24, 74, 18, Qt.AlignmentFlag.AlignRight, f"{power_label(self.config)} / NM")
+        p.setPen(QColor(220, 250, 255))
+        p.drawText(plot.center().x() - 50, rect.bottom() - 36, 100, 18, Qt.AlignmentFlag.AlignCenter, "RPM")
+        p.setPen(QColor(190, 80, 255))
+        p.drawText(plot.right() - 210, plot.top() - 24, 210, 18, Qt.AlignmentFlag.AlignRight, f"BOOST scaled · max {max_boost:.2f} {boost_label(self.config)}")
 
         def x_for(rpm):
             return plot.left() + (rpm - min_rpm) / max(1, (max_rpm - min_rpm)) * plot.width()
@@ -789,7 +922,7 @@ class DynoGraph(QWidget):
         p.setPen(purple)
         p.drawText(plot.left() + 92, plot.top() + 20, "BOOST")
         p.setPen(QColor(220, 250, 255))
-        p.drawText(plot.left(), rect.bottom() - 20, f"RPM {min_rpm:.0f} → {max_rpm:.0f}")
+        p.drawText(plot.left(), rect.bottom() - 18, f"RPM {min_rpm:.0f} → {max_rpm:.0f}   Zoom {self.zoom:.1f}x   Mode: Full Record")
 
         peak_ps = max(points, key=lambda s: s.power_ps)
         peak_nm = max(points, key=lambda s: abs(s.torque_nm))
@@ -809,7 +942,11 @@ class PeakTab(QWidget):
         super().__init__()
         self.manager = manager
         self.samples = []
+        self.live_run_samples = []
         self.recording = False
+        self._last_ui_update = 0.0
+        self._last_graph_update = 0.0
+        self._in_pull = False
         self.build_ui()
 
     def build_ui(self):
@@ -842,16 +979,54 @@ class PeakTab(QWidget):
         self.btn_xlsx = QPushButton(tr(self.manager.lang(), "export_xlsx"))
         self.btn_xlsx.clicked.connect(self.export_xlsx)
         row.addWidget(self.btn_xlsx)
+
+        zoom_row = QHBoxLayout()
+        root.addLayout(zoom_row)
+        self.btn_zoom_out = QPushButton("Dyno Zoom Out")
+        self.btn_zoom_out.clicked.connect(self.zoom_out)
+        zoom_row.addWidget(self.btn_zoom_out)
+        self.btn_zoom_in = QPushButton("Dyno Zoom In")
+        self.btn_zoom_in.clicked.connect(self.zoom_in)
+        zoom_row.addWidget(self.btn_zoom_in)
+        self.btn_zoom_reset = QPushButton("Reset Dyno Zoom")
+        self.btn_zoom_reset.clicked.connect(self.zoom_reset)
+        zoom_row.addWidget(self.btn_zoom_reset)
+
         self.graph = DynoGraph()
         self.graph.set_config(self.manager.config)
+        self.graph.set_zoom(self.manager.config.get("dyno_zoom", 1.0))
         root.addWidget(self.graph, 1)
-        hint = QLabel("Tip: Clean dyno uses only RPM, KMH, PS, NM and Boost from full-throttle pull samples. Steering/braking/coasting are filtered out.")
+        hint = QLabel("Tip: Full Record mode keeps the whole recording as graph data and filters to throttle/performance samples. Left axis shows power/torque scale, bottom axis shows RPM.")
         hint.setWordWrap(True)
         root.addWidget(hint)
 
+    def set_dyno_zoom(self, zoom):
+        try:
+            zoom = max(0.6, min(3.0, float(zoom)))
+            self.manager.config["dyno_zoom"] = zoom
+            self.graph.set_zoom(zoom)
+            if hasattr(self.manager, "save_config"):
+                self.manager.save_config()
+        except Exception as exc:
+            log_error("PeakTab.set_dyno_zoom", exc)
+
+    def zoom_out(self):
+        self.set_dyno_zoom(float(self.manager.config.get("dyno_zoom", 1.0)) + 0.25)
+
+    def zoom_in(self):
+        self.set_dyno_zoom(float(self.manager.config.get("dyno_zoom", 1.0)) - 0.25)
+
+    def zoom_reset(self):
+        self.set_dyno_zoom(1.0)
+
     def start(self):
         self.samples = []
+        self.live_run_samples = []
+        self._last_ui_update = 0.0
+        self._last_graph_update = 0.0
+        self._in_pull = False
         self.recording = True
+        self.graph.set_samples([])
         self.labels["status"].setText("Status: Recording")
 
     def stop(self):
@@ -860,17 +1035,62 @@ class PeakTab(QWidget):
 
     def clear(self):
         self.samples = []
+        self.live_run_samples = []
+        self._in_pull = False
         self.graph.set_samples([])
         self.update_labels()
 
     def add_sample(self, t):
-        if self.recording:
+        try:
+            if not self.recording or t is None:
+                return
+
+            now = time.time()
+            max_samples = int(self.manager.config.get("dyno_max_samples", 20000))
+
             self.samples.append(t)
-            if len(self.samples) > 60000:
-                self.samples = self.samples[-60000:]
-            self.update_labels()
-            self.graph.set_config(self.manager.config)
-            self.graph.set_samples(self.samples)
+            if len(self.samples) > max_samples:
+                self.samples = self.samples[-max_samples:]
+
+            throttle = float(getattr(t, "throttle_pct", 0.0) or 0.0)
+            brake = float(getattr(t, "brake_pct", 0.0) or 0.0)
+            rpm = float(getattr(t, "rpm", 0.0) or 0.0)
+            speed = float(getattr(t, "speed_kmh", 0.0) or 0.0)
+            gear = int(getattr(t, "gear", 0) or 0)
+
+            clean_pull = throttle >= 85 and brake <= 3 and rpm >= 1200 and speed >= 5 and gear > 0
+
+            if clean_pull:
+                if not self._in_pull:
+                    self.live_run_samples = []
+                    self._in_pull = True
+                self.live_run_samples.append(t)
+                if len(self.live_run_samples) > 5000:
+                    self.live_run_samples = self.live_run_samples[-5000:]
+            else:
+                if throttle < 20 or brake > 10 or speed < 3:
+                    self._in_pull = False
+
+            ui_interval = 1.0 / max(1, int(self.manager.config.get("dyno_ui_fps", 10)))
+
+            if now - self._last_ui_update >= ui_interval:
+                self._last_ui_update = now
+                self.update_labels()
+
+            if now - self._last_graph_update >= ui_interval:
+                self._last_graph_update = now
+                try:
+                    if hasattr(self.graph, "set_config"):
+                        self.graph.set_config(self.manager.config)
+                    # Full Record mode: keep the entire recording as graph data.
+                    # DynoGraph still filters to useful throttle/performance samples internally.
+                    draw_samples = self.samples
+                    self.graph.set_samples(draw_samples)
+                except Exception as exc:
+                    log_error("PeakTab.graph_update", exc)
+
+        except Exception as exc:
+            log_error("PeakTab.add_sample", exc)
 
     def calc_accel(self, low, high):
         best = None
@@ -914,17 +1134,23 @@ class PeakTab(QWidget):
         su = speed_label(cfg).lower()
         pu = power_label(cfg).lower()
         bu = boost_label(cfg).lower()
-        return [{
-            "time_s": round(s.timestamp-t0,4),
-            f"speed_{su}": round(speed_value(s, cfg),3),
-            "rpm": round(s.rpm,1),
-            f"power_{pu}": round(power_value(s, cfg),3),
-            "torque_nm": round(s.torque_nm,3),
-            "gear": s.gear,
-            "throttle_pct": round(s.throttle_pct,2),
-            "brake_pct": round(s.brake_pct,2),
-            f"boost_{bu}": round(boost_value(s, cfg),4),
-        } for s in self.samples]
+        rows = []
+        for s in self.samples:
+            try:
+                rows.append({
+                    "time_s": round((getattr(s, "timestamp", t0) or t0)-t0,4),
+                    f"speed_{su}": round(speed_value(s, cfg),3),
+                    "rpm": round(float(getattr(s, "rpm", 0.0) or 0.0),1),
+                    f"power_{pu}": round(power_value(s, cfg),3),
+                    "torque_nm": round(float(getattr(s, "torque_nm", 0.0) or 0.0),3),
+                    "gear": getattr(s, "gear", 0),
+                    "throttle_pct": round(float(getattr(s, "throttle_pct", 0.0) or 0.0),2),
+                    "brake_pct": round(float(getattr(s, "brake_pct", 0.0) or 0.0),2),
+                    f"boost_{bu}": round(boost_value(s, cfg),4),
+                })
+            except Exception as exc:
+                log_error("PeakTab.rows.sample_skipped", exc)
+        return rows
 
     def export_csv(self):
         rows = self.rows()
@@ -969,11 +1195,18 @@ class PeakTab(QWidget):
         peak_rpm = max(self.samples, key=lambda s:s.rpm)
         peak_ps = max(self.samples, key=lambda s:s.power_ps)
         peak_nm = max(self.samples, key=lambda s:abs(s.torque_nm))
+        cfg = self.manager.config
         for r in [
-            ["Metric","Value"],["Peak Speed km/h",round(peak_speed.speed_kmh,2)],["Peak RPM",round(peak_rpm.rpm,0)],
-            ["Peak PS",round(peak_ps.power_ps,2)],["Peak PS RPM",round(peak_ps.rpm,0)],
-            ["Peak Torque NM",round(abs(peak_nm.torque_nm),2)],["Peak Torque RPM",round(peak_nm.rpm,0)],
-            ["100-200 km/h",self.calc_accel(100,200)],["200-300 km/h",self.calc_accel(200,300)],["Samples",len(self.samples)]
+            ["Metric","Value"],
+            [f"Peak Speed {speed_label(cfg)}", round(speed_value(peak_speed, cfg),2)],
+            ["Peak RPM",round(peak_rpm.rpm,0)],
+            [f"Peak {power_label(cfg)}", round(power_value(peak_ps, cfg),2)],
+            [f"Peak {power_label(cfg)} RPM",round(peak_ps.rpm,0)],
+            ["Peak Torque NM",round(abs(peak_nm.torque_nm),2)],
+            ["Peak Torque RPM",round(peak_nm.rpm,0)],
+            ["100-200 km/h",self.calc_accel(100,200)],
+            ["200-300 km/h",self.calc_accel(200,300)],
+            ["Samples",len(self.samples)]
         ]:
             summary.append(r)
         wb.save(path)
@@ -984,7 +1217,7 @@ class ManagerWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.config = load_config()
-        self.queue = Queue()
+        self.queue = Queue(maxsize=3000)
         self.receiver = UdpReceiver(self.config["udp_host"], self.config["udp_port"], self.queue)
         self.receiver.start()
         self.latest = None
@@ -1025,6 +1258,7 @@ class ManagerWindow(QMainWindow):
         self.tabs.addTab(self.peak_tab, tr(self.lang(), "peak"))
         self.tabs.addTab(self.build_design_tab(), tr(self.lang(), "design"))
         self.tabs.addTab(self.build_units_tab(), tr(self.lang(), "units"))
+        self.tabs.addTab(self.build_stability_tab(), tr(self.lang(), "stability"))
         self.tabs.addTab(self.build_language_tab(), tr(self.lang(), "language"))
         self.tabs.addTab(self.build_hotkeys_tab(), tr(self.lang(), "hotkeys"))
         row = QHBoxLayout()
@@ -1175,6 +1409,46 @@ class ManagerWindow(QMainWindow):
             self.gear_label_select.setCurrentIndex(self.gear_label_select.findData("GEAR"))
         if save_now:
             self.save_from_forms()
+
+
+    def build_stability_tab(self):
+        w = QWidget()
+        outer = QVBoxLayout(w)
+        box = QGroupBox(tr(self.lang(), "stability"))
+        form = QFormLayout(box)
+        outer.addWidget(box)
+
+        boost_note = QLabel(tr(self.lang(), "boost_fix_note"))
+        boost_note.setWordWrap(True)
+        form.addRow("BoostFix:", boost_note)
+
+        crash_note = QLabel(tr(self.lang(), "crash_log_hint"))
+        crash_note.setWordWrap(True)
+        form.addRow(tr(self.lang(), "crash_log") + ":", crash_note)
+
+        perf_note = QLabel(tr(self.lang(), "dyno_perf_note"))
+        perf_note.setWordWrap(True)
+        form.addRow("Dyno:", perf_note)
+
+        self.crash_log_path_label = QLabel(str(CRASH_LOG_PATH))
+        self.crash_log_path_label.setWordWrap(True)
+        form.addRow("Path:", self.crash_log_path_label)
+
+        btn_clear_log = QPushButton("Clear crash log")
+        btn_clear_log.clicked.connect(self.clear_crash_log)
+        form.addRow(btn_clear_log)
+
+        outer.addStretch(1)
+        return w
+
+    def clear_crash_log(self):
+        try:
+            if CRASH_LOG_PATH.exists():
+                CRASH_LOG_PATH.unlink()
+            QMessageBox.information(self, "OK", "Crash log cleared.")
+        except Exception as exc:
+            log_error("ManagerWindow.clear_crash_log", exc)
+            QMessageBox.warning(self, "Error", "Could not clear crash log.")
 
 
     def build_language_tab(self):
@@ -1330,17 +1604,29 @@ class ManagerWindow(QMainWindow):
 
     def tick(self):
         changed = False
+        processed = 0
+        max_process = 250
         try:
-            while True:
+            while processed < max_process:
                 self.latest = self.queue.get_nowait()
+                processed += 1
                 changed = True
                 if hasattr(self, "peak_tab"):
-                    self.peak_tab.add_sample(self.latest)
+                    try:
+                        self.peak_tab.add_sample(self.latest)
+                    except Exception as exc:
+                        log_error("ManagerWindow.tick.peak_tab", exc)
         except Empty:
             pass
+        except Exception as exc:
+            log_error("ManagerWindow.tick.queue", exc)
+
         if changed and self.overlay:
-            self.overlay.telemetry = self.latest
-            self.overlay.update()
+            try:
+                self.overlay.telemetry = self.latest
+                self.overlay.update()
+            except Exception as exc:
+                log_error("ManagerWindow.tick.overlay_update", exc)
 
     def force_exit(self):
         """
