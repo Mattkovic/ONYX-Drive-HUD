@@ -16,5 +16,41 @@
   "dyno_ui_fps": 10,
   "dyno_max_samples": 20000,
   "dyno_zoom": 1.0,
-  "dyno_record_mode": "full_record"
+  "dyno_record_mode": "full_record",
+  "active_profile": "Default",
+  "prototype_enabled": true,
+  "hotkeys": {
+    "toggle_overlay": "F8",
+    "toggle_recording": "F9",
+    "reset_peaks": "F10",
+    "toggle_drag_record": "Ctrl+D",
+    "reset_drag": "Ctrl+Shift+D",
+    "toggle_grip_record": "Ctrl+G",
+    "analyze_grip": "Ctrl+Shift+G",
+    "reset_grip": "Alt+G",
+    "toggle_hints_record": "Ctrl+H",
+    "analyze_hints": "Ctrl+Shift+H",
+    "reset_hints": "Alt+H",
+    "toggle_session_record": "Ctrl+J",
+    "export_session": "Ctrl+Shift+J",
+    "reset_session": "Alt+J",
+    "pause_resume_live_graph": "Ctrl+L"
+  },
+  "performance_lab_enabled": true,
+  "drag_recording": false,
+  "grip_recording": false,
+  "hints_recording": false,
+  "session_recording": false,
+  "live_graph_paused": false,
+  "cards": {
+    "grip": {
+      "x": 35,
+      "y": 560,
+      "w": 230,
+      "h": 88,
+      "label": "GRIP",
+      "color": "#00ff99",
+      "visible": true
+    }
+  }
 }

@@ -4,6 +4,7 @@ import csv
 import os
 import json
 import math
+import platform
 import socket
 import struct
 import subprocess
@@ -20,8 +21,10 @@ from PyQt6.QtGui import QColor, QFont, QPainter, QPen, QBrush, QAction, QShortcu
 from PyQt6.QtWidgets import (
     QApplication, QWidget, QMainWindow, QMenu, QVBoxLayout, QHBoxLayout, QGridLayout,
     QFormLayout, QLabel, QPushButton, QSpinBox, QDoubleSpinBox, QCheckBox, QComboBox,
-    QColorDialog, QTabWidget, QLineEdit, QMessageBox, QGroupBox, QFrame, QFileDialog
+    QColorDialog, QTabWidget, QLineEdit, QMessageBox, QGroupBox, QFrame, QFileDialog, QScrollArea
 )
+from PyQt6.QtWidgets import QScrollArea
+
 
 try:
     import win32gui, win32con
@@ -41,6 +44,9 @@ APP_NAME = "ONYX Drive HUD"
 CONFIG_PATH = Path("onyx_drive_hud_config.json")
 ICON_PATH = Path("onyx_icon.ico")
 LOG_DIR = Path("logs")
+def log_error(context, exc):
+    pass
+
 CRASH_LOG_PATH = LOG_DIR / "onyx_crash.log"
 
 def log_error(where: str, exc: BaseException):
@@ -71,9 +77,9 @@ LANGUAGES = {
 
 TEXT = {
     "en": {
-        "title": "ONYX Drive HUD v4.8 DynoAxisFullRecord",
-        "subtitle": "DRIVE HUD CONTROL CENTER · ONE PROCESS · DYNO AXIS FULL RECORD",
-        "general": "General", "tiles": "Tiles", "peak": "Peak Measurements",
+        "title": "ONYX Drive HUD v5.2.0",
+        "subtitle": "DRIVE HUD CONTROL CENTER · ONE PROCESS · PERFORMANCE LAB",
+        "general": "General", "tiles": "Tiles", "peak": "Peak Measurements", "prototype": "Performance Lab",
         "design": "Design", "language": "Language", "hotkeys": "Keybinds", "units": "Units", "stability": "Stability",
         "save": "Save", "show_overlay": "Show Overlay", "hide_overlay": "Hide Overlay",
         "reset": "Reset all", "exit_app": "Exit ONYX", "start_recording": "Start Recording", "stop": "Stop",
@@ -94,9 +100,9 @@ TEXT = {
         "dyno_perf_note": "DynoPerformanceFix: graph and labels are throttled so long recordings do not freeze the manager window.",
     },
     "de": {
-        "title": "ONYX Drive HUD v4.8 DynoAxisFullRecord",
-        "subtitle": "DRIVE HUD CONTROL CENTER · ONE PROCESS · DYNO AXIS FULL RECORD",
-        "general": "Allgemein", "tiles": "Kacheln", "peak": "Peak-Werte",
+        "title": "ONYX Drive HUD v5.2.0",
+        "subtitle": "DRIVE HUD CONTROL CENTER · ONE PROCESS · PERFORMANCE LAB",
+        "general": "Allgemein", "tiles": "Kacheln", "peak": "Peak-Werte", "prototype": "Performance Lab",
         "design": "Design", "language": "Sprache", "hotkeys": "Tasten", "units": "Einheiten", "stability": "Stabilität",
         "save": "Speichern", "show_overlay": "Overlay anzeigen", "hide_overlay": "Overlay verstecken",
         "reset": "Alles zurücksetzen", "exit_app": "ONYX beenden", "start_recording": "Aufnahme starten", "stop": "Stop",
@@ -161,23 +167,32 @@ DEFAULT_CONFIG = {
     "dyno_max_samples": 20000,
     "dyno_zoom": 1.0,
     "dyno_record_mode": "full_record",
+    "active_profile": "Default",
+    "prototype_enabled": True,
+    "performance_lab_enabled": True,
+    "live_graph_paused": False,
+    "drag_recording": False,
+    "grip_recording": False,
+    "hints_recording": False,
+    "session_recording": False,
     "edit_mode": True,
     "click_through": False,
     "opacity": 0.92,
     "scale": 1.0,
     "background_alpha": 115,
     "font_family": "Segoe UI",
-    "hotkeys": {"toggle_edit":"Ctrl+E","toggle_click":"Ctrl+T","save_layout":"Ctrl+S","reset_layout":"Ctrl+R","hide_overlay":"Esc"},
+    "hotkeys": {"toggle_edit":"Ctrl+E","toggle_click":"Ctrl+T","save_layout":"Ctrl+S","reset_layout":"Ctrl+R","hide_overlay":"Esc","toggle_overlay":"F8","toggle_recording":"F9","reset_peaks":"F10","toggle_drag_record":"Ctrl+D","reset_drag":"Ctrl+Shift+D","toggle_grip_record":"Ctrl+G","analyze_grip":"Ctrl+Shift+G","reset_grip":"Alt+G","toggle_hints_record":"Ctrl+H","analyze_hints":"Ctrl+Shift+H","reset_hints":"Alt+H","toggle_session_record":"Ctrl+J","export_session":"Ctrl+Shift+J","reset_session":"Alt+J","pause_resume_live_graph":"Ctrl+L"},
     "cards": {
         "speed": {"x": 35, "y": 85, "w": 230, "h": 88, "label": "KMH", "color": "#00d9ff", "visible": True},
         "rpm": {"x": 35, "y": 180, "w": 230, "h": 88, "label": "RPM", "color": "#ff6a00", "visible": True},
         "gear": {"x": 35, "y": 275, "w": 230, "h": 88, "label": "GEAR", "color": "#55ff00", "visible": True},
         "power": {"x": 35, "y": 370, "w": 230, "h": 88, "label": "PS", "color": "#ffd400", "visible": True},
         "boost": {"x": 35, "y": 465, "w": 230, "h": 88, "label": "BOOST", "color": "#c74cff", "visible": True},
+        "grip": {"x": 35, "y": 560, "w": 230, "h": 88, "label": "GRIP", "color": "#00ff99", "visible": True},
     }
 }
 
-CARD_LABELS = {"speed":"Speed","rpm":"RPM","gear":"Gear","power":"Power","boost":"Boost"}
+CARD_LABELS = {"speed":"Speed","rpm":"RPM","gear":"Gear","power":"Power","boost":"Boost","grip":"Grip Warning"}
 
 
 def deep_copy(obj):
@@ -362,6 +377,12 @@ class Telemetry:
     accel: int = 0
     brake: int = 0
     steer: int = 0
+    front_combined_slip: float = 0.0
+    rear_combined_slip: float = 0.0
+    front_slip_ratio: float = 0.0
+    rear_slip_ratio: float = 0.0
+    tire_slip_angle_front: float = 0.0
+    tire_slip_angle_rear: float = 0.0
 
     @property
     def speed_kmh(self):
@@ -408,15 +429,21 @@ class ForzaParser:
             read("f"); read("f"); read("f")
             t.velocity_x = read("f"); t.velocity_y = read("f"); t.velocity_z = read("f")
             for _ in range(6): read("f")
-            for _ in range(4): read("f")
-            for _ in range(4): read("f")
-            for _ in range(4): read("f")
-            for _ in range(4): read("i")
-            for _ in range(4): read("f")
-            for _ in range(4): read("f")
-            for _ in range(4): read("f")
-            for _ in range(4): read("f")
-            for _ in range(4): read("f")
+            for _ in range(4): read("f")  # suspension normalized
+            slip_ratio = [read("f") for _ in range(4)]
+            t.front_slip_ratio = (abs(slip_ratio[0]) + abs(slip_ratio[1])) / 2
+            t.rear_slip_ratio = (abs(slip_ratio[2]) + abs(slip_ratio[3])) / 2
+            for _ in range(4): read("f")  # wheel rotation speed
+            for _ in range(4): read("i")  # wheel on rumble strip
+            for _ in range(4): read("f")  # wheel in puddle depth
+            for _ in range(4): read("f")  # surface rumble
+            slip_angle = [read("f") for _ in range(4)]
+            t.tire_slip_angle_front = (abs(slip_angle[0]) + abs(slip_angle[1])) / 2
+            t.tire_slip_angle_rear = (abs(slip_angle[2]) + abs(slip_angle[3])) / 2
+            combined = [read("f") for _ in range(4)]
+            t.front_combined_slip = (abs(combined[0]) + abs(combined[1])) / 2
+            t.rear_combined_slip = (abs(combined[2]) + abs(combined[3])) / 2
+            for _ in range(4): read("f")  # suspension travel meters
             if o + 20 <= len(data):
                 for _ in range(5): read("i")
             candidates = []
@@ -509,6 +536,92 @@ class UdpReceiver:
             self.last_error = str(e)
 
 
+def grip_warning_state(tel):
+    """
+    Returns: dict with text, percent, color hex, severity 0-4, blink bool.
+    Uses Forza UDP slip values when available. Falls back to speed/steer/throttle heuristic.
+    """
+    try:
+        if tel is None:
+            return {"text": "NO DATA", "percent": 0, "color": "#00d9ff", "severity": 0, "blink": False}
+
+        front = float(getattr(tel, "front_combined_slip", 0.0) or 0.0)
+        rear = float(getattr(tel, "rear_combined_slip", 0.0) or 0.0)
+        fr = float(getattr(tel, "front_slip_ratio", 0.0) or 0.0)
+        rr = float(getattr(tel, "rear_slip_ratio", 0.0) or 0.0)
+        speed = float(getattr(tel, "speed_kmh", 0.0) or 0.0)
+        throttle = float(getattr(tel, "throttle_pct", 0.0) or 0.0)
+        steer = abs(float(getattr(tel, "steer", 0.0) or 0.0))
+
+        # Combined severity. Speed makes high-speed slip more critical.
+        slip_front = max(front, fr * 2.1)
+        slip_rear = max(rear, rr * 2.1)
+        slip = max(slip_front, slip_rear)
+
+        speed_factor = 1.0
+        if speed > 250:
+            speed_factor = 1.35
+        elif speed > 180:
+            speed_factor = 1.20
+        elif speed < 40:
+            speed_factor = 0.70
+
+        effective = slip * speed_factor
+
+        text = "GRIP OK"
+        severity = 0
+
+        if effective >= 2.35:
+            severity = 4
+            if slip_rear > slip_front * 1.12:
+                text = "REAR SLIP"
+            elif slip_front > slip_rear * 1.12:
+                text = "FRONT SLIP"
+            else:
+                text = "LOW GRIP"
+        elif effective >= 1.65:
+            severity = 3
+            if slip_rear > slip_front * 1.15:
+                text = "OVERSTEER"
+            elif slip_front > slip_rear * 1.15:
+                text = "UNDERSTEER"
+            else:
+                text = "GRIP RISK"
+        elif effective >= 1.05:
+            severity = 2
+            if slip_rear > slip_front * 1.20:
+                text = "REAR WARN"
+            elif slip_front > slip_rear * 1.20:
+                text = "FRONT WARN"
+            else:
+                text = "GRIP WARN"
+        elif speed > 180 and throttle > 80 and steer > 70:
+            severity = 2
+            text = "HIGH LOAD"
+
+        # fallback if slip telemetry is zero/unavailable
+        if slip == 0 and speed > 160 and throttle > 80 and steer > 80:
+            severity = max(severity, 2)
+            text = "HIGH LOAD"
+
+        # percent is "remaining grip feeling", not physical tire model truth.
+        percent = max(0, min(100, int(round(100 - min(100, effective * 38)))))
+
+        if severity >= 4:
+            color = "#ff1e1e"
+        elif severity == 3:
+            color = "#ff7a00"
+        elif severity == 2:
+            color = "#ffd400"
+        else:
+            color = "#00ff99"
+
+        return {"text": text, "percent": percent, "color": color, "severity": severity, "blink": severity >= 4}
+    except Exception as exc:
+        log_error("grip_warning_state", exc)
+        return {"text": "GRIP ERR", "percent": 0, "color": "#ff1e1e", "severity": 4, "blink": True}
+
+
 class Card:
     def __init__(self, key, cfg):
         self.key = key
@@ -525,7 +638,7 @@ class Card:
     def value(self, tel):
         cfg = self.cfg.get("_global_config", {})
         if tel is None:
-            return {"speed":"0","rpm":"0","gear":"N","power":"0","boost":"0.00"}.get(self.key,"-")
+            return {"speed":"0","rpm":"0","gear":"N","power":"0","boost":"0.00","grip":"--"}.get(self.key,"-")
         try:
             if self.key == "speed":
                 return f"{speed_value(tel, cfg):.0f}"
@@ -539,6 +652,9 @@ class Card:
             if self.key == "boost":
                 decimals = 1 if cfg.get("boost_unit", "bar") == "PSI" else 2
                 return f"{boost_value(tel, cfg):.{decimals}f}".replace(".", ",")
+            if self.key == "grip":
+                state = grip_warning_state(tel)
+                return f"{state['percent']}%"
         except Exception as exc:
             log_error("Card.value", exc)
             return "-"
@@ -561,6 +677,9 @@ class OverlayWindow(QWidget):
         self.setMouseTracking(True)
         self.apply_window_flags()
         self.register_shortcuts()
+        self._blink_timer = QTimer(self)
+        self._blink_timer.timeout.connect(self.update)
+        self._blink_timer.start(160)
 
     def sync_config(self):
         self.config = self.manager.config
@@ -570,23 +689,36 @@ class OverlayWindow(QWidget):
         self.update()
 
     def register_shortcuts(self):
-        for s in self.shortcuts:
-            s.setEnabled(False)
-        self.shortcuts = []
-        hk = self.config.get("hotkeys", {})
-        actions = {
-            "toggle_edit": self.manager.toggle_edit,
-            "toggle_click": self.manager.toggle_click,
-            "save_layout": self.manager.save_config_now,
-            "reset_layout": self.manager.reset_all,
-            "hide_overlay": self.hide
-        }
-        for name, func in actions.items():
-            key = hk.get(name)
-            if key:
-                sc = QShortcut(QKeySequence(key), self)
-                sc.activated.connect(func)
-                self.shortcuts.append(sc)
+        try:
+            self.shortcuts = []
+            hotkeys = self.manager.config.get("hotkeys", {})
+            actions = {
+                "toggle_edit": getattr(self.manager, "toggle_edit", None),
+                "toggle_click": getattr(self.manager, "toggle_click", None),
+                "save_layout": getattr(self.manager, "save_layout", None),
+                "reset_layout": getattr(self.manager, "reset_layout", None),
+                "hide_overlay": self.hide,
+                "toggle_overlay": getattr(self.manager, "toggle_overlay_visibility", None),
+                "toggle_recording": getattr(self.manager, "toggle_recording", None),
+                "reset_peaks": getattr(self.manager, "reset_peak_recording", None),
+                "pause_resume_live_graph": getattr(self.manager, "pause_resume_live_graph", None),
+                "pause_resume_live_graph": getattr(self.manager, "pause_resume_live_graph", None),
+            }
+            for name, seq in hotkeys.items():
+                if not seq:
+                    continue
+                action = actions.get(name)
+                if action is None:
+                    continue
+                try:
+                    sc = QShortcut(QKeySequence(seq), self)
+                    sc.activated.connect(action)
+                    self.shortcuts.append(sc)
+                except Exception as exc:
+                    log_error(f"OverlayWindow.register_shortcuts.{name}", exc)
+        except Exception as exc:
+            log_error("OverlayWindow.register_shortcuts", exc)
+
 
     def apply_window_flags(self):
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.Tool)
@@ -666,6 +798,12 @@ class OverlayWindow(QWidget):
         r = c.rect
         x, y, w, h = r.x(), r.y(), r.width()*scale, r.height()*scale
         col = QColor(c.cfg["color"])
+        grip_state = None
+        if c.key == "grip":
+            grip_state = grip_warning_state(self.telemetry)
+            col = QColor(grip_state.get("color", c.cfg["color"]))
+            if grip_state.get("blink", False) and int(time.time() * 7) % 2 == 0:
+                col = QColor(255, 255, 255)
         rect = QRectF(x,y,w,h)
         p.setPen(Qt.PenStyle.NoPen)
         p.setBrush(QBrush(QColor(0,0,0,min(220,int(self.config["background_alpha"])+45))))
@@ -678,7 +816,13 @@ class OverlayWindow(QWidget):
         fs = int((34 if c.key == "rpm" else 38) * scale)
         p.setFont(QFont(self.config["font_family"], fs, QFont.Weight.Bold))
         p.setPen(QColor(235,250,255) if c.key == "speed" else col)
-        p.drawText(QRectF(x+45,y+8,w-65,h*0.62), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, c.value(self.telemetry))
+        if c.key == "grip" and grip_state is not None:
+            p.drawText(QRectF(x+45,y+4,w-65,h*0.45), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, c.value(self.telemetry))
+            p.setFont(QFont(self.config["font_family"], int(15*scale), QFont.Weight.Bold))
+            p.setPen(col)
+            p.drawText(QRectF(x+45,y+38,w-65,h*0.35), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, grip_state.get("text", "GRIP"))
+        else:
+            p.drawText(QRectF(x+45,y+8,w-65,h*0.62), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, c.value(self.telemetry))
         p.setFont(QFont(self.config["font_family"], int(15*scale), QFont.Weight.Bold))
         p.setPen(col)
         label = c.cfg.get("label", c.key.upper())
@@ -691,6 +835,8 @@ class OverlayWindow(QWidget):
             label = boost_label(cfg)
         elif c.key == "gear":
             label = cfg.get("gear_label", "GEAR")
+        elif c.key == "grip":
+            label = "WARNING TILE"
         p.drawText(QRectF(x+47,y+h-35,w-60,32), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, label)
         p.setPen(QPen(QColor(col.red(), col.green(), col.blue(), 160), 2))
         p.setBrush(Qt.BrushStyle.NoBrush)
@@ -1213,6 +1359,1007 @@ class PeakTab(QWidget):
         QMessageBox.information(self, "Export", f"XLSX saved:\n{path}")
 
 
+
+class LiveGraphWidget(QWidget):
+    """
+    Time-based live telemetry graph with separate per-channel normalization.
+    This fixes the old issue where RPM dominated the graph and speed/boost looked flat.
+    """
+    def __init__(self):
+        super().__init__()
+        self.samples = []
+        self.config = DEFAULT_CONFIG
+        self.setMinimumHeight(260)
+
+    def set_config(self, config):
+        self.config = config
+
+    def set_samples(self, samples):
+        self.samples = samples[-800:]
+        self.update()
+
+    def _series(self, samples):
+        cfg = self.config
+        return {
+            "speed": [speed_value(s, cfg) for s in samples],
+            "rpm": [float(getattr(s, "rpm", 0.0) or 0.0) for s in samples],
+            "power": [power_value(s, cfg) for s in samples],
+            "boost": [boost_value(s, cfg) for s in samples],
+        }
+
+    def _safe_max(self, vals, fallback=1.0):
+        try:
+            m = max(abs(float(v)) for v in vals) if vals else fallback
+            return max(m, fallback)
+        except Exception:
+            return fallback
+
+    def _nice_cap(self, key, vals):
+        cfg = self.config
+        raw = self._safe_max(vals, 1.0)
+
+        if key == "speed":
+            if cfg.get("speed_unit", "KMH") == "MPH":
+                return max(120.0, min(300.0, raw * 1.12))
+            return max(200.0, min(500.0, raw * 1.12))
+
+        if key == "rpm":
+            return max(8000.0, min(14000.0, raw * 1.05))
+
+        if key == "power":
+            unit = cfg.get("power_unit", "PS")
+            base = 700.0 if unit in ("PS", "HP") else 500.0
+            return max(base, min(2500.0, raw * 1.15))
+
+        if key == "boost":
+            unit = cfg.get("boost_unit", "bar")
+            if unit == "PSI":
+                return max(20.0, min(80.0, raw * 1.20))
+            # boost can be negative at idle/vacuum, but positive boost should define top scale
+            positives = [v for v in vals if v > 0]
+            pos = self._safe_max(positives, 1.0)
+            return max(1.0, min(5.0, pos * 1.25))
+
+        return raw
+
+    def _map_y(self, value, cap, y0, gh, key):
+        # Boost supports vacuum/negative values: baseline is around 70% height.
+        if key == "boost":
+            # Clamp from -1.0 bar/~-15 PSI to positive cap.
+            neg_min = -15.0 if self.config.get("boost_unit", "bar") == "PSI" else -1.0
+            v = max(neg_min, min(float(value), cap))
+            span = cap - neg_min if cap > neg_min else 1.0
+            norm = (v - neg_min) / span
+            return y0 + gh - norm * gh
+
+        v = max(0.0, min(float(value), cap))
+        return y0 + gh - (v / cap) * gh
+
+    def paintEvent(self, event):
+        try:
+            p = QPainter(self)
+            p.setRenderHint(QPainter.RenderHint.Antialiasing)
+
+            w = self.width()
+            h = self.height()
+            margin_l = 58
+            margin_r = 24
+            margin_t = 38
+            margin_b = 42
+            x0 = margin_l
+            y0 = margin_t
+            gw = max(10, w - margin_l - margin_r)
+            gh = max(10, h - margin_t - margin_b)
+
+            p.fillRect(self.rect(), QColor(2, 8, 14, 180))
+
+            # outer graph box
+            p.setPen(QPen(QColor(0, 217, 255, 150), 1))
+            p.setBrush(Qt.BrushStyle.NoBrush)
+            p.drawRect(int(x0), int(y0), int(gw), int(gh))
+
+            # grid
+            p.setPen(QPen(QColor(0, 217, 255, 45), 1))
+            for i in range(1, 5):
+                yy = y0 + gh * i / 5
+                p.drawLine(int(x0), int(yy), int(x0 + gw), int(yy))
+            for i in range(1, 6):
+                xx = x0 + gw * i / 6
+                p.drawLine(int(xx), int(y0), int(xx), int(y0 + gh))
+
+            p.setFont(QFont("Segoe UI", 9, QFont.Weight.Bold))
+            p.setPen(QColor(230, 250, 255))
+            p.drawText(12, 22, "LIVE TELEMETRY GRAPH · TIME MODE · SEPARATE SCALES")
+
+            if not self.samples:
+                p.setFont(QFont("Segoe UI", 10))
+                p.drawText(QRectF(x0, y0, gw, gh), Qt.AlignmentFlag.AlignCenter, "waiting for telemetry")
+                return
+
+            samples = self.samples
+            series = self._series(samples)
+            n = len(samples)
+
+            colors = {
+                "speed": QColor(0, 217, 255),
+                "rpm": QColor(255, 106, 0),
+                "power": QColor(255, 212, 0),
+                "boost": QColor(199, 76, 255),
+            }
+
+            labels = {
+                "speed": f"Speed ({speed_label(self.config)})",
+                "rpm": "RPM",
+                "power": f"Power ({power_label(self.config)})",
+                "boost": f"Boost ({boost_label(self.config)})",
+            }
+
+            caps = {k: self._nice_cap(k, vals) for k, vals in series.items()}
+
+            # legend with caps so the user knows each curve has its own scale.
+            lx = x0 + 4
+            for key in ["speed", "rpm", "power", "boost"]:
+                p.setPen(colors[key])
+                p.setFont(QFont("Segoe UI", 8, QFont.Weight.Bold))
+                cap_txt = f"{caps[key]:.0f}" if key != "boost" else f"{caps[key]:.1f}"
+                p.drawText(int(lx), int(y0 - 8), f"{labels[key]} / max {cap_txt}")
+                lx += 165
+
+            # left axis is normalized percent because curves use separate scales.
+            p.setPen(QColor(230, 250, 255))
+            p.setFont(QFont("Segoe UI", 8))
+            p.drawText(8, int(y0 + 4), "100%")
+            p.drawText(20, int(y0 + gh / 2 + 4), "50%")
+            p.drawText(31, int(y0 + gh + 4), "0%")
+            p.save()
+            p.translate(14, y0 + gh / 2 + 35)
+            p.rotate(-90)
+            p.drawText(0, 0, "separate scale per curve")
+            p.restore()
+
+            if n < 2:
+                return
+
+            def x_for(i):
+                return x0 + (i / max(1, n - 1)) * gw
+
+            # draw curves
+            for key in ["speed", "rpm", "power", "boost"]:
+                vals = series[key]
+                cap = caps[key]
+                p.setPen(QPen(colors[key], 2))
+                last = None
+                for i, v in enumerate(vals):
+                    pt = QPointF(x_for(i), self._map_y(v, cap, y0, gh, key))
+                    if last is not None:
+                        p.drawLine(last, pt)
+                    last = pt
+
+            # time axis
+            first_ts = getattr(samples[0], "timestamp", None)
+            last_ts = getattr(samples[-1], "timestamp", None)
+            duration = 0.0
+            if first_ts is not None and last_ts is not None:
+                try:
+                    duration = max(0.0, float(last_ts) - float(first_ts))
+                except Exception:
+                    duration = 0.0
+
+            p.setPen(QColor(230, 250, 255))
+            p.setFont(QFont("Segoe UI", 9, QFont.Weight.Bold))
+            p.drawText(QRectF(x0, y0 + gh + 16, gw, 22), Qt.AlignmentFlag.AlignCenter, f"TIME · {duration:.1f}s window")
+
+            # bottom tick labels
+            p.setFont(QFont("Segoe UI", 8))
+            for i in range(0, 7):
+                xx = x0 + gw * i / 6
+                sec = duration * i / 6
+                p.setPen(QColor(0, 217, 255, 70))
+                p.drawLine(int(xx), int(y0 + gh), int(xx), int(y0 + gh + 5))
+                p.setPen(QColor(230, 250, 255, 180))
+                p.drawText(QRectF(xx - 24, y0 + gh + 24, 48, 16), Qt.AlignmentFlag.AlignCenter, f"{sec:.0f}s")
+
+            # latest values, right side
+            last_sample = samples[-1]
+            latest_lines = [
+                f"{speed_label(self.config)} {speed_value(last_sample, self.config):.0f}",
+                f"RPM {getattr(last_sample, 'rpm', 0):.0f}",
+                f"{power_label(self.config)} {power_value(last_sample, self.config):.0f}",
+                f"{boost_label(self.config)} {boost_value(last_sample, self.config):.2f}",
+            ]
+            p.setFont(QFont("Segoe UI", 8, QFont.Weight.Bold))
+            yy = y0 + 14
+            for key, txt in zip(["speed", "rpm", "power", "boost"], latest_lines):
+                p.setPen(colors[key])
+                p.drawText(int(x0 + gw - 120), int(yy), txt)
+                yy += 16
+
+        except Exception as exc:
+            log_error("LiveGraphWidget.paintEvent", exc)
+
+
+
+class PrototypeLabTab(QWidget):
+    """
+    Performance Lab Prototype:
+    - Live Telemetry Graph
+    - Drag Timer: Live + Manual Record
+    - Grip Monitor: Live + Manual Record
+    - Smart Hints: Live + Manual Record
+    - Session Report: Live + Manual Record
+    - HUD Presets
+    - Profiles
+    - Support Info
+    """
+    def __init__(self, manager):
+        super().__init__()
+        self.manager = manager
+
+        self.samples = []
+        self.drag_samples = []
+        self.grip_samples = []
+        self.hints_samples = []
+        self.session_samples = []
+
+        self.drag_recording = False
+        self.grip_recording = False
+        self.hints_recording = False
+        self.session_recording = False
+
+        self.drag_active = False
+        self.drag_start_time = None
+        self.drag_times = {}
+        self.drag_record_times = {}
+
+        self._last_update = 0.0
+        self._last_live_graph_update = 0.0
+        self.live_graph_paused = bool(self.manager.config.get('live_graph_paused', False))
+
+        self.build_ui()
+
+    def build_ui(self):
+        root = QVBoxLayout(self)
+
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        root.addWidget(scroll)
+
+        page = QWidget()
+        scroll.setWidget(page)
+        outer = QVBoxLayout(page)
+
+        title = QLabel("PERFORMANCE LAB PROTOTYPE")
+        title.setStyleSheet("font-size: 18px; font-weight: 800; color: #00d9ff; letter-spacing: 1px;")
+        outer.addWidget(title)
+
+        subtitle = QLabel("Internal test area: Live Graph, Drag Timer, Grip Monitor, Smart Hints, Session Report, HUD Presets, Profiles and Support Info.")
+        subtitle.setWordWrap(True)
+        outer.addWidget(subtitle)
+
+        self.build_live_graph_section(outer)
+        self.build_drag_section(outer)
+        self.build_grip_section(outer)
+        self.build_hints_section(outer)
+        self.build_session_section(outer)
+        self.build_presets_section(outer)
+        self.build_profiles_section(outer)
+        self.build_support_section(outer)
+
+        outer.addStretch(1)
+
+    def _section_style(self):
+        return "QGroupBox{font-weight:700; color:#d9f7ff; border:1px solid rgba(0,217,255,90); border-radius:10px; margin-top:10px; padding:10px;}"
+
+    def build_live_graph_section(self, outer):
+        box = QGroupBox("Live Telemetry Graph")
+        box.setStyleSheet(self._section_style())
+        layout = QVBoxLayout(box)
+        outer.addWidget(box)
+
+        hint = QLabel("Time-based live graph. Separate from DynoClean RPM graph.")
+        hint.setWordWrap(True)
+        layout.addWidget(hint)
+
+        row = QHBoxLayout()
+        layout.addLayout(row)
+        self.btn_live_graph_pause = QPushButton("Resume Live Graph" if self.live_graph_paused else "Pause Live Graph")
+        self.btn_live_graph_pause.clicked.connect(self.pause_resume_live_graph)
+        row.addWidget(self.btn_live_graph_pause)
+
+        self.btn_live_graph_clear = QPushButton("Clear Live Graph")
+        self.btn_live_graph_clear.clicked.connect(self.clear_live_graph)
+        row.addWidget(self.btn_live_graph_clear)
+
+        self.btn_live_graph_toggle = QPushButton("Show/Hide Graph")
+        self.btn_live_graph_toggle.clicked.connect(self.pause_resume_live_graph_visible)
+        row.addWidget(self.btn_live_graph_toggle)
+        row.addStretch(1)
+
+        self.live_graph = LiveGraphWidget()
+        self.live_graph.set_config(self.manager.config)
+        layout.addWidget(self.live_graph, 1)
+
+    def build_drag_section(self, outer):
+        box = QGroupBox("Drag Timer")
+        box.setStyleSheet(self._section_style())
+        layout = QVBoxLayout(box)
+        outer.addWidget(box)
+
+        self.lbl_drag_live = QLabel("Live Drag Timer: active · waiting for telemetry")
+        self.lbl_drag_record = QLabel("Drag Record: stopped")
+        for lab in [self.lbl_drag_live, self.lbl_drag_record]:
+            lab.setWordWrap(True)
+            lab.setStyleSheet("font-weight:bold; color:#d9f7ff;")
+            layout.addWidget(lab)
+
+        row = QHBoxLayout()
+        layout.addLayout(row)
+
+        self.btn_drag_toggle = QPushButton("Start Drag Record")
+        self.btn_drag_toggle.clicked.connect(self.toggle_drag_record)
+        row.addWidget(self.btn_drag_toggle)
+
+        self.btn_drag_reset = QPushButton("Reset Drag")
+        self.btn_drag_reset.clicked.connect(self.reset_drag)
+        row.addWidget(self.btn_drag_reset)
+
+        row.addStretch(1)
+
+    def build_grip_section(self, outer):
+        box = QGroupBox("Grip Monitor")
+        box.setStyleSheet(self._section_style())
+        layout = QVBoxLayout(box)
+        outer.addWidget(box)
+
+        self.lbl_grip_live = QLabel("Grip Live Monitor: active · waiting for telemetry")
+        self.lbl_grip_record = QLabel("Grip Record: stopped")
+        self.lbl_grip_analysis = QLabel("Grip Analysis: no record yet")
+        for lab in [self.lbl_grip_live, self.lbl_grip_record, self.lbl_grip_analysis]:
+            lab.setWordWrap(True)
+            lab.setStyleSheet("font-weight:bold; color:#d9f7ff;")
+            layout.addWidget(lab)
+
+        row = QHBoxLayout()
+        layout.addLayout(row)
+
+        self.btn_grip_toggle = QPushButton("Start Grip Record")
+        self.btn_grip_toggle.clicked.connect(self.toggle_grip_record)
+        row.addWidget(self.btn_grip_toggle)
+
+        self.btn_grip_analyze = QPushButton("Analyze Grip")
+        self.btn_grip_analyze.clicked.connect(self.analyze_grip)
+        row.addWidget(self.btn_grip_analyze)
+
+        self.btn_grip_reset = QPushButton("Reset Grip")
+        self.btn_grip_reset.clicked.connect(self.reset_grip)
+        row.addWidget(self.btn_grip_reset)
+
+        row.addStretch(1)
+
+    def build_hints_section(self, outer):
+        box = QGroupBox("Smart Hints")
+        box.setStyleSheet(self._section_style())
+        layout = QVBoxLayout(box)
+        outer.addWidget(box)
+
+        self.lbl_hints_live = QLabel("Smart Hints Live: active · waiting for telemetry")
+        self.lbl_hints_record = QLabel("Smart Hints Record: stopped")
+        self.lbl_hints_analysis = QLabel("Smart Hints Analysis: no record yet")
+        for lab in [self.lbl_hints_live, self.lbl_hints_record, self.lbl_hints_analysis]:
+            lab.setWordWrap(True)
+            lab.setStyleSheet("font-weight:bold; color:#d9f7ff;")
+            layout.addWidget(lab)
+
+        row = QHBoxLayout()
+        layout.addLayout(row)
+
+        self.btn_hints_toggle = QPushButton("Start Smart Hints Record")
+        self.btn_hints_toggle.clicked.connect(self.toggle_hints_record)
+        row.addWidget(self.btn_hints_toggle)
+
+        self.btn_hints_analyze = QPushButton("Analyze Smart Hints")
+        self.btn_hints_analyze.clicked.connect(self.analyze_hints)
+        row.addWidget(self.btn_hints_analyze)
+
+        self.btn_hints_reset = QPushButton("Reset Smart Hints")
+        self.btn_hints_reset.clicked.connect(self.reset_hints)
+        row.addWidget(self.btn_hints_reset)
+
+        row.addStretch(1)
+
+    def build_session_section(self, outer):
+        box = QGroupBox("Session Report")
+        box.setStyleSheet(self._section_style())
+        layout = QVBoxLayout(box)
+        outer.addWidget(box)
+
+        self.lbl_session_live = QLabel("Session Live Stats: active · waiting for telemetry")
+        self.lbl_session_record = QLabel("Session Record: stopped")
+        for lab in [self.lbl_session_live, self.lbl_session_record]:
+            lab.setWordWrap(True)
+            lab.setStyleSheet("font-weight:bold; color:#d9f7ff;")
+            layout.addWidget(lab)
+
+        row = QHBoxLayout()
+        layout.addLayout(row)
+
+        self.btn_session_toggle = QPushButton("Start Session Record")
+        self.btn_session_toggle.clicked.connect(self.toggle_session_record)
+        row.addWidget(self.btn_session_toggle)
+
+        self.btn_session_export = QPushButton("Export Session Report")
+        self.btn_session_export.clicked.connect(self.export_session_report)
+        row.addWidget(self.btn_session_export)
+
+        self.btn_session_reset = QPushButton("Reset Session")
+        self.btn_session_reset.clicked.connect(self.reset_session)
+        row.addWidget(self.btn_session_reset)
+
+        row.addStretch(1)
+
+    def build_presets_section(self, outer):
+        box = QGroupBox("HUD Presets")
+        box.setStyleSheet(self._section_style())
+        row = QHBoxLayout(box)
+        outer.addWidget(box)
+
+        for name in ["Minimal", "Race", "Dyno", "Drag", "Tuning", "Streamer"]:
+            b = QPushButton(name)
+            b.clicked.connect(lambda _, n=name: self.apply_hud_preset(n))
+            row.addWidget(b)
+        row.addStretch(1)
+
+    def build_profiles_section(self, outer):
+        box = QGroupBox("Profiles")
+        box.setStyleSheet(self._section_style())
+        row = QHBoxLayout(box)
+        outer.addWidget(box)
+
+        self.profile_name = QLineEdit(self.manager.config.get("active_profile", "Default"))
+        row.addWidget(QLabel("Profile Name:"))
+        row.addWidget(self.profile_name)
+
+        self.btn_save_profile = QPushButton("Save Profile")
+        self.btn_save_profile.clicked.connect(self.save_profile)
+        row.addWidget(self.btn_save_profile)
+
+        self.btn_load_profile = QPushButton("Load Profile")
+        self.btn_load_profile.clicked.connect(self.load_profile)
+        row.addWidget(self.btn_load_profile)
+
+    def build_support_section(self, outer):
+        box = QGroupBox("Support Info")
+        box.setStyleSheet(self._section_style())
+        layout = QVBoxLayout(box)
+        outer.addWidget(box)
+
+        row = QHBoxLayout()
+        layout.addLayout(row)
+
+        self.btn_support = QPushButton("Copy Support Info")
+        self.btn_support.clicked.connect(self.copy_support_info)
+        row.addWidget(self.btn_support)
+
+        self.btn_open_crash_folder = QPushButton("Open Crash Folder")
+        self.btn_open_crash_folder.clicked.connect(self.open_crash_folder)
+        row.addWidget(self.btn_open_crash_folder)
+
+        self.btn_clear_log = QPushButton("Clear Crash Log")
+        self.btn_clear_log.clicked.connect(self.clear_crash_log)
+        row.addWidget(self.btn_clear_log)
+
+        row.addStretch(1)
+
+        self.lbl_support = QLabel(f"Crash log: {CRASH_LOG_PATH}")
+        self.lbl_support.setWordWrap(True)
+        layout.addWidget(self.lbl_support)
+
+    # ---------- telemetry ----------
+    def add_sample(self, t):
+        try:
+            if t is None:
+                return
+
+            self.samples.append(t)
+            if len(self.samples) > 12000:
+                self.samples = self.samples[-12000:]
+
+            if self.drag_recording:
+                self.drag_samples.append(t)
+                self.drag_samples = self.drag_samples[-12000:]
+
+            if self.grip_recording:
+                self.grip_samples.append(t)
+                self.grip_samples = self.grip_samples[-12000:]
+
+            if self.hints_recording:
+                self.hints_samples.append(t)
+                self.hints_samples = self.hints_samples[-12000:]
+
+            if self.session_recording:
+                self.session_samples.append(t)
+                self.session_samples = self.session_samples[-12000:]
+
+            self.update_drag_live(t)
+
+            now = time.time()
+            if now - self._last_update >= 0.10:
+                self._last_update = now
+                self.update_all_labels()
+
+            if (not self.live_graph_paused) and now - self._last_live_graph_update >= 0.10:
+                self._last_live_graph_update = now
+                self.live_graph.set_config(self.manager.config)
+                self.live_graph.set_samples(self.samples)
+        except Exception as exc:
+            log_error("PerformanceLabTab.add_sample", exc)
+
+    # ---------- drag ----------
+    def update_drag_live(self, t):
+        try:
+            speed_kmh = getattr(t, "speed_kmh", 0.0)
+            throttle = getattr(t, "throttle_pct", 0.0)
+
+            if speed_kmh < 2 and throttle < 10:
+                self.drag_active = False
+                self.drag_start_time = None
+                # Do not clear drag_times constantly if it already has a result; start clears on next launch.
+
+            if not self.drag_active and speed_kmh >= 5 and throttle > 50:
+                self.drag_active = True
+                self.drag_start_time = getattr(t, "timestamp", time.time())
+                self.drag_times = {}
+
+            if self.drag_active and self.drag_start_time:
+                for low, high, key in [(0,100,"0-100"),(0,200,"0-200"),(100,200,"100-200"),(200,300,"200-300")]:
+                    if key not in self.drag_times:
+                        if key.startswith("0-"):
+                            if speed_kmh >= high:
+                                self.drag_times[key] = getattr(t, "timestamp", time.time()) - self.drag_start_time
+                        else:
+                            low_key = f"0-{low}"
+                            if low_key in self.drag_times and speed_kmh >= high:
+                                self.drag_times[key] = getattr(t, "timestamp", time.time()) - (self.drag_start_time + self.drag_times[low_key])
+        except Exception as exc:
+            log_error("PerformanceLabTab.update_drag_live", exc)
+
+    def toggle_drag_record(self):
+        try:
+            self.drag_recording = not self.drag_recording
+            if self.drag_recording:
+                self.drag_samples = []
+                self.drag_record_times = {}
+                self.btn_drag_toggle.setText("Stop Drag Record")
+                self.lbl_drag_record.setText("Drag Record: recording...")
+            else:
+                self.btn_drag_toggle.setText("Start Drag Record")
+                self.compute_drag_record_times()
+                self.update_all_labels()
+        except Exception as exc:
+            log_error("PerformanceLabTab.toggle_drag_record", exc)
+
+    def compute_drag_record_times(self):
+        try:
+            self.drag_record_times = self.calc_drag_times_for_samples(self.drag_samples)
+        except Exception as exc:
+            log_error("PerformanceLabTab.compute_drag_record_times", exc)
+
+    def calc_drag_times_for_samples(self, samples):
+        if not samples:
+            return {}
+        start_time = None
+        times = {}
+        zero100_time = None
+        zero200_time = None
+
+        for s in samples:
+            speed = getattr(s, "speed_kmh", 0.0)
+            throttle = getattr(s, "throttle_pct", 0.0)
+            ts = getattr(s, "timestamp", time.time())
+            if start_time is None and speed >= 5 and throttle > 40:
+                start_time = ts
+            if start_time is None:
+                continue
+
+            if "0-100" not in times and speed >= 100:
+                times["0-100"] = ts - start_time
+                zero100_time = ts
+            if "0-200" not in times and speed >= 200:
+                times["0-200"] = ts - start_time
+                zero200_time = ts
+            if "100-200" not in times and zero100_time and speed >= 200:
+                times["100-200"] = ts - zero100_time
+            if "200-300" not in times and zero200_time and speed >= 300:
+                times["200-300"] = ts - zero200_time
+        return times
+
+    def reset_drag(self):
+        self.drag_samples = []
+        self.drag_times = {}
+        self.drag_record_times = {}
+        self.drag_recording = False
+        self.drag_active = False
+        self.drag_start_time = None
+        self.btn_drag_toggle.setText("Start Drag Record")
+        self.update_all_labels()
+
+    # ---------- grip ----------
+    def grip_status_for(self, s):
+        front = getattr(s, "front_combined_slip", 0.0)
+        rear = getattr(s, "rear_combined_slip", 0.0)
+        f_ratio = getattr(s, "front_slip_ratio", 0.0)
+        r_ratio = getattr(s, "rear_slip_ratio", 0.0)
+        speed = getattr(s, "speed_kmh", 0.0)
+        throttle = getattr(s, "throttle_pct", 0.0)
+        steer = abs(getattr(s, "steer", 0))
+
+        status = "GRIP OK"
+        severity = 0
+
+        if rear > 1.6 or r_ratio > 0.65:
+            status, severity = "REAR SLIP / OVERSTEER RISK", 3
+        elif front > 1.6 or f_ratio > 0.65:
+            status, severity = "FRONT SLIP / UNDERSTEER RISK", 3
+        elif rear > 0.9 and rear > front * 1.25:
+            status, severity = "REAR SLIP WARNING", 2
+        elif front > 0.9 and front > rear * 1.25:
+            status, severity = "FRONT SLIP WARNING", 2
+        elif speed > 180 and steer > 70 and throttle > 80:
+            status, severity = "HIGH LOAD WARNING", 2
+
+        return status, severity, front, rear, f_ratio, r_ratio
+
+    def toggle_grip_record(self):
+        self.grip_recording = not self.grip_recording
+        if self.grip_recording:
+            self.grip_samples = []
+            self.btn_grip_toggle.setText("Stop Grip Record")
+            self.lbl_grip_record.setText("Grip Record: recording...")
+        else:
+            self.btn_grip_toggle.setText("Start Grip Record")
+            self.analyze_grip()
+
+    def analyze_grip(self):
+        try:
+            samples = self.grip_samples if self.grip_samples else self.samples[-1000:]
+            text = self.build_grip_analysis(samples)
+            self.lbl_grip_analysis.setText("Grip Analysis: " + text)
+        except Exception as exc:
+            log_error("PerformanceLabTab.analyze_grip", exc)
+
+    def build_grip_analysis(self, samples):
+        if not samples:
+            return "no data"
+        avg_front = sum(getattr(s, "front_combined_slip", 0.0) for s in samples) / max(1, len(samples))
+        avg_rear = sum(getattr(s, "rear_combined_slip", 0.0) for s in samples) / max(1, len(samples))
+        max_speed = max(getattr(s, "speed_kmh", 0.0) for s in samples)
+        critical = [self.grip_status_for(s)[0] for s in samples if self.grip_status_for(s)[1] >= 3]
+
+        if avg_front == 0 and avg_rear == 0:
+            return "Slip telemetry may be unavailable or too low. Fallback uses speed/throttle/steering only."
+
+        direction = "balanced"
+        if avg_rear > avg_front * 1.2:
+            direction = "rear is more unstable"
+        elif avg_front > avg_rear * 1.2:
+            direction = "front is more unstable"
+
+        crit_txt = f" Critical events: {len(critical)}." if critical else " No critical events detected."
+        return f"{direction}. Avg Front {avg_front:.2f}, Avg Rear {avg_rear:.2f}, Max Speed {max_speed:.1f} km/h.{crit_txt}"
+
+    def reset_grip(self):
+        self.grip_samples = []
+        self.grip_recording = False
+        self.btn_grip_toggle.setText("Start Grip Record")
+        self.lbl_grip_record.setText("Grip Record: stopped")
+        self.lbl_grip_analysis.setText("Grip Analysis: reset")
+
+    # ---------- hints ----------
+    def make_hints_for_samples(self, samples):
+        if not samples:
+            return []
+        recent = samples[-500:]
+        avg_rear = sum(getattr(s, "rear_combined_slip", 0.0) for s in recent) / max(1, len(recent))
+        avg_front = sum(getattr(s, "front_combined_slip", 0.0) for s in recent) / max(1, len(recent))
+        high_speed = max(getattr(s, "speed_kmh", 0.0) for s in recent)
+        avg_throttle = sum(getattr(s, "throttle_pct", 0.0) for s in recent) / max(1, len(recent))
+        hints = []
+
+        if avg_rear > avg_front * 1.25 and avg_rear > 0.9:
+            hints.append("Rear slip is higher than front: try softer rear ARB, lower rear tire pressure, or more rear stability.")
+        if avg_front > avg_rear * 1.25 and avg_front > 0.9:
+            hints.append("Front slip is higher than rear: possible understeer; adjust front stiffness/aero/tire pressure.")
+        if high_speed > 250 and avg_rear > 0.8:
+            hints.append("High-speed rear slip detected: add rear stability or reduce aggressive rear setup.")
+        if avg_throttle > 75 and avg_rear > 1.2:
+            hints.append("Throttle-on rear instability detected: check diff acceleration, rear tires or rear stiffness.")
+
+        if avg_front == 0 and avg_rear == 0:
+            last = recent[-1]
+            if getattr(last, "speed_kmh", 0) > 180 and abs(getattr(last, "steer", 0)) > 70 and getattr(last, "throttle_pct", 0) > 80:
+                hints.append("High speed + high steering + throttle: watch for aero/ARB/diff instability.")
+        return hints[:4]
+
+    def toggle_hints_record(self):
+        self.hints_recording = not self.hints_recording
+        if self.hints_recording:
+            self.hints_samples = []
+            self.btn_hints_toggle.setText("Stop Smart Hints Record")
+            self.lbl_hints_record.setText("Smart Hints Record: recording...")
+        else:
+            self.btn_hints_toggle.setText("Start Smart Hints Record")
+            self.analyze_hints()
+
+    def analyze_hints(self):
+        try:
+            samples = self.hints_samples if self.hints_samples else self.samples[-1000:]
+            hints = self.make_hints_for_samples(samples)
+            self.lbl_hints_analysis.setText("Smart Hints Analysis: " + (" | ".join(hints) if hints else "No major issue detected."))
+        except Exception as exc:
+            log_error("PerformanceLabTab.analyze_hints", exc)
+
+    def reset_hints(self):
+        self.hints_samples = []
+        self.hints_recording = False
+        self.btn_hints_toggle.setText("Start Smart Hints Record")
+        self.lbl_hints_record.setText("Smart Hints Record: stopped")
+        self.lbl_hints_analysis.setText("Smart Hints Analysis: reset")
+
+    # ---------- session ----------
+    def toggle_session_record(self):
+        self.session_recording = not self.session_recording
+        if self.session_recording:
+            self.session_samples = []
+            self.btn_session_toggle.setText("Stop Session Record")
+            self.lbl_session_record.setText("Session Record: recording...")
+        else:
+            self.btn_session_toggle.setText("Start Session Record")
+            self.update_all_labels()
+
+    def reset_session(self):
+        self.session_samples = []
+        self.session_recording = False
+        self.btn_session_toggle.setText("Start Session Record")
+        self.lbl_session_record.setText("Session Record: stopped")
+        self.update_all_labels()
+
+    def export_session_report(self):
+        try:
+            samples = self.session_samples if self.session_samples else self.samples
+            if not samples:
+                QMessageBox.information(self, "No data", "No telemetry samples recorded yet.")
+                return
+            out_dir = Path("reports")
+            out_dir.mkdir(exist_ok=True)
+            stamp = time.strftime("%Y%m%d_%H%M%S")
+            path = out_dir / f"onyx_performance_lab_report_{stamp}.txt"
+            cfg = self.manager.config
+            peak_speed = max(samples, key=lambda s: getattr(s, "speed_kmh", 0.0))
+            peak_power = max(samples, key=lambda s: power_value(s, cfg))
+            peak_boost = max(samples, key=lambda s: boost_value(s, cfg))
+            peak_rpm = max(samples, key=lambda s: getattr(s, "rpm", 0.0))
+            hints = self.make_hints_for_samples(samples)
+            grip_text = self.build_grip_analysis(samples)
+            drag_times = self.calc_drag_times_for_samples(samples)
+
+            with path.open("w", encoding="utf-8") as f:
+                f.write("ONYX Drive HUD v5.2.0 Report\n")
+                f.write("="*70 + "\n")
+                f.write(f"Samples: {len(samples)}\n")
+                f.write(f"Peak Speed: {speed_value(peak_speed,cfg):.2f} {speed_label(cfg)}\n")
+                f.write(f"Peak RPM: {getattr(peak_rpm,'rpm',0):.0f}\n")
+                f.write(f"Peak {power_label(cfg)}: {power_value(peak_power,cfg):.2f}\n")
+                f.write(f"Peak Boost: {boost_value(peak_boost,cfg):.2f} {boost_label(cfg)}\n")
+                f.write("\nDrag Times:\n")
+                for key in ["0-100","0-200","100-200","200-300"]:
+                    val = drag_times.get(key)
+                    f.write(f"- {key}: {val:.2f}s\n" if isinstance(val, (int,float)) else f"- {key}: -\n")
+                f.write("\nGrip Analysis:\n")
+                f.write(grip_text + "\n")
+                f.write("\nSmart Hints:\n")
+                for h in hints or ["No major issue detected."]:
+                    f.write(f"- {h}\n")
+            QMessageBox.information(self, "Report exported", str(path))
+        except Exception as exc:
+            log_error("PerformanceLabTab.export_session_report", exc)
+            QMessageBox.warning(self, "Error", "Could not export session report.")
+
+    # ---------- labels ----------
+    def update_all_labels(self):
+        try:
+            if not self.samples:
+                return
+            cfg = self.manager.config
+            last = self.samples[-1]
+
+            drag_parts = []
+            for key in ["0-100", "0-200", "100-200", "200-300"]:
+                v = self.drag_times.get(key)
+                drag_parts.append(f"{key}: {v:.2f}s" if isinstance(v, (int,float)) else f"{key}: -")
+            self.lbl_drag_live.setText("Live Drag Timer: active · " + " · ".join(drag_parts))
+
+            record_drag = self.drag_record_times if self.drag_record_times else self.calc_drag_times_for_samples(self.drag_samples)
+            drag_rec_parts = []
+            for key in ["0-100", "0-200", "100-200", "200-300"]:
+                v = record_drag.get(key)
+                drag_rec_parts.append(f"{key}: {v:.2f}s" if isinstance(v, (int,float)) else f"{key}: -")
+            self.lbl_drag_record.setText(("Drag Record: recording · " if self.drag_recording else "Drag Record: stopped · ") + " · ".join(drag_rec_parts))
+
+            status, sev, front, rear, fr, rr = self.grip_status_for(last)
+            self.lbl_grip_live.setText(f"Grip Live Monitor: active · {status} · Front {front:.2f} / Rear {rear:.2f} · Ratio F {fr:.2f} / R {rr:.2f}")
+            self.lbl_grip_record.setText(f"Grip Record: {'recording' if self.grip_recording else 'stopped'} · Samples {len(self.grip_samples)}")
+
+            hints = self.make_hints_for_samples(self.samples)
+            self.lbl_hints_live.setText("Smart Hints Live: active · " + (" | ".join(hints) if hints else "No major issue detected."))
+            self.lbl_hints_record.setText(f"Smart Hints Record: {'recording' if self.hints_recording else 'stopped'} · Samples {len(self.hints_samples)}")
+
+            session_source = self.session_samples if self.session_samples else self.samples
+            peak_speed = max(session_source, key=lambda s: getattr(s, "speed_kmh", 0.0))
+            peak_power = max(session_source, key=lambda s: power_value(s, cfg))
+            peak_boost = max(session_source, key=lambda s: boost_value(s, cfg))
+            peak_rpm = max(session_source, key=lambda s: getattr(s, "rpm", 0.0))
+            avg_throttle = sum(getattr(s, "throttle_pct", 0.0) for s in session_source[-500:]) / max(1, len(session_source[-500:]))
+
+            self.lbl_session_live.setText(
+                f"Session Live Stats: active · Samples {len(self.samples)} · "
+                f"Peak Speed {speed_value(peak_speed,cfg):.1f} {speed_label(cfg)} · "
+                f"Peak RPM {getattr(peak_rpm,'rpm',0):.0f} · "
+                f"Peak {power_label(cfg)} {power_value(peak_power,cfg):.0f} · "
+                f"Peak Boost {boost_value(peak_boost,cfg):.2f} {boost_label(cfg)} · "
+                f"Avg Throttle {avg_throttle:.0f}%"
+            )
+            self.lbl_session_record.setText(f"Session Record: {'recording' if self.session_recording else 'stopped'} · Samples {len(self.session_samples)}")
+        except Exception as exc:
+            log_error("PerformanceLabTab.update_all_labels", exc)
+
+    # ---------- live graph ----------
+    def clear_live_graph(self):
+        try:
+            self.samples = []
+            self.live_graph.set_samples([])
+            self.update_all_labels()
+        except Exception as exc:
+            log_error("PerformanceLabTab.clear_live_graph", exc)
+
+    def pause_resume_live_graph(self):
+        try:
+            self.live_graph_paused = not self.live_graph_paused
+            self.manager.config["live_graph_paused"] = self.live_graph_paused
+            save_config(self.manager.config)
+            if hasattr(self, "btn_live_graph_pause"):
+                self.btn_live_graph_pause.setText("Resume Live Graph" if self.live_graph_paused else "Pause Live Graph")
+        except Exception as exc:
+            log_error("PerformanceLabTab.pause_resume_live_graph", exc)
+
+    def pause_resume_live_graph_visible(self):
+        try:
+            self.live_graph.setVisible(not self.live_graph.isVisible())
+        except Exception as exc:
+            log_error("PerformanceLabTab.pause_resume_live_graph_visible", exc)
+
+    def toggle_live_graph_visible(self):
+        return self.pause_resume_live_graph_visible()
+
+    # Compatibility wrapper for older hotkey/config names.
+    def toggle_live_graph(self):
+        self.pause_resume_live_graph()
+
+    # ---------- support/profile/presets ----------
+    def copy_support_info(self):
+        try:
+            cfg = self.manager.config
+            txt = (
+                "ONYX Support Info\n"
+                f"Version: ONYX Drive HUD v5.2.0\n"
+                f"UDP: {cfg.get('udp_host','0.0.0.0')}:{cfg.get('udp_port',5607)}\n"
+                f"Units: {cfg.get('unit_system')} · {cfg.get('speed_unit')} · {cfg.get('power_unit')} · {cfg.get('boost_unit')}\n"
+                f"Profile: {cfg.get('active_profile','Default')}\n"
+                f"Last telemetry: {'yes' if self.manager.latest else 'no'}\n"
+                f"Performance samples: {len(self.samples)}\n"
+                f"Drag samples: {len(self.drag_samples)}\n"
+                f"Grip samples: {len(self.grip_samples)}\n"
+                f"Hints samples: {len(self.hints_samples)}\n"
+                f"Session samples: {len(self.session_samples)}\n"
+                f"Crash log: {CRASH_LOG_PATH}\n"
+            )
+            QApplication.clipboard().setText(txt)
+            QMessageBox.information(self, "Copied", "Support info copied to clipboard.")
+        except Exception as exc:
+            log_error("PerformanceLabTab.copy_support_info", exc)
+
+    def open_crash_folder(self):
+        try:
+            LOG_DIR.mkdir(exist_ok=True)
+            path = LOG_DIR.resolve()
+            if sys.platform.startswith("win"):
+                os.startfile(str(path))
+            elif sys.platform == "darwin":
+                subprocess.Popen(["open", str(path)])
+            else:
+                subprocess.Popen(["xdg-open", str(path)])
+        except Exception as exc:
+            log_error("PerformanceLabTab.open_crash_folder", exc)
+            QMessageBox.warning(self, "Error", "Could not open crash folder.")
+
+    def clear_crash_log(self):
+        try:
+            if CRASH_LOG_PATH.exists():
+                CRASH_LOG_PATH.unlink()
+            QMessageBox.information(self, "OK", "Crash log cleared.")
+        except Exception as exc:
+            log_error("PerformanceLabTab.clear_crash_log", exc)
+
+    def _profile_path(self):
+        name = self.profile_name.text().strip() or "Default"
+        safe = re.sub(r"[^A-Za-z0-9_.-]+", "_", name)
+        d = Path("profiles")
+        d.mkdir(exist_ok=True)
+        return d / f"{safe}.json"
+
+    def save_profile(self):
+        try:
+            self.manager.collect_forms()
+            self.manager.config["active_profile"] = self.profile_name.text().strip() or "Default"
+            path = self._profile_path()
+            path.write_text(json.dumps(self.manager.config, indent=2, ensure_ascii=False), encoding="utf-8")
+            QMessageBox.information(self, "Profile saved", str(path))
+        except Exception as exc:
+            log_error("PerformanceLabTab.save_profile", exc)
+
+    def load_profile(self):
+        try:
+            path, _ = QFileDialog.getOpenFileName(self, "Load ONYX profile", "profiles", "JSON (*.json)")
+            if not path:
+                return
+            data = json.loads(Path(path).read_text(encoding="utf-8"))
+            self.manager.config.update(data)
+            save_config(self.manager.config)
+            self.manager.rebuild_ui()
+        except Exception as exc:
+            log_error("PerformanceLabTab.load_profile", exc)
+            QMessageBox.warning(self, "Error", "Could not load profile.")
+
+    def apply_hud_preset(self, name):
+        try:
+            cards = self.manager.config["cards"]
+            presets = {
+                "Minimal": {
+                    "speed": (35,85,180,70,True), "rpm": (35,160,180,70,True), "gear": (35,235,130,70,True),
+                    "power": (35,310,170,70,False), "boost": (35,385,170,70,False), "grip": (35,460,170,70,True)
+                },
+                "Race": {
+                    "speed": (35,85,230,88,True), "rpm": (35,180,230,88,True), "gear": (35,275,230,88,True),
+                    "power": (35,370,230,88,True), "boost": (35,465,230,88,True), "grip": (35,560,230,88,True)
+                },
+                "Dyno": {
+                    "speed": (35,85,210,78,True), "rpm": (35,170,210,78,True), "gear": (35,255,150,78,False),
+                    "power": (35,340,210,78,True), "boost": (35,425,210,78,True), "grip": (35,510,210,78,True)
+                },
+                "Drag": {
+                    "speed": (40,80,260,100,True), "rpm": (40,190,220,80,True), "gear": (40,280,160,80,True),
+                    "power": (40,370,220,80,True), "boost": (40,460,220,80,True), "grip": (40,550,220,80,True)
+                },
+                "Tuning": {
+                    "speed": (35,85,210,76,True), "rpm": (35,166,210,76,True), "gear": (35,247,160,76,True),
+                    "power": (35,328,210,76,True), "boost": (35,409,210,76,True), "grip": (35,490,210,76,True)
+                },
+                "Streamer": {
+                    "speed": (50,120,260,105,True), "rpm": (50,235,260,105,True), "gear": (50,350,190,105,True),
+                    "power": (50,465,260,105,True), "boost": (50,580,260,105,True), "grip": (50,695,260,105,True)
+                },
+            }
+            for key, vals in presets.get(name, presets["Race"]).items():
+                x,y,w,h,vis = vals
+                cards[key].update({"x":x,"y":y,"w":w,"h":h,"visible":vis})
+            save_config(self.manager.config)
+            if self.manager.overlay:
+                self.manager.overlay.sync_config()
+            QMessageBox.information(self, "Preset applied", f"{name} HUD preset applied.")
+        except Exception as exc:
+            log_error("PerformanceLabTab.apply_hud_preset", exc)
+
+
+
 class ManagerWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -1256,6 +2403,8 @@ class ManagerWindow(QMainWindow):
         self.tabs.addTab(self.build_tiles_tab(), tr(self.lang(), "tiles"))
         self.peak_tab = PeakTab(self)
         self.tabs.addTab(self.peak_tab, tr(self.lang(), "peak"))
+        self.prototype_tab = PrototypeLabTab(self)
+        self.tabs.addTab(self.prototype_tab, tr(self.lang(), "prototype"))
         self.tabs.addTab(self.build_design_tab(), tr(self.lang(), "design"))
         self.tabs.addTab(self.build_units_tab(), tr(self.lang(), "units"))
         self.tabs.addTab(self.build_stability_tab(), tr(self.lang(), "stability"))
@@ -1573,13 +2722,127 @@ class ManagerWindow(QMainWindow):
             if old_overlay_visible: self.overlay.show()
 
     def show_overlay(self):
-        self.save_from_forms()
-        if not self.overlay:
-            self.overlay = OverlayWindow(self)
+        try:
+            # Keep v4.8 behavior: overlay window must cover the whole screen.
+            # Tiles are drawn inside this transparent desktop-sized layer.
+            # Do NOT resize the overlay to the tile column size, or tiles get clipped.
+            if hasattr(self, "save_from_forms"):
+                self.save_from_forms()
+            elif hasattr(self, "collect_forms"):
+                self.collect_forms()
+                save_config(self.config)
+
+            if self.overlay is None:
+                self.overlay = OverlayWindow(self)
+
             screen = QApplication.primaryScreen()
-            if screen: self.overlay.setGeometry(screen.geometry())
-        self.overlay.show()
-        self.overlay.raise_()
+            if screen:
+                self.overlay.setGeometry(screen.geometry())
+            else:
+                self.overlay.setGeometry(0, 0, 1920, 1080)
+
+            self.overlay.sync_config()
+            self.overlay.show()
+            self.overlay.raise_()
+        except Exception as exc:
+            log_error("OverlayFullScreenRestore.show_overlay", exc)
+            QMessageBox.critical(
+                self,
+                "Overlay start failed",
+                "The overlay could not be started.\n\n"
+                "A precise crash log was written to logs/onyx_crash.log.\n\n"
+                f"Error: {type(exc).__name__}: {exc}"
+            )
+
+
+    def toggle_overlay_visibility(self):
+        try:
+            if not self.overlay:
+                self.show_overlay()
+                return
+            if self.overlay.isVisible():
+                self.overlay.hide()
+            else:
+                screen = QApplication.primaryScreen()
+                if screen:
+                    self.overlay.setGeometry(screen.geometry())
+                else:
+                    self.overlay.setGeometry(0, 0, 1920, 1080)
+                self.overlay.sync_config()
+                self.overlay.show()
+                self.overlay.raise_()
+        except Exception as exc:
+            log_error("ManagerWindow.toggle_overlay_visibility", exc)
+
+
+    def toggle_recording(self):
+        try:
+            if hasattr(self, "peak_tab"):
+                if self.peak_tab.recording:
+                    self.peak_tab.stop()
+                else:
+                    self.peak_tab.start()
+        except Exception as exc:
+            log_error("ManagerWindow.toggle_recording", exc)
+
+    def reset_peak_recording(self):
+        try:
+            if hasattr(self, "peak_tab"):
+                self.peak_tab.clear()
+        except Exception as exc:
+            log_error("ManagerWindow.reset_peak_recording", exc)
+
+    # Compatibility wrappers for overlay hotkeys.
+    # These prevent startup crashes if old hotkey names still exist in config.
+    def save_layout(self):
+        try:
+            if hasattr(self, "collect_forms"):
+                self.collect_forms()
+            save_config(self.config)
+            if self.overlay:
+                self.overlay.sync_config()
+        except Exception as exc:
+            log_error("ManagerWindow.save_layout", exc)
+
+    def reset_layout(self):
+        try:
+            if "cards" in self.config and "cards" in DEFAULT_CONFIG:
+                self.config["cards"] = json.loads(json.dumps(DEFAULT_CONFIG["cards"]))
+            save_config(self.config)
+            if self.overlay:
+                self.overlay.sync_config()
+            if hasattr(self, "rebuild_ui"):
+                self.rebuild_ui()
+        except Exception as exc:
+            log_error("ManagerWindow.reset_layout", exc)
+
+    def toggle_click(self):
+        try:
+            self.config["click_through"] = not bool(self.config.get("click_through", False))
+            save_config(self.config)
+            if self.overlay:
+                self.overlay.sync_config()
+        except Exception as exc:
+            log_error("ManagerWindow.toggle_click", exc)
+
+    def reset_overlay_position(self):
+        try:
+            # Restore tile defaults but keep overlay as a full-screen transparent layer.
+            if "cards" in self.config and "cards" in DEFAULT_CONFIG:
+                self.config["cards"] = json.loads(json.dumps(DEFAULT_CONFIG["cards"]))
+            save_config(self.config)
+            if self.overlay:
+                screen = QApplication.primaryScreen()
+                if screen:
+                    self.overlay.setGeometry(screen.geometry())
+                else:
+                    self.overlay.setGeometry(0, 0, 1920, 1080)
+                self.overlay.sync_config()
+                self.overlay.show()
+                self.overlay.raise_()
+        except Exception as exc:
+            log_error("ManagerWindow.reset_overlay_position", exc)
+
 
     def toggle_edit(self):
         self.config["edit_mode"] = not self.config.get("edit_mode", True)
@@ -1616,6 +2879,11 @@ class ManagerWindow(QMainWindow):
                         self.peak_tab.add_sample(self.latest)
                     except Exception as exc:
                         log_error("ManagerWindow.tick.peak_tab", exc)
+                if hasattr(self, "prototype_tab"):
+                    try:
+                        self.prototype_tab.add_sample(self.latest)
+                    except Exception as exc:
+                        log_error("ManagerWindow.tick.prototype_tab", exc)
         except Empty:
             pass
         except Exception as exc:

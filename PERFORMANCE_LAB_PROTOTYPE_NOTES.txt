@@ -1,0 +1,21 @@
+ONYX Drive HUD v5.1.1 Live Graph Scale Fix
+Internal test build only.
+
+Main change:
+- Prototype Lab renamed/presented as Performance Lab.
+- Prototype Data combined box split into separate sections.
+- Drag, Grip, Smart Hints and Session now have live + manual record workflows.
+
+Test checklist:
+1. Start ONYX_Drive_HUD.exe.
+2. Confirm tab name Performance Lab.
+3. Check each section is separate.
+4. Test Live Graph.
+5. Test Drag Live and Drag Record.
+6. Test Grip Live and Grip Record/Analyze.
+7. Test Smart Hints Live and Record/Analyze.
+8. Test Session Record and Export.
+9. Test HUD Presets.
+10. Test Profile Save/Load.
+11. Test Copy Support Info.
+12. Test new hotkeys where possible.

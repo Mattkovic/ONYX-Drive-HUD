@@ -1,10 +1,14 @@
-@echo off
+@if exist build rmdir /S /Q build
+if exist dist rmdir /S /Q dist
+if exist release rmdir /S /Q release
+
+echo off
 setlocal
 title ONYX Drive HUD v4 OneEXE - Builder
 cd /d "%~dp0"
 
 echo ==========================================
-echo  ONYX DRIVE HUD v4.8 DynoAxisFullRecord - Builder
+echo  ONYX DRIVE HUD v5.2.0 - Builder
 echo ==========================================
 echo.
 
@@ -39,7 +43,7 @@ echo [3/5] Single EXE bauen...
 echo.
 echo [4/5] Release-Ordner erstellen...
 mkdir release
-copy /Y dist\ONYX_Drive_HUD_v4_8_6_5_4_3_2.exe release\ONYX_Drive_HUD_6_5_4_3_2.exe
+copy /Y dist\ONYX_Drive_HUD_6_5_4_3_2.exe release\ONYX_Drive_HUD_6_5_4_3_2.exe
 copy /Y onyx_icon.ico release\onyx_icon.ico
 copy /Y onyx_icon.png release\onyx_icon.png
 copy /Y README.md release\README.md

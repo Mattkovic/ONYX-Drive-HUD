@@ -1,232 +1,123 @@
-# ONYX Drive HUD v4.8 DynoAxisFullRecord
+# ONYX Drive HUD v5.2.0
 
-ONYX Drive HUD v4 is a single executable external telemetry HUD for Forza Data Out UDP.
+ONYX Drive HUD is an external telemetry overlay for Forza Horizon 6 using the official Data Out UDP telemetry feature.
 
-## Main change in v4
+It listens to local UDP telemetry and renders a transparent customizable HUD.
 
-Manager, Overlay and Peak Measurements now run inside **one EXE** and share **one UDP receiver**.
+## Security / Transparency
 
-This fixes the old problem where the overlay and Peak Measurements tried to listen on the same UDP port at the same time.
+ONYX Drive HUD does not:
+- inject DLL files
+- edit game memory
+- modify save files
+- modify Forza game files
+- patch the game executable
+- bypass anti-cheat
 
-## Features
+It only listens to local UDP telemetry and renders an overlay.
 
-- Single EXE
-- Transparent overlay
-- Blackout/Neon manager
-- KMH / RPM / Gear / PS / Boost tiles
-- Drag-and-drop tile positioning
-- Peak Measurements / Dyno Lab
+## Main Features
+
+- Transparent external HUD overlay
+- Live speed display
+- Live RPM display
+- Current gear display
+- Engine power display
+- Boost pressure display
+- Moveable HUD tiles
+- Custom tile colors
+- Custom tile size and position
+- Click-through mode
+- Blackout / Neon style manager
+- Design presets
+- Language selector
+- International Units tab
+- Metric / Imperial / Custom unit system
+- KMH / MPH speed unit selection
+- PS / HP / kW power unit selection
+- bar / PSI boost unit selection
+- GEAR / GANG label option
+- Peak Measurements / DynoClean
+- Live Telemetry Graph
+- Drag Timer
+- Grip Monitor
+- Smart Hints
+- Session Report
+- HUD Presets
+- Profiles
+- Support Info
+- Open Crash Folder button
+- GRIP Warning overlay tile
 - CSV export
-- XLSX/Excel export
-- Design themes
-- Language tab
-- English default
-- German included
-- additional major languages with partial UI labels
-- Custom ONYX icon included
-- PyInstaller build BAT included
+- XLSX / Excel export
+- Single EXE version
+- No Python required for normal users
 
-## Run from source
+## Performance Lab
 
-```bat
-install_dependencies.bat
-start_onyx_drive_hud.bat
-```
+The Performance Lab includes:
+- Live Telemetry Graph with separated scales
+- Drag Timer
+- Grip Monitor
+- Smart Hints
+- Session Report
+- HUD Presets
+- Profiles
+- Support Info
 
-## Build single EXE
+## Grip Warning Tile
 
-```bat
-build_one_exe.bat
-```
+The GRIP Warning overlay tile is an optional HUD tile.
 
-Output:
+It can show:
+- GRIP OK
+- GRIP WARN
+- FRONT WARN
+- REAR WARN
+- UNDERSTEER
+- OVERSTEER
+- FRONT SLIP
+- REAR SLIP
+- LOW GRIP
+- HIGH LOAD
 
-```text
-release\ONYX_Drive_HUD.exe
-```
+Color behavior:
+- green/cyan = OK
+- yellow = warning
+- orange = risk
+- red = critical
+- blinking red/white = critical grip loss
 
-## Forza settings
+This is heuristic telemetry logic, not a physical tire simulation.
 
-```text
-Data Out: On
-Data Out IP: 127.0.0.1
+## Requirements
+
+- Windows 10 or Windows 11
+- Forza Horizon 6
+- Data Out enabled in Forza
+- No Python required for the EXE version
+
+## Recommended Forza Data Out Settings
+
+Data Out: On  
+Data Out IP Address: 127.0.0.1  
 Data Out Port: 5607
-```
 
-Use borderless/windowed display mode for best overlay behavior.
+Recommended display mode:
+Borderless / Windowed
 
-## Important
+## Troubleshooting
 
-Do not run another telemetry logger on the same UDP port while ONYX is running.
+If no telemetry data appears:
+- Make sure Data Out is enabled in Forza.
+- Make sure the IP address is 127.0.0.1.
+- Make sure the port is 5607.
+- Close other telemetry tools that may use the same UDP port.
+- Allow ONYX through Windows Firewall if prompted.
+- Restart ONYX.
+- Restart Forza.
 
-
-## v4.1 DynoClean
-
-The Peak Measurements graph has been rewritten.
-
-Old behavior:
-- connected raw samples in time order
-- steering, shifting or throttle changes could create rectangle/zigzag shapes
-
-New behavior:
-- filters clean full-throttle pull samples
-- bins by RPM
-- sorts by RPM
-- draws only real dyno-style curves:
-  - PS over RPM
-  - NM over RPM
-  - Boost over RPM
-- KMH is still used for peak-speed measurements and export
-- steering is not graphed
-
-
-## v4.2 SafeExit
-
-This version adds a hard SafeExit/killswitch.
-
-Closing the manager with the red X now:
-- saves the config
-- stops the UDP socket
-- hides the overlay
-- quits Qt
-- force-exits the process with `os._exit(0)`
-
-There is also an **Exit ONYX** button and `Ctrl+Q` shortcut.
-
-
-## v4.3 International Units
-
-New Units tab:
-
-- Metric preset: KMH / PS / bar
-- Imperial preset: MPH / HP / PSI
-- Custom mode
-- Speed unit: KMH or MPH
-- Power unit: PS, HP or kW
-- Boost unit: bar or PSI
-- Gear label: GEAR or GANG
-
-Overlay values are converted live.
-CSV/XLSX export uses the selected unit names in the column headers.
-English remains the default language.
-
-
-## v4.4 StabilityFix
-
-Fixed boost unit conversion and improved Dyno/Peak Measurements stability.
-
-### BoostFix
-
-Forza Data Out / Dash boost is now interpreted as PSI.
-
-Correct display behavior:
-- PSI mode: raw Forza boost value
-- bar mode: raw PSI divided by 14.5038
-
-This fixes incorrect values such as several hundred PSI and bar displaying PSI-like values.
-
-### Dyno / Peak Measurements CrashFix
-
-The Peak Measurements / Dyno graph now catches invalid telemetry/UI errors instead of crashing the whole app.
-
-Added:
-- crash log: logs/onyx_crash.log
-- safe graph fallback
-- safer Peak Recording sample handling
-- safer Metric / Imperial / Custom unit conversion
-- safer CSV/XLSX export rows
-- Stability tab with BoostFix notes and crash log path
-
-### Units
-
-Metric: KMH / PS / bar
-Imperial: MPH / HP / PSI
-Custom: KMH or MPH, PS or HP or kW, bar or PSI, GEAR or GANG
-
-
-## v4.5 Hotfix
-
-Fixed remaining boost unit conversion and Dyno graph crash.
-
-- Forza boost is treated as PSI raw input.
-- PSI displays raw value directly.
-- bar displays PSI / 14.5038.
-- Example: -11.02 PSI now displays about -0.76 bar.
-- Dyno graph now supports smoothed dyno point objects with power_ps instead of only power_w.
-- Export rows are more defensive against invalid telemetry samples.
-
-
-## v4.6 DynoPerformanceFix
-
-Fixed manager freezes during Peak Measurements / Dyno recording.
-
-### What changed
-
-- Graph repainting is throttled to about 10 FPS.
-- Peak labels are throttled instead of updating on every UDP packet.
-- UDP queue is bounded so the UI cannot build an infinite backlog.
-- Manager processes a limited number of telemetry packets per UI tick.
-- Dyno graph now draws the current clean full-throttle pull while recording.
-- A new full-throttle pull can reset the live dyno run, instead of the graph staying visually stuck forever.
-- Peak values still remain tracked over the whole recording.
-
-### Why the graph can look "full"
-
-The DynoClean graph is not a simple time graph. It plots cleaned samples by RPM for a pull.
-Once the RPM range is filled, the curve will mostly update its best/cleanest values instead of scrolling forever.
-v4.6 adds live-run reset behavior so a new pull starts a fresh curve.
-
-
-## v4.7 DynoZoomFix
-
-Added safe Dyno graph zoom controls:
-
-- Dyno Zoom Out
-- Dyno Zoom In
-- Reset Dyno Zoom
-
-The zoom only changes graph rendering scale. It does not change telemetry collection, unit conversion, exports, or UDP handling.
-
-Recommended use:
-- Use Zoom Out if the curve is pressed against the right/top graph edge.
-- Use Reset Dyno Zoom to return to the default dyno view.
-
-This keeps the v4.6 performance fixes:
-- throttled graph repainting
-- bounded UDP queue
-- live pull reset
-- Peak Measurements freeze protection
-
-
-## v4.8 DynoAxisFullRecord
-
-Improved the Peak Measurements / Dyno Clean View.
-
-### Added axis labels
-
-- Left axis now shows the current power/torque scale.
-- Bottom axis now shows RPM ticks.
-- The axis labels follow the selected unit system:
-  - PS / HP / kW for power
-  - RPM on the bottom axis
-  - Boost legend shows bar or PSI depending on the selected boost unit
-
-### Full Record mode
-
-The Dyno graph now uses the whole recording as graph data instead of only the current live pull window.
-
-It still filters internally to useful throttle/performance samples, so steering, braking and coasting garbage should not create the old rectangle mess.
-
-This keeps:
-- v4.5 boost conversion fix
-- v4.6 UI freeze protection
-- v4.7 Dyno zoom controls
-
-
-## Short EXE name
-
-The built executable is now named:
-
-ONYX_Drive_HUD.exe
-
-The internal app version/title remains ONYX Drive HUD v4.8 DynoAxisFullRecord.
+If the app crashes:
+- Open Performance Lab.
+- Use Support Info → Open Crash Folder.
+- Send the `onyx_crash.log` file with your bug report.

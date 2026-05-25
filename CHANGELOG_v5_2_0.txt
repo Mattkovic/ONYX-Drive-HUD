@@ -1,0 +1,17 @@
+ONYX Drive HUD v5.2.0
+
+- Added Performance Lab
+- Added Live Telemetry Graph with separate scales
+- Added Drag Timer
+- Added Grip Monitor
+- Added Smart Hints
+- Added Session Report
+- Added HUD Presets
+- Added Profiles
+- Added Support Info
+- Added Open Crash Folder button
+- Added GRIP Warning overlay tile
+- Fixed and verified boost unit conversion for bar / PSI
+- Improved crash logging
+- Cleaned final UI header
+- Kept short EXE name: ONYX_Drive_HUD.exe

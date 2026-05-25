@@ -1,0 +1,14 @@
+ONYX Drive HUD v4.9 Prototype Lab
+Internal test build only.
+
+Test checklist:
+1. Start ONYX_Drive_HUD.exe.
+2. Verify overlay still works.
+3. Open Prototype Lab tab.
+4. Test Live Graph while driving.
+5. Test Drag Timer from standstill.
+6. Test Export Session Report.
+7. Test HUD Presets.
+8. Test Save/Load Profile.
+9. Test Copy Support Info.
+10. Check logs/onyx_crash.log if anything freezes/crashes.

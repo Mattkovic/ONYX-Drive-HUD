@@ -1,0 +1,30 @@
+ONYX Drive HUD v5.2.0 Finalization Notes
+
+Finalized from v5.1.1 after testing.
+
+Added:
+- Open Crash Folder button in Performance Lab → Support Info.
+
+Cleaned:
+- Visible header/title.
+- Removed internal fix-chain text.
+- Cleaned README / SECURITY / NEXUSMODS_REVIEW notes.
+
+Included:
+- Performance Lab
+- Live Telemetry Graph scale fix
+- Grip Warning overlay tile
+- Drag Timer
+- Grip Monitor
+- Smart Hints
+- Session Report
+- HUD Presets
+- Profiles
+- Support Info
+- Improved crash logs
+
+Not changed:
+- UDP receiver behavior
+- Overlay fullscreen behavior
+- Boost/bar/PSI conversion
+- Dyno/Peak Measurement logic
