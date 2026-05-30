@@ -1,4 +1,4 @@
-# Nexus Mods Review Notes – ONYX Drive HUD v5.2.0
+# Nexus Mods Review Notes – ONYX Drive HUD v5.2.6
 
 ONYX Drive HUD is an external telemetry HUD overlay for Forza Horizon 6.
 

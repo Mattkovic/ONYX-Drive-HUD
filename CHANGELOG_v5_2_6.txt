@@ -1,0 +1,38 @@
+ONYX Drive HUD v5.2.6 Performance Summary
+
+Added:
+- Vehicle Analysis / Performance Summary section in Performance Lab.
+- Analyze Current Session button.
+- Copy Summary button.
+- Reset Summary button.
+- Summary is shown directly inside ONYX, no export file required.
+
+The analysis uses existing telemetry:
+- Speed
+- RPM
+- Power
+- Boost
+- Drag Timer results
+- Grip / slip values
+- Smart Hints
+- Session samples
+
+Important:
+- ONYX only sees telemetry data.
+- It does not know installed tuning parts or exact build configuration.
+- Suggestions are phrased as telemetry/tuning hints, not forced upgrade advice.
+
+Not changed:
+- UDP receiver
+- Overlay
+- Boost / bar / PSI conversion
+- Dyno / Peak Measurements
+- Grip Warning Tile
+- Tachometer Gauge
+- Drag Timer Overlay Tile
+- Layout save fix
+- Second monitor selector
+- Crash logging
+
+
+README updated with full Added / Fixed / Improved history since v5.0.

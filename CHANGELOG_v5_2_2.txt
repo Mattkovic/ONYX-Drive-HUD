@@ -1,0 +1,26 @@
+ONYX Drive HUD v5.2.2 Community Fix
+
+Fixed / improved:
+- Improved HUD scaling at small values such as 0.70.
+- Tile positions now scale together with tile size, so spacing is reduced correctly when the HUD is scaled down.
+- Reworked HUD tile text layout to prevent value text from overlapping labels.
+- Added Show label option in Tiles tab.
+- Added Auto unit label option in Tiles tab.
+- Custom labels can now be used instead of forced unit labels.
+- Labels can now be hidden per tile.
+- Edit resize circle is now less intrusive and only shown in edit mode.
+- Improved Minimal preset tile sizes for readability.
+- Presets keep custom label/color edits instead of wiping them.
+- Added Overlay Monitor selector in General tab.
+- Overlay can now be placed on primary or another detected monitor.
+
+Not changed:
+- UDP receiver
+- Boost / bar / PSI conversion
+- Dyno / Peak Measurements
+- Performance Lab logic
+- Grip Warning logic
+- Crash logging
+
+Planned, not included yet:
+- Optional round RPM gauge / tachometer overlay.

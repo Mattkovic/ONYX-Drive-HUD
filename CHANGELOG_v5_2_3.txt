@@ -1,0 +1,24 @@
+ONYX Drive HUD v5.2.3 Layout Save Fix
+
+Fixed:
+- Dragged overlay tile positions were not saved correctly.
+- Tiles could jump back to default positions after closing and restarting ONYX.
+- Save Layout now pulls live overlay tile coordinates into the real config before saving.
+- Mouse release after dragging now writes positions to config["cards"].
+
+Affected:
+- Speed tile
+- RPM tile
+- Gear tile
+- Power tile
+- Boost tile
+- Grip tile
+
+Not changed:
+- UDP receiver
+- Boost / bar / PSI conversion
+- Dyno / Peak Measurements
+- Performance Lab logic
+- Grip Warning logic
+- Second monitor selector
+- Crash logging

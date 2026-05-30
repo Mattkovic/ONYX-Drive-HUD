@@ -5,6 +5,7 @@ import os
 import json
 import math
 import platform
+import random
 import socket
 import struct
 import subprocess
@@ -77,7 +78,7 @@ LANGUAGES = {
 
 TEXT = {
     "en": {
-        "title": "ONYX Drive HUD v5.2.0",
+        "title": "ONYX Drive HUD v5.2.6",
         "subtitle": "DRIVE HUD CONTROL CENTER · ONE PROCESS · PERFORMANCE LAB",
         "general": "General", "tiles": "Tiles", "peak": "Peak Measurements", "prototype": "Performance Lab",
         "design": "Design", "language": "Language", "hotkeys": "Keybinds", "units": "Units", "stability": "Stability",
@@ -100,7 +101,7 @@ TEXT = {
         "dyno_perf_note": "DynoPerformanceFix: graph and labels are throttled so long recordings do not freeze the manager window.",
     },
     "de": {
-        "title": "ONYX Drive HUD v5.2.0",
+        "title": "ONYX Drive HUD v5.2.6",
         "subtitle": "DRIVE HUD CONTROL CENTER · ONE PROCESS · PERFORMANCE LAB",
         "general": "Allgemein", "tiles": "Kacheln", "peak": "Peak-Werte", "prototype": "Performance Lab",
         "design": "Design", "language": "Sprache", "hotkeys": "Tasten", "units": "Einheiten", "stability": "Stabilität",
@@ -180,19 +181,22 @@ DEFAULT_CONFIG = {
     "opacity": 0.92,
     "scale": 1.0,
     "background_alpha": 115,
+    "overlay_monitor_index": -1,
     "font_family": "Segoe UI",
     "hotkeys": {"toggle_edit":"Ctrl+E","toggle_click":"Ctrl+T","save_layout":"Ctrl+S","reset_layout":"Ctrl+R","hide_overlay":"Esc","toggle_overlay":"F8","toggle_recording":"F9","reset_peaks":"F10","toggle_drag_record":"Ctrl+D","reset_drag":"Ctrl+Shift+D","toggle_grip_record":"Ctrl+G","analyze_grip":"Ctrl+Shift+G","reset_grip":"Alt+G","toggle_hints_record":"Ctrl+H","analyze_hints":"Ctrl+Shift+H","reset_hints":"Alt+H","toggle_session_record":"Ctrl+J","export_session":"Ctrl+Shift+J","reset_session":"Alt+J","pause_resume_live_graph":"Ctrl+L"},
     "cards": {
-        "speed": {"x": 35, "y": 85, "w": 230, "h": 88, "label": "KMH", "color": "#00d9ff", "visible": True},
-        "rpm": {"x": 35, "y": 180, "w": 230, "h": 88, "label": "RPM", "color": "#ff6a00", "visible": True},
-        "gear": {"x": 35, "y": 275, "w": 230, "h": 88, "label": "GEAR", "color": "#55ff00", "visible": True},
-        "power": {"x": 35, "y": 370, "w": 230, "h": 88, "label": "PS", "color": "#ffd400", "visible": True},
-        "boost": {"x": 35, "y": 465, "w": 230, "h": 88, "label": "BOOST", "color": "#c74cff", "visible": True},
-        "grip": {"x": 35, "y": 560, "w": 230, "h": 88, "label": "GRIP", "color": "#00ff99", "visible": True},
+        "speed": {"x": 35, "y": 85, "w": 230, "h": 88, "label": "KMH", "color": "#00d9ff", "visible": True, "label_visible": True, "label_auto": True},
+        "rpm": {"x": 35, "y": 180, "w": 230, "h": 88, "label": "RPM", "color": "#ff6a00", "visible": True, "label_visible": True, "label_auto": True},
+        "gear": {"x": 35, "y": 275, "w": 230, "h": 88, "label": "GEAR", "color": "#55ff00", "visible": True, "label_visible": True, "label_auto": True},
+        "power": {"x": 35, "y": 370, "w": 230, "h": 88, "label": "PS", "color": "#ffd400", "visible": True, "label_visible": True, "label_auto": True},
+        "boost": {"x": 35, "y": 465, "w": 230, "h": 88, "label": "BOOST", "color": "#c74cff", "visible": True, "label_visible": True, "label_auto": True},
+        "grip": {"x": 35, "y": 560, "w": 230, "h": 88, "label": "GRIP", "color": "#00ff99", "visible": True, "label_visible": True, "label_auto": True},
+        "tachometer": {"x": 300, "y": 90, "w": 260, "h": 260, "label": "RPM GAUGE", "color": "#ff6a00", "visible": False, "label_visible": True, "label_auto": True},
+        "drag_timer": {"x": 300, "y": 370, "w": 260, "h": 150, "label": "DRAG TIMER", "color": "#00d9ff", "visible": False, "label_visible": True, "label_auto": True},
     }
 }
 
-CARD_LABELS = {"speed":"Speed","rpm":"RPM","gear":"Gear","power":"Power","boost":"Boost","grip":"Grip Warning"}
+CARD_LABELS = {"speed":"Speed","rpm":"RPM","gear":"Gear","power":"Power","boost":"Boost","grip":"Grip Warning","tachometer":"RPM Gauge / Tachometer","drag_timer":"Drag Timer Overlay"}
 
 
 def deep_copy(obj):
@@ -622,23 +626,70 @@ def grip_warning_state(tel):
         return {"text": "GRIP ERR", "percent": 0, "color": "#ff1e1e", "severity": 4, "blink": True}
 
 
+def get_overlay_screen(config):
+    """
+    Returns the selected screen for the overlay.
+    -1 = primary monitor
+     0+ = QApplication.screens()[index]
+    Falls back to primary if the saved monitor index is invalid.
+    """
+    try:
+        screens = QApplication.screens()
+        saved = int(config.get("overlay_monitor_index", -1))
+        if saved >= 0 and saved < len(screens):
+            return screens[saved]
+        return QApplication.primaryScreen() or (screens[0] if screens else None)
+    except Exception as exc:
+        log_error("get_overlay_screen", exc)
+        try:
+            return QApplication.primaryScreen()
+        except Exception:
+            return None
+
+def overlay_screen_label(index, screen):
+    try:
+        geo = screen.geometry()
+        name = screen.name() if hasattr(screen, "name") else ""
+        prefix = "Primary Monitor" if index == -1 else f"Monitor {index + 1}"
+        if name:
+            return f"{prefix} · {name} · {geo.width()}x{geo.height()}"
+        return f"{prefix} · {geo.width()}x{geo.height()}"
+    except Exception:
+        return "Monitor"
+
+
 class Card:
     def __init__(self, key, cfg):
         self.key = key
         self.cfg = cfg
         self.drag_offset = QPoint(0,0)
 
+    def _scale(self):
+        try:
+            return float(self.cfg.get("_global_config", {}).get("scale", 1.0))
+        except Exception:
+            return 1.0
+
     @property
     def rect(self):
         return QRectF(float(self.cfg["x"]), float(self.cfg["y"]), float(self.cfg["w"]), float(self.cfg["h"]))
 
+    def draw_rect(self):
+        s = self._scale()
+        return QRectF(
+            float(self.cfg["x"]) * s,
+            float(self.cfg["y"]) * s,
+            float(self.cfg["w"]) * s,
+            float(self.cfg["h"]) * s
+        )
+
     def contains(self, p):
-        return self.rect.contains(float(p.x()), float(p.y()))
+        return self.draw_rect().contains(float(p.x()), float(p.y()))
 
     def value(self, tel):
         cfg = self.cfg.get("_global_config", {})
         if tel is None:
-            return {"speed":"0","rpm":"0","gear":"N","power":"0","boost":"0.00","grip":"--"}.get(self.key,"-")
+            return {"speed":"0","rpm":"0","gear":"N","power":"0","boost":"0.00","grip":"--","tachometer":"0","drag_timer":"DRAG"}.get(self.key,"-")
         try:
             if self.key == "speed":
                 return f"{speed_value(tel, cfg):.0f}"
@@ -655,6 +706,8 @@ class Card:
             if self.key == "grip":
                 state = grip_warning_state(tel)
                 return f"{state['percent']}%"
+            if self.key == "tachometer":
+                return f"{getattr(tel, 'rpm', 0):.0f}"
         except Exception as exc:
             log_error("Card.value", exc)
             return "-"
@@ -755,22 +808,48 @@ class OverlayWindow(QWidget):
         for c in reversed(list(self.cards.values())):
             if c.cfg.get("visible", True) and c.contains(pos):
                 self.selected = c
-                r = c.rect
+                r = c.draw_rect()
                 c.drag_offset = QPoint(int(pos.x()-r.x()), int(pos.y()-r.y()))
                 return
 
     def mouseMoveEvent(self, event):
         if not self.config.get("edit_mode", True) or not self.selected:
             return
-        pos = event.position().toPoint()
-        self.selected.cfg["x"] = int(pos.x() - self.selected.drag_offset.x())
-        self.selected.cfg["y"] = int(pos.y() - self.selected.drag_offset.y())
-        self.update()
+        try:
+            pos = event.position().toPoint()
+            scale = max(0.1, float(self.config.get("scale", 1.0)))
+            new_x = int((pos.x() - self.selected.drag_offset.x()) / scale)
+            new_y = int((pos.y() - self.selected.drag_offset.y()) / scale)
+
+            # Important:
+            # Card.cfg is a draw-time copy. The real persistent data lives in
+            # manager.config["cards"][key]. Update both, otherwise Save Layout
+            # writes the old coordinates and tiles jump back after restart.
+            self.selected.cfg["x"] = new_x
+            self.selected.cfg["y"] = new_y
+
+            key = self.selected.key
+            if key in self.manager.config.get("cards", {}):
+                self.manager.config["cards"][key]["x"] = new_x
+                self.manager.config["cards"][key]["y"] = new_y
+
+            self.config = self.manager.config
+            self.update()
+        except Exception as exc:
+            log_error("OverlayWindow.mouseMoveEvent", exc)
 
     def mouseReleaseEvent(self, event):
         if self.selected:
-            save_config(self.config)
-            self.manager.reload_forms_from_config()
+            try:
+                key = self.selected.key
+                if key in self.manager.config.get("cards", {}):
+                    self.manager.config["cards"][key]["x"] = int(self.selected.cfg.get("x", self.manager.config["cards"][key].get("x", 0)))
+                    self.manager.config["cards"][key]["y"] = int(self.selected.cfg.get("y", self.manager.config["cards"][key].get("y", 0)))
+                save_config(self.manager.config)
+                self.config = self.manager.config
+                self.manager.reload_forms_from_config()
+            except Exception as exc:
+                log_error("OverlayWindow.mouseReleaseEvent", exc)
         self.selected = None
 
     def paintEvent(self, event):
@@ -793,55 +872,273 @@ class OverlayWindow(QWidget):
         p.setFont(QFont("Segoe UI", 8))
         p.drawText(18, 48, f"UDP {self.config['udp_port']} | Raw {r.raw_count} | Parsed {r.parsed_count} | {r.last_sender}")
 
-    def draw_card(self, p, c):
-        scale = float(self.config["scale"])
-        r = c.rect
-        x, y, w, h = r.x(), r.y(), r.width()*scale, r.height()*scale
-        col = QColor(c.cfg["color"])
-        grip_state = None
-        if c.key == "grip":
-            grip_state = grip_warning_state(self.telemetry)
-            col = QColor(grip_state.get("color", c.cfg["color"]))
-            if grip_state.get("blink", False) and int(time.time() * 7) % 2 == 0:
-                col = QColor(255, 255, 255)
-        rect = QRectF(x,y,w,h)
-        p.setPen(Qt.PenStyle.NoPen)
-        p.setBrush(QBrush(QColor(0,0,0,min(220,int(self.config["background_alpha"])+45))))
-        p.drawRoundedRect(rect.adjusted(6,6,6,6), 17, 17)
-        p.setPen(QPen(QColor(col.red(), col.green(), col.blue(), 230), 2))
-        p.setBrush(QBrush(QColor(2,8,14,int(self.config["background_alpha"]))))
-        p.drawRoundedRect(rect, 16, 16)
-        p.setPen(QPen(col, 4))
-        p.drawLine(int(x+14), int(y+18), int(x+14), int(y+h-18))
-        fs = int((34 if c.key == "rpm" else 38) * scale)
-        p.setFont(QFont(self.config["font_family"], fs, QFont.Weight.Bold))
-        p.setPen(QColor(235,250,255) if c.key == "speed" else col)
-        if c.key == "grip" and grip_state is not None:
-            p.drawText(QRectF(x+45,y+4,w-65,h*0.45), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, c.value(self.telemetry))
-            p.setFont(QFont(self.config["font_family"], int(15*scale), QFont.Weight.Bold))
-            p.setPen(col)
-            p.drawText(QRectF(x+45,y+38,w-65,h*0.35), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, grip_state.get("text", "GRIP"))
-        else:
-            p.drawText(QRectF(x+45,y+8,w-65,h*0.62), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, c.value(self.telemetry))
-        p.setFont(QFont(self.config["font_family"], int(15*scale), QFont.Weight.Bold))
-        p.setPen(col)
-        label = c.cfg.get("label", c.key.upper())
-        cfg = c.cfg.get("_global_config", {})
-        if c.key == "speed":
-            label = speed_label(cfg)
-        elif c.key == "power":
-            label = power_label(cfg)
-        elif c.key == "boost":
-            label = boost_label(cfg)
-        elif c.key == "gear":
-            label = cfg.get("gear_label", "GEAR")
-        elif c.key == "grip":
-            label = "WARNING TILE"
-        p.drawText(QRectF(x+47,y+h-35,w-60,32), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, label)
-        p.setPen(QPen(QColor(col.red(), col.green(), col.blue(), 160), 2))
-        p.setBrush(Qt.BrushStyle.NoBrush)
-        p.drawEllipse(QRectF(x+w-42, y+14, 26, 26))
+    def draw_drag_timer_card(self, p, c):
+        try:
+            scale = float(self.config.get("scale", 1.0))
+            rect = c.draw_rect()
+            x, y, w, h = rect.x(), rect.y(), rect.width(), rect.height()
+            col = QColor(c.cfg.get("color", "#00d9ff"))
+            bg_alpha = int(self.config.get("background_alpha", 115))
 
+            # Very light glass panel, as requested: mirror of existing Drag Timer.
+            radius = max(8, int(14 * scale))
+            p.setPen(QPen(QColor(col.red(), col.green(), col.blue(), 115), max(1, int(1.4 * scale))))
+            p.setBrush(QBrush(QColor(2, 8, 14, max(35, min(135, bg_alpha)))))
+            p.drawRoundedRect(rect, radius, radius)
+
+            title = c.cfg.get("label", "DRAG TIMER") if not bool(c.cfg.get("label_auto", True)) else "DRAG TIMER"
+            if bool(c.cfg.get("label_visible", True)):
+                p.setFont(QFont(self.config.get("font_family", "Segoe UI"), max(8, int(h * 0.13)), QFont.Weight.Bold))
+                p.setPen(QColor(col.red(), col.green(), col.blue(), 220))
+                p.drawText(QRectF(x + 10*scale, y + 5*scale, w - 20*scale, h * 0.18), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, title)
+
+            live = getattr(self.manager, "drag_overlay_times", {}) or {}
+            record = getattr(self.manager, "drag_overlay_record_times", {}) or {}
+            recording = bool(getattr(self.manager, "drag_overlay_recording", False))
+
+            # Prefer current live times. If there are no live times yet, show last record results.
+            source = live if live else record
+            status = "REC" if recording else ("LIVE" if live else "WAIT")
+
+            rows = ["0-100", "0-200", "100-200", "200-300"]
+            top = y + (h * 0.23 if bool(c.cfg.get("label_visible", True)) else h * 0.10)
+            row_h = max(18, (h - (top - y) - 12*scale) / 4.0)
+
+            p.setFont(QFont(self.config.get("font_family", "Segoe UI"), max(8, int(row_h * 0.48)), QFont.Weight.Bold))
+            for i, key in enumerate(rows):
+                yy = top + i * row_h
+                val = source.get(key)
+                val_txt = f"{val:.2f}s" if isinstance(val, (int, float)) else "--"
+                p.setPen(QColor(220, 245, 255, 210))
+                p.drawText(QRectF(x + 12*scale, yy, w * 0.48, row_h), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, key)
+                p.setPen(col if isinstance(val, (int, float)) else QColor(160, 175, 185, 170))
+                p.drawText(QRectF(x + w * 0.48, yy, w * 0.42, row_h), Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter, val_txt)
+
+            p.setFont(QFont(self.config.get("font_family", "Segoe UI"), max(6, int(h * 0.075)), QFont.Weight.Bold))
+            p.setPen(QColor(col.red(), col.green(), col.blue(), 150))
+            p.drawText(QRectF(x + 10*scale, y + h - 20*scale, w - 20*scale, 16*scale), Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter, status)
+
+            if self.config.get("edit_mode", True):
+                handle = max(10, int(20 * scale))
+                p.setPen(QPen(QColor(col.red(), col.green(), col.blue(), 75), max(1, int(2 * scale))))
+                p.setBrush(Qt.BrushStyle.NoBrush)
+                p.drawEllipse(QRectF(x + w - handle - 8 * scale, y + 8 * scale, handle, handle))
+        except Exception as exc:
+            log_error("OverlayWindow.draw_drag_timer_card", exc)
+
+    def draw_tachometer_card(self, p, c):
+        try:
+            scale = float(self.config.get("scale", 1.0))
+            rect = c.draw_rect()
+            x, y, w, h = rect.x(), rect.y(), rect.width(), rect.height()
+            size = min(w, h)
+            cx = x + w / 2
+            cy = y + h / 2
+            radius = size * 0.42
+
+            col = QColor(c.cfg.get("color", "#ff6a00"))
+            bg_alpha = int(self.config.get("background_alpha", 115))
+
+            rpm = 0.0
+            max_rpm = 9000.0
+            gear = "N"
+            if self.telemetry is not None:
+                try:
+                    rpm = float(getattr(self.telemetry, "rpm", 0.0) or 0.0)
+                    max_rpm = float(getattr(self.telemetry, "max_rpm", 0.0) or 0.0)
+                    if max_rpm <= 1000:
+                        max_rpm = 9000.0
+                    g = getattr(self.telemetry, "gear", 0)
+                    gear = "R/N" if g == 0 else str(g)
+                except Exception:
+                    pass
+
+            pct = max(0.0, min(1.0, rpm / max_rpm))
+            start_angle = 225.0
+            sweep = 270.0
+            needle_angle = start_angle - sweep * pct
+
+            # outer glass panel
+            p.setPen(Qt.PenStyle.NoPen)
+            p.setBrush(QBrush(QColor(0, 0, 0, min(210, bg_alpha + 35))))
+            p.drawRoundedRect(rect, max(12, int(18 * scale)), max(12, int(18 * scale)))
+
+            # dial background
+            p.setBrush(QBrush(QColor(2, 8, 14, min(230, bg_alpha + 25))))
+            p.setPen(QPen(QColor(col.red(), col.green(), col.blue(), 130), max(1, int(2 * scale))))
+            p.drawEllipse(QPointF(cx, cy), radius, radius)
+
+            # arc helper
+            arc_rect = QRectF(cx - radius, cy - radius, radius * 2, radius * 2)
+            p.setPen(QPen(QColor(70, 80, 90, 150), max(4, int(8 * scale))))
+            p.drawArc(arc_rect, int((start_angle - sweep) * 16), int(sweep * 16))
+
+            p.setPen(QPen(col, max(4, int(8 * scale))))
+            p.drawArc(arc_rect, int((start_angle - sweep * pct) * 16), int((sweep * pct) * 16))
+
+            # redline last 15%
+            p.setPen(QPen(QColor(255, 30, 30, 190), max(3, int(5 * scale))))
+            p.drawArc(arc_rect.adjusted(8*scale,8*scale,-8*scale,-8*scale), int((start_angle - sweep) * 16), int((sweep * 0.15) * 16))
+
+            # ticks and numbers
+            p.setFont(QFont(self.config.get("font_family", "Segoe UI"), max(6, int(size * 0.045)), QFont.Weight.Bold))
+            for i in range(0, 11):
+                t = i / 10.0
+                ang = start_angle - sweep * t
+                rad = math.radians(ang)
+                outer = radius * 0.92
+                inner = radius * (0.78 if i % 2 == 0 else 0.84)
+                x1 = cx + math.cos(rad) * inner
+                y1 = cy - math.sin(rad) * inner
+                x2 = cx + math.cos(rad) * outer
+                y2 = cy - math.sin(rad) * outer
+                p.setPen(QPen(QColor(230, 250, 255, 180), max(1, int(2 * scale))))
+                p.drawLine(QPointF(x1, y1), QPointF(x2, y2))
+                if i % 2 == 0:
+                    num = int((max_rpm / 1000.0) * t)
+                    tx = cx + math.cos(rad) * radius * 0.62
+                    ty = cy - math.sin(rad) * radius * 0.62
+                    p.setPen(QColor(230, 250, 255, 190))
+                    p.drawText(QRectF(tx - 18, ty - 9, 36, 18), Qt.AlignmentFlag.AlignCenter, str(num))
+
+            # needle
+            rad = math.radians(needle_angle)
+            nx = cx + math.cos(rad) * radius * 0.72
+            ny = cy - math.sin(rad) * radius * 0.72
+            p.setPen(QPen(QColor(255, 255, 255, 230), max(2, int(3 * scale))))
+            p.drawLine(QPointF(cx, cy), QPointF(nx, ny))
+            p.setBrush(QBrush(col))
+            p.setPen(Qt.PenStyle.NoPen)
+            p.drawEllipse(QPointF(cx, cy), max(5, int(7 * scale)), max(5, int(7 * scale)))
+
+            # central values
+            p.setFont(QFont(self.config.get("font_family", "Segoe UI"), max(14, int(size * 0.13)), QFont.Weight.Bold))
+            p.setPen(col)
+            p.drawText(QRectF(x, cy - size * 0.10, w, size * 0.16), Qt.AlignmentFlag.AlignCenter, f"{rpm:.0f}")
+            p.setFont(QFont(self.config.get("font_family", "Segoe UI"), max(7, int(size * 0.055)), QFont.Weight.Bold))
+            p.setPen(QColor(230, 250, 255, 210))
+            p.drawText(QRectF(x, cy + size * 0.04, w, size * 0.08), Qt.AlignmentFlag.AlignCenter, "RPM")
+
+            p.setFont(QFont(self.config.get("font_family", "Segoe UI"), max(9, int(size * 0.08)), QFont.Weight.Bold))
+            p.setPen(QColor(85, 255, 0, 220))
+            p.drawText(QRectF(x, cy + size * 0.13, w, size * 0.10), Qt.AlignmentFlag.AlignCenter, f"GEAR {gear}")
+
+            if bool(c.cfg.get("label_visible", True)):
+                label = c.cfg.get("label", "RPM GAUGE") if not bool(c.cfg.get("label_auto", True)) else "RPM GAUGE"
+                p.setFont(QFont(self.config.get("font_family", "Segoe UI"), max(7, int(size * 0.05)), QFont.Weight.Bold))
+                p.setPen(QColor(230, 250, 255, 180))
+                p.drawText(QRectF(x, y + h - size * 0.13, w, size * 0.08), Qt.AlignmentFlag.AlignCenter, label)
+
+            # subtle edit handle only in edit mode
+            if self.config.get("edit_mode", True):
+                handle = max(10, int(22 * scale))
+                p.setPen(QPen(QColor(col.red(), col.green(), col.blue(), 90), max(1, int(2 * scale))))
+                p.setBrush(Qt.BrushStyle.NoBrush)
+                p.drawEllipse(QRectF(x + w - handle - 10 * scale, y + 10 * scale, handle, handle))
+        except Exception as exc:
+            log_error("OverlayWindow.draw_tachometer_card", exc)
+
+    def draw_card(self, p, c):
+        try:
+            if c.key == "drag_timer":
+                self.draw_drag_timer_card(p, c)
+                return
+            if c.key == "tachometer":
+                self.draw_tachometer_card(p, c)
+                return
+            scale = float(self.config.get("scale", 1.0))
+            rect = c.draw_rect()
+            x, y, w, h = rect.x(), rect.y(), rect.width(), rect.height()
+
+            col = QColor(c.cfg.get("color", "#ffffff"))
+            grip_state = None
+            if c.key == "grip":
+                grip_state = grip_warning_state(self.telemetry)
+                col = QColor(grip_state.get("color", c.cfg.get("color", "#00ff99")))
+                if grip_state.get("blink", False) and int(time.time() * 7) % 2 == 0:
+                    col = QColor(255, 255, 255)
+
+            # Dynamic dimensions: fixes small HUD scale overlap.
+            radius = max(8, int(16 * scale))
+            shadow = max(2, int(6 * scale))
+            left_bar_x = x + max(7, 14 * scale)
+            left_bar_top = y + max(8, 18 * scale)
+            left_bar_bottom = y + h - max(8, 18 * scale)
+            left_pad = max(30, int(45 * scale))
+            right_pad = max(12, int(22 * scale))
+
+            p.setPen(Qt.PenStyle.NoPen)
+            p.setBrush(QBrush(QColor(0, 0, 0, min(220, int(self.config.get("background_alpha", 115)) + 45))))
+            p.drawRoundedRect(rect.adjusted(shadow, shadow, shadow, shadow), radius, radius)
+
+            p.setPen(QPen(QColor(col.red(), col.green(), col.blue(), 230), max(1, int(2 * scale))))
+            p.setBrush(QBrush(QColor(2, 8, 14, int(self.config.get("background_alpha", 115)))))
+            p.drawRoundedRect(rect, radius, radius)
+
+            p.setPen(QPen(col, max(2, int(4 * scale))))
+            p.drawLine(int(left_bar_x), int(left_bar_top), int(left_bar_x), int(left_bar_bottom))
+
+            # Font sizes are based on actual scaled tile height, not fixed constants.
+            if c.key == "rpm":
+                value_font = int(max(15, min(42, h * 0.36)))
+            elif c.key == "grip":
+                value_font = int(max(14, min(34, h * 0.34)))
+            else:
+                value_font = int(max(16, min(44, h * 0.40)))
+            label_font = int(max(8, min(16, h * 0.17)))
+
+            value_rect = QRectF(x + left_pad, y + max(2, 4 * scale), max(10, w - left_pad - right_pad), h * 0.58)
+
+            p.setFont(QFont(self.config.get("font_family", "Segoe UI"), value_font, QFont.Weight.Bold))
+            p.setPen(QColor(235, 250, 255) if c.key == "speed" else col)
+
+            if c.key == "grip" and grip_state is not None:
+                p.drawText(value_rect, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, c.value(self.telemetry))
+                p.setFont(QFont(self.config.get("font_family", "Segoe UI"), max(8, int(label_font)), QFont.Weight.Bold))
+                p.setPen(col)
+                sub_rect = QRectF(x + left_pad, y + h * 0.45, max(10, w - left_pad - right_pad), h * 0.25)
+                p.drawText(sub_rect, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, grip_state.get("text", "GRIP"))
+            else:
+                p.drawText(value_rect, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, c.value(self.telemetry))
+
+            # Label handling:
+            # - label_visible False = no label
+            # - label_auto True = unit-aware default labels
+            # - label_auto False = custom text from Tiles tab
+            show_label = bool(c.cfg.get("label_visible", True))
+            if show_label:
+                cfg = c.cfg.get("_global_config", {})
+                if bool(c.cfg.get("label_auto", True)):
+                    if c.key == "speed":
+                        label = speed_label(cfg)
+                    elif c.key == "power":
+                        label = power_label(cfg)
+                    elif c.key == "boost":
+                        label = boost_label(cfg)
+                    elif c.key == "gear":
+                        label = cfg.get("gear_label", "GEAR")
+                    elif c.key == "grip":
+                        label = "GRIP"
+                    else:
+                        label = c.cfg.get("label", c.key.upper())
+                else:
+                    label = str(c.cfg.get("label", "")).strip()
+
+                if label:
+                    p.setFont(QFont(self.config.get("font_family", "Segoe UI"), label_font, QFont.Weight.Bold))
+                    p.setPen(col)
+                    label_h = max(12, h * 0.24)
+                    label_rect = QRectF(x + left_pad, y + h - label_h - max(2, 4 * scale), max(10, w - left_pad - right_pad), label_h)
+                    p.drawText(label_rect, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, label)
+
+            # Edit handle: only visible while edit mode is enabled, much less intrusive.
+            if self.config.get("edit_mode", True):
+                handle_size = max(10, int(24 * scale))
+                p.setPen(QPen(QColor(col.red(), col.green(), col.blue(), 95), max(1, int(2 * scale))))
+                p.setBrush(Qt.BrushStyle.NoBrush)
+                p.drawEllipse(QRectF(x + w - handle_size - max(7, 10 * scale), y + max(7, 10 * scale), handle_size, handle_size))
+        except Exception as exc:
+            log_error("OverlayWindow.draw_card", exc)
 
 
 class DynoGraph(QWidget):
@@ -1610,6 +1907,7 @@ class PrototypeLabTab(QWidget):
         self.drag_start_time = None
         self.drag_times = {}
         self.drag_record_times = {}
+        self.performance_summary_text = ""
 
         self._last_update = 0.0
         self._last_live_graph_update = 0.0
@@ -1641,6 +1939,7 @@ class PrototypeLabTab(QWidget):
         self.build_grip_section(outer)
         self.build_hints_section(outer)
         self.build_session_section(outer)
+        self.build_performance_summary_section(outer)
         self.build_presets_section(outer)
         self.build_profiles_section(outer)
         self.build_support_section(outer)
@@ -1797,6 +2096,42 @@ class PrototypeLabTab(QWidget):
 
         row.addStretch(1)
 
+    def build_performance_summary_section(self, outer):
+        box = QGroupBox("Vehicle Analysis / Performance Summary")
+        box.setStyleSheet(self._section_style())
+        layout = QVBoxLayout(box)
+        outer.addWidget(box)
+
+        hint = QLabel("Local telemetry-based summary. ONYX only reads telemetry values; it does not know your installed tuning parts.")
+        hint.setWordWrap(True)
+        layout.addWidget(hint)
+
+        self.lbl_performance_summary = QLabel("No analysis yet. Run telemetry, then press Analyze Current Session.")
+        self.lbl_performance_summary.setWordWrap(True)
+        self.lbl_performance_summary.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        self.lbl_performance_summary.setStyleSheet(
+            "font-weight:600; color:#d9f7ff; background:rgba(2,8,14,120); "
+            "border:1px solid rgba(0,217,255,80); border-radius:10px; padding:10px;"
+        )
+        layout.addWidget(self.lbl_performance_summary)
+
+        row = QHBoxLayout()
+        layout.addLayout(row)
+
+        self.btn_analyze_summary = QPushButton("Analyze Current Session")
+        self.btn_analyze_summary.clicked.connect(self.analyze_performance_summary)
+        row.addWidget(self.btn_analyze_summary)
+
+        self.btn_copy_summary = QPushButton("Copy Summary")
+        self.btn_copy_summary.clicked.connect(self.copy_performance_summary)
+        row.addWidget(self.btn_copy_summary)
+
+        self.btn_reset_summary = QPushButton("Reset Summary")
+        self.btn_reset_summary.clicked.connect(self.reset_performance_summary)
+        row.addWidget(self.btn_reset_summary)
+
+        row.addStretch(1)
+
     def build_presets_section(self, outer):
         box = QGroupBox("HUD Presets")
         box.setStyleSheet(self._section_style())
@@ -1920,6 +2255,11 @@ class PrototypeLabTab(QWidget):
                             low_key = f"0-{low}"
                             if low_key in self.drag_times and speed_kmh >= high:
                                 self.drag_times[key] = getattr(t, "timestamp", time.time()) - (self.drag_start_time + self.drag_times[low_key])
+
+            self.manager.drag_overlay_times = dict(self.drag_times)
+            self.manager.drag_overlay_recording = bool(self.drag_recording)
+            if self.manager.overlay:
+                self.manager.overlay.update()
         except Exception as exc:
             log_error("PerformanceLabTab.update_drag_live", exc)
 
@@ -1934,7 +2274,11 @@ class PrototypeLabTab(QWidget):
             else:
                 self.btn_drag_toggle.setText("Start Drag Record")
                 self.compute_drag_record_times()
+                self.manager.drag_overlay_record_times = dict(self.drag_record_times)
+                self.manager.drag_overlay_recording = False
                 self.update_all_labels()
+                if self.manager.overlay:
+                    self.manager.overlay.update()
         except Exception as exc:
             log_error("PerformanceLabTab.toggle_drag_record", exc)
 
@@ -1980,8 +2324,13 @@ class PrototypeLabTab(QWidget):
         self.drag_recording = False
         self.drag_active = False
         self.drag_start_time = None
+        self.manager.drag_overlay_times = {}
+        self.manager.drag_overlay_record_times = {}
+        self.manager.drag_overlay_recording = False
         self.btn_drag_toggle.setText("Start Drag Record")
         self.update_all_labels()
+        if self.manager.overlay:
+            self.manager.overlay.update()
 
     # ---------- grip ----------
     def grip_status_for(self, s):
@@ -2123,6 +2472,237 @@ class PrototypeLabTab(QWidget):
         self.lbl_session_record.setText("Session Record: stopped")
         self.update_all_labels()
 
+    # ---------- performance summary ----------
+    def _pick_line(self, lines):
+        try:
+            return random.choice(lines)
+        except Exception:
+            return lines[0] if lines else ""
+
+    def _fmt_time(self, val):
+        return f"{val:.2f}s" if isinstance(val, (int, float)) else "-"
+
+    def build_performance_summary_text(self, samples):
+        if not samples:
+            return "No telemetry samples available yet. Drive for a bit or start a session record first."
+
+        cfg = self.manager.config
+        source = samples[-12000:]
+
+        peak_speed_s = max(source, key=lambda s: getattr(s, "speed_kmh", 0.0))
+        peak_power_s = max(source, key=lambda s: power_value(s, cfg))
+        peak_boost_s = max(source, key=lambda s: boost_value(s, cfg))
+        peak_rpm_s = max(source, key=lambda s: getattr(s, "rpm", 0.0))
+
+        peak_speed = speed_value(peak_speed_s, cfg)
+        peak_power = power_value(peak_power_s, cfg)
+        peak_boost = boost_value(peak_boost_s, cfg)
+        peak_rpm = float(getattr(peak_rpm_s, "rpm", 0.0) or 0.0)
+
+        speeds_kmh = [float(getattr(s, "speed_kmh", 0.0) or 0.0) for s in source]
+        avg_speed_kmh = sum(speeds_kmh) / max(1, len(speeds_kmh))
+        throttles = [float(getattr(s, "throttle_pct", 0.0) or 0.0) for s in source]
+        avg_throttle = sum(throttles) / max(1, len(throttles))
+
+        front_slips = [float(getattr(s, "front_combined_slip", 0.0) or 0.0) for s in source]
+        rear_slips = [float(getattr(s, "rear_combined_slip", 0.0) or 0.0) for s in source]
+        avg_front = sum(front_slips) / max(1, len(front_slips))
+        avg_rear = sum(rear_slips) / max(1, len(rear_slips))
+        max_front = max(front_slips) if front_slips else 0.0
+        max_rear = max(rear_slips) if rear_slips else 0.0
+
+        drag_times = dict(self.drag_times or {})
+        if not drag_times:
+            drag_times = self.calc_drag_times_for_samples(source)
+
+        hints = self.make_hints_for_samples(source)
+        grip_text = self.build_grip_analysis(source)
+
+        car_id = None
+        for attr in ["car_ordinal", "CarOrdinal", "carOrdinal"]:
+            if hasattr(source[-1], attr):
+                try:
+                    car_id = getattr(source[-1], attr)
+                    break
+                except Exception:
+                    pass
+
+        # Conservative local scoring. No claims about installed parts.
+        score = 50
+        if peak_speed > 250: score += 10
+        if peak_speed > 320: score += 8
+        if peak_power > 450: score += 10
+        if peak_power > 800: score += 8
+        if "0-100" in drag_times:
+            if drag_times["0-100"] <= 3.5: score += 12
+            elif drag_times["0-100"] <= 5.0: score += 7
+            elif drag_times["0-100"] >= 8.0: score -= 12
+        if "100-200" in drag_times:
+            if drag_times["100-200"] <= 5.5: score += 10
+            elif drag_times["100-200"] >= 10.0: score -= 10
+        if avg_rear > 1.2 or avg_front > 1.2: score -= 10
+        if max_rear > 2.3 or max_front > 2.3: score -= 8
+        if avg_throttle > 70 and peak_speed < 180: score -= 8
+        score = max(0, min(100, int(score)))
+
+        if score >= 82:
+            verdict_pool = [
+                "Overall: Strong setup. The car looks quick and reasonably controlled.",
+                "Overall: This run looks solid. The telemetry shows good pace without obvious chaos.",
+                "Overall: The car is doing well. Most improvements from here are probably fine-tuning, not a full rebuild.",
+                "Overall: This one actually cooks. The data shows a strong baseline."
+            ]
+        elif score >= 65:
+            verdict_pool = [
+                "Overall: Good baseline. The car performs well, but there is still room for cleaner execution.",
+                "Overall: The setup looks usable and competitive, with a few areas worth checking.",
+                "Overall: Not bad at all. The car has pace, but some telemetry hints suggest polish work.",
+                "Overall: The car looks decent. Nothing screams broken, but it can still be sharpened."
+            ]
+        elif score >= 45:
+            verdict_pool = [
+                "Overall: Mixed run. The car has usable performance, but the data shows wasted potential.",
+                "Overall: The car is not terrible, but the telemetry does not call it properly dialed in yet.",
+                "Overall: This looks like a work-in-progress setup. It moves, but it does not look fully clean.",
+                "Overall: The setup has potential, but the run shows some efficiency problems."
+            ]
+        else:
+            verdict_pool = [
+                "Overall: Weak run. The car is trying, but the telemetry says it needs setup work.",
+                "Overall: This setup is fighting itself. There is too much input for too little clean result.",
+                "Overall: The car is usable, but the data does not look competitive yet.",
+                "Overall: This looks more like a learning run than a winning run."
+            ]
+
+        positives = []
+        if peak_power > 500:
+            positives.append(self._pick_line([
+                "Power output looks healthy based on the recorded peak.",
+                "The car has enough output to make the run interesting.",
+                "Peak power is not the obvious weak point here."
+            ]))
+        if peak_speed > 250:
+            positives.append(self._pick_line([
+                "Top speed behavior looks respectable.",
+                "The car is capable of building serious speed.",
+                "High-speed potential is present."
+            ]))
+        if avg_rear < 0.8 and avg_front < 0.8:
+            positives.append(self._pick_line([
+                "Grip behavior looks controlled in the recorded data.",
+                "The car does not appear to waste much power through slip.",
+                "Traction looks reasonably stable during this sample."
+            ]))
+        if not hints:
+            positives.append("No major telemetry warning stood out during the analyzed sample.")
+
+        issues = []
+        if avg_rear > avg_front * 1.25 and avg_rear > 0.9:
+            issues.append("Rear slip is higher than front slip. The car may be traction-limited under throttle.")
+        if avg_front > avg_rear * 1.25 and avg_front > 0.9:
+            issues.append("Front slip is higher than rear slip. The car may be pushing wide or overloading the front.")
+        if max_rear > 2.3:
+            issues.append("Critical rear slip spikes were detected. That can hurt launch and acceleration consistency.")
+        if max_front > 2.3:
+            issues.append("Critical front slip spikes were detected. That can make the car less predictable.")
+        if avg_throttle > 70 and peak_speed < 180:
+            issues.append("Throttle input was high, but speed gain looked limited. This may point to grip, gearing, or test conditions.")
+        if "0-100" in drag_times and drag_times["0-100"] > 6.5:
+            issues.append("0-100 time looks slow for an acceleration test. Launch grip, gearing, or throttle control may be limiting it.")
+        if "100-200" in drag_times and drag_times["100-200"] > 9.5:
+            issues.append("100-200 pull looks weak. Mid-range acceleration may need attention.")
+
+        if not issues:
+            issues.append("No major problem was detected. Any changes should be small and tested one at a time.")
+
+        suggestions = []
+        if avg_rear > 1.0:
+            suggestions.append("If traction is the goal, check rear grip balance, differential behavior, tire pressure, and launch input.")
+        if avg_front > 1.0:
+            suggestions.append("If the car pushes wide, check front grip balance, tire pressure, suspension stiffness, or aero balance.")
+        if "100-200" in drag_times and drag_times["100-200"] > 9.5:
+            suggestions.append("For better mid-range pull, check gearing before assuming the car needs more parts.")
+        if not suggestions:
+            suggestions.append("If you want to improve it further, focus on fine-tuning: gearing, tire pressure, differential, suspension, and repeatable test runs.")
+        suggestions.append("ONYX only sees telemetry. It does not know which engine parts or upgrades are installed, so treat this as tuning feedback, not a parts shopping list.")
+
+        funny_line = self._pick_line([
+            "Telemetry mood: the car is either cooking or politely asking for another tuning pass.",
+            "ONYX verdict style: not magic, just telemetry being brutally honest.",
+            "The graph does not lie, but it also does not know your full build sheet.",
+            "If this was not a clean straight run, retest before bullying the car too hard.",
+            "This is tuning territory: change one thing, test again, then blame the car."
+        ])
+
+        lines = []
+        lines.append("VEHICLE ANALYSIS / PERFORMANCE SUMMARY")
+        lines.append("=" * 48)
+        lines.append(self._pick_line(verdict_pool))
+        lines.append("")
+        lines.append(f"Telemetry Score: {score}/100")
+        if car_id is not None:
+            lines.append(f"Detected Car ID: {car_id}")
+        else:
+            lines.append("Detected Car ID: unavailable")
+        lines.append(f"Samples analyzed: {len(source)}")
+        lines.append("")
+        lines.append("Peaks:")
+        lines.append(f"- Peak Speed: {peak_speed:.1f} {speed_label(cfg)}")
+        lines.append(f"- Peak RPM: {peak_rpm:.0f}")
+        lines.append(f"- Peak {power_label(cfg)}: {peak_power:.1f}")
+        lines.append(f"- Peak Boost: {peak_boost:.2f} {boost_label(cfg)}")
+        lines.append("")
+        lines.append("Drag:")
+        for key in ["0-100", "0-200", "100-200", "200-300"]:
+            lines.append(f"- {key}: {self._fmt_time(drag_times.get(key))}")
+        lines.append("")
+        lines.append("What looks good:")
+        for p in positives[:4] or ["The car produced usable telemetry data for analysis."]:
+            lines.append(f"- {p}")
+        lines.append("")
+        lines.append("What needs attention:")
+        for issue in issues[:5]:
+            lines.append(f"- {issue}")
+        lines.append("")
+        lines.append("Grip summary:")
+        lines.append(f"- {grip_text}")
+        lines.append("")
+        lines.append("Suggestions:")
+        for s in suggestions[:5]:
+            lines.append(f"- {s}")
+        if hints:
+            lines.append("")
+            lines.append("Smart hints:")
+            for h in hints[:4]:
+                lines.append(f"- {h}")
+        lines.append("")
+        lines.append(f"Note: {funny_line}")
+
+        return "\n".join(lines)
+
+    def analyze_performance_summary(self):
+        try:
+            samples = self.session_samples if self.session_samples else self.samples
+            text = self.build_performance_summary_text(samples)
+            self.performance_summary_text = text
+            self.lbl_performance_summary.setText(text)
+        except Exception as exc:
+            log_error("PerformanceLabTab.analyze_performance_summary", exc)
+            QMessageBox.warning(self, "Error", "Could not analyze current session.")
+
+    def copy_performance_summary(self):
+        try:
+            text = self.performance_summary_text or self.lbl_performance_summary.text()
+            QApplication.clipboard().setText(text)
+            QMessageBox.information(self, "Copied", "Performance summary copied to clipboard.")
+        except Exception as exc:
+            log_error("PerformanceLabTab.copy_performance_summary", exc)
+
+    def reset_performance_summary(self):
+        self.performance_summary_text = ""
+        if hasattr(self, "lbl_performance_summary"):
+            self.lbl_performance_summary.setText("No analysis yet. Run telemetry, then press Analyze Current Session.")
+
     def export_session_report(self):
         try:
             samples = self.session_samples if self.session_samples else self.samples
@@ -2143,7 +2723,7 @@ class PrototypeLabTab(QWidget):
             drag_times = self.calc_drag_times_for_samples(samples)
 
             with path.open("w", encoding="utf-8") as f:
-                f.write("ONYX Drive HUD v5.2.0 Report\n")
+                f.write("ONYX Drive HUD v5.2.6 Report\n")
                 f.write("="*70 + "\n")
                 f.write(f"Samples: {len(samples)}\n")
                 f.write(f"Peak Speed: {speed_value(peak_speed,cfg):.2f} {speed_label(cfg)}\n")
@@ -2177,6 +2757,8 @@ class PrototypeLabTab(QWidget):
                 v = self.drag_times.get(key)
                 drag_parts.append(f"{key}: {v:.2f}s" if isinstance(v, (int,float)) else f"{key}: -")
             self.lbl_drag_live.setText("Live Drag Timer: active · " + " · ".join(drag_parts))
+            self.manager.drag_overlay_times = dict(self.drag_times)
+            self.manager.drag_overlay_recording = bool(self.drag_recording)
 
             record_drag = self.drag_record_times if self.drag_record_times else self.calc_drag_times_for_samples(self.drag_samples)
             drag_rec_parts = []
@@ -2250,10 +2832,11 @@ class PrototypeLabTab(QWidget):
             cfg = self.manager.config
             txt = (
                 "ONYX Support Info\n"
-                f"Version: ONYX Drive HUD v5.2.0\n"
+                f"Version: ONYX Drive HUD v5.2.6\n"
                 f"UDP: {cfg.get('udp_host','0.0.0.0')}:{cfg.get('udp_port',5607)}\n"
                 f"Units: {cfg.get('unit_system')} · {cfg.get('speed_unit')} · {cfg.get('power_unit')} · {cfg.get('boost_unit')}\n"
                 f"Profile: {cfg.get('active_profile','Default')}\n"
+                f"Overlay Monitor Index: {cfg.get('overlay_monitor_index', -1)}\n"
                 f"Last telemetry: {'yes' if self.manager.latest else 'no'}\n"
                 f"Performance samples: {len(self.samples)}\n"
                 f"Drag samples: {len(self.drag_samples)}\n"
@@ -2324,32 +2907,36 @@ class PrototypeLabTab(QWidget):
             cards = self.manager.config["cards"]
             presets = {
                 "Minimal": {
-                    "speed": (35,85,180,70,True), "rpm": (35,160,180,70,True), "gear": (35,235,130,70,True),
-                    "power": (35,310,170,70,False), "boost": (35,385,170,70,False), "grip": (35,460,170,70,True)
+                    "speed": (35,85,190,76,True), "rpm": (35,168,190,76,True), "gear": (35,251,150,76,True),
+                    "power": (35,334,180,76,False), "boost": (35,417,180,76,False), "grip": (35,500,190,76,True), "tachometer": (300,90,240,240,False), "drag_timer": (300,350,260,150,False)
                 },
                 "Race": {
                     "speed": (35,85,230,88,True), "rpm": (35,180,230,88,True), "gear": (35,275,230,88,True),
-                    "power": (35,370,230,88,True), "boost": (35,465,230,88,True), "grip": (35,560,230,88,True)
+                    "power": (35,370,230,88,True), "boost": (35,465,230,88,True), "grip": (35,560,230,88,True), "tachometer": (300,90,260,260,False), "drag_timer": (300,370,260,150,False)
                 },
                 "Dyno": {
                     "speed": (35,85,210,78,True), "rpm": (35,170,210,78,True), "gear": (35,255,150,78,False),
-                    "power": (35,340,210,78,True), "boost": (35,425,210,78,True), "grip": (35,510,210,78,True)
+                    "power": (35,340,210,78,True), "boost": (35,425,210,78,True), "grip": (35,510,210,78,True), "tachometer": (300,90,260,260,False), "drag_timer": (300,370,260,150,False)
                 },
                 "Drag": {
                     "speed": (40,80,260,100,True), "rpm": (40,190,220,80,True), "gear": (40,280,160,80,True),
-                    "power": (40,370,220,80,True), "boost": (40,460,220,80,True), "grip": (40,550,220,80,True)
+                    "power": (40,370,220,80,True), "boost": (40,460,220,80,True), "grip": (40,550,220,80,True), "tachometer": (330,90,270,270,False), "drag_timer": (330,380,270,150,False)
                 },
                 "Tuning": {
                     "speed": (35,85,210,76,True), "rpm": (35,166,210,76,True), "gear": (35,247,160,76,True),
-                    "power": (35,328,210,76,True), "boost": (35,409,210,76,True), "grip": (35,490,210,76,True)
+                    "power": (35,328,210,76,True), "boost": (35,409,210,76,True), "grip": (35,490,210,76,True), "tachometer": (300,90,260,260,False), "drag_timer": (300,370,260,150,False)
                 },
                 "Streamer": {
                     "speed": (50,120,260,105,True), "rpm": (50,235,260,105,True), "gear": (50,350,190,105,True),
-                    "power": (50,465,260,105,True), "boost": (50,580,260,105,True), "grip": (50,695,260,105,True)
+                    "power": (50,465,260,105,True), "boost": (50,580,260,105,True), "grip": (50,695,260,105,True), "tachometer": (340,120,300,300,False), "drag_timer": (340,440,300,170,False)
                 },
             }
             for key, vals in presets.get(name, presets["Race"]).items():
                 x,y,w,h,vis = vals
+                # Presets should only move/resize/show tiles.
+                # Keep custom labels/colors so Save Layout or presets do not wipe user edits.
+                if key not in cards:
+                    cards[key] = json.loads(json.dumps(DEFAULT_CONFIG["cards"][key]))
                 cards[key].update({"x":x,"y":y,"w":w,"h":h,"visible":vis})
             save_config(self.manager.config)
             if self.manager.overlay:
@@ -2368,6 +2955,9 @@ class ManagerWindow(QMainWindow):
         self.receiver = UdpReceiver(self.config["udp_host"], self.config["udp_port"], self.queue)
         self.receiver.start()
         self.latest = None
+        self.drag_overlay_times = {}
+        self.drag_overlay_record_times = {}
+        self.drag_overlay_recording = False
         self.overlay = None
         self.setWindowTitle(tr(self.lang(), "title"))
         if ICON_PATH.exists():
@@ -2418,6 +3008,25 @@ class ManagerWindow(QMainWindow):
         self.btn_reset = QPushButton(tr(self.lang(), "reset")); self.btn_reset.clicked.connect(self.reset_all); row.addWidget(self.btn_reset)
         self.btn_exit = QPushButton(tr(self.lang(), "exit_app")); self.btn_exit.clicked.connect(self.force_exit); row.addWidget(self.btn_exit)
 
+    def populate_overlay_monitor_select(self):
+        try:
+            self.overlay_monitor.clear()
+            self.overlay_monitor.addItem("Primary Monitor", -1)
+            screens = QApplication.screens()
+            current = int(self.config.get("overlay_monitor_index", -1))
+            for i, screen in enumerate(screens):
+                self.overlay_monitor.addItem(overlay_screen_label(i, screen), i)
+            idx = self.overlay_monitor.findData(current)
+            if idx < 0:
+                idx = 0
+            self.overlay_monitor.setCurrentIndex(idx)
+        except Exception as exc:
+            log_error("ManagerWindow.populate_overlay_monitor_select", exc)
+            try:
+                self.overlay_monitor.addItem("Primary Monitor", -1)
+            except Exception:
+                pass
+
     def build_general_tab(self):
         w = QWidget(); outer = QVBoxLayout(w)
         box = QGroupBox(tr(self.lang(), "system")); form = QFormLayout(box); outer.addWidget(box)
@@ -2427,6 +3036,11 @@ class ManagerWindow(QMainWindow):
         form.addRow(tr(self.lang(),"opacity")+":", self.opacity)
         self.scale = QDoubleSpinBox(); self.scale.setRange(0.6,1.8); self.scale.setSingleStep(0.05); self.scale.setValue(float(self.config["scale"]))
         form.addRow(tr(self.lang(),"scale")+":", self.scale)
+
+        self.overlay_monitor = QComboBox()
+        self.populate_overlay_monitor_select()
+        form.addRow("Overlay Monitor:", self.overlay_monitor)
+
         self.bg_alpha = QSpinBox(); self.bg_alpha.setRange(0,255); self.bg_alpha.setValue(int(self.config["background_alpha"]))
         form.addRow(tr(self.lang(),"tile_bg")+":", self.bg_alpha)
         self.edit_mode = QCheckBox("enabled"); self.edit_mode.setChecked(bool(self.config["edit_mode"]))
@@ -2450,10 +3064,14 @@ class ManagerWindow(QMainWindow):
         self.card_w = QSpinBox(); self.card_w.setRange(80,2000)
         self.card_h = QSpinBox(); self.card_h.setRange(50,1000)
         self.card_label = QLineEdit()
+        self.card_label_visible = QCheckBox("Show label")
+        self.card_label_auto = QCheckBox("Auto unit label")
         self.card_color_btn = QPushButton(tr(self.lang(),"choose_color")); self.card_color_btn.clicked.connect(self.choose_color)
         form.addRow(tr(self.lang(),"visible")+":", self.card_visible)
         form.addRow("X:", self.card_x); form.addRow("Y:", self.card_y)
         form.addRow(tr(self.lang(),"width")+":", self.card_w); form.addRow(tr(self.lang(),"height")+":", self.card_h)
+        form.addRow("Label visible:", self.card_label_visible)
+        form.addRow("Auto label:", self.card_label_auto)
         form.addRow(tr(self.lang(),"label")+":", self.card_label); form.addRow(tr(self.lang(),"color")+":", self.card_color_btn)
         btn = QPushButton(tr(self.lang(),"apply_tile")); btn.clicked.connect(self.apply_current_card); layout.addWidget(btn)
         layout.addStretch(1); self.load_card_to_form(); return w
@@ -2636,6 +3254,10 @@ class ManagerWindow(QMainWindow):
         self.card_x.setValue(int(c.get("x",0))); self.card_y.setValue(int(c.get("y",0)))
         self.card_w.setValue(int(c.get("w",230))); self.card_h.setValue(int(c.get("h",88)))
         self.card_label.setText(str(c.get("label", CARD_LABELS.get(key,key))))
+        if hasattr(self, "card_label_visible"):
+            self.card_label_visible.setChecked(bool(c.get("label_visible", True)))
+        if hasattr(self, "card_label_auto"):
+            self.card_label_auto.setChecked(bool(c.get("label_auto", True)))
         self.card_color_btn.setStyleSheet(f"background-color:{c.get('color','#fff')}; color:#001018;")
 
     def reload_forms_from_config(self):
@@ -2650,6 +3272,10 @@ class ManagerWindow(QMainWindow):
         c["x"] = int(self.card_x.value()); c["y"] = int(self.card_y.value())
         c["w"] = int(self.card_w.value()); c["h"] = int(self.card_h.value())
         c["label"] = self.card_label.text().strip()
+        if hasattr(self, "card_label_visible"):
+            c["label_visible"] = self.card_label_visible.isChecked()
+        if hasattr(self, "card_label_auto"):
+            c["label_auto"] = self.card_label_auto.isChecked()
 
     def choose_color(self):
         key = self.current_card_key()
@@ -2664,6 +3290,8 @@ class ManagerWindow(QMainWindow):
         self.config["opacity"] = float(self.opacity.value())
         self.config["scale"] = float(self.scale.value())
         self.config["background_alpha"] = int(self.bg_alpha.value())
+        if hasattr(self, "overlay_monitor"):
+            self.config["overlay_monitor_index"] = int(self.overlay_monitor.currentData())
         self.config["edit_mode"] = self.edit_mode.isChecked()
         self.config["click_through"] = self.click.isChecked()
         self.config["manager_theme"] = self.theme_select.currentText() if hasattr(self,"theme_select") else self.config.get("manager_theme","Blackout Blue")
@@ -2690,13 +3318,24 @@ class ManagerWindow(QMainWindow):
 
     def save_from_forms(self):
         old_port = self.config["udp_port"]
+
+        # Preserve positions that were changed directly in the overlay before
+        # collecting form values. Without this, dragged tiles may revert after restart.
+        if self.overlay and hasattr(self.overlay, "cards"):
+            for key, card in self.overlay.cards.items():
+                if key in self.config.get("cards", {}):
+                    self.config["cards"][key]["x"] = int(card.cfg.get("x", self.config["cards"][key].get("x", 0)))
+                    self.config["cards"][key]["y"] = int(card.cfg.get("y", self.config["cards"][key].get("y", 0)))
+                    self.config["cards"][key]["w"] = int(card.cfg.get("w", self.config["cards"][key].get("w", 230)))
+                    self.config["cards"][key]["h"] = int(card.cfg.get("h", self.config["cards"][key].get("h", 88)))
+
         self.collect_forms()
         save_config(self.config)
         if int(old_port) != int(self.config["udp_port"]):
             self.restart_receiver()
         if self.overlay:
             self.overlay.sync_config()
-        QMessageBox.information(self, tr(self.lang(),"saved"), tr(self.lang(),"saved_msg"))
+        QMessageBox.information(self, tr(self.lang(),"saved"), tr(self.lang(),"saved_msg") + "\n\nTip: If the overlay is hidden after saving, press Show Overlay again.")
 
     def save_config_now(self):
         save_config(self.config)
@@ -2735,7 +3374,7 @@ class ManagerWindow(QMainWindow):
             if self.overlay is None:
                 self.overlay = OverlayWindow(self)
 
-            screen = QApplication.primaryScreen()
+            screen = get_overlay_screen(self.config)
             if screen:
                 self.overlay.setGeometry(screen.geometry())
             else:
@@ -2763,7 +3402,7 @@ class ManagerWindow(QMainWindow):
             if self.overlay.isVisible():
                 self.overlay.hide()
             else:
-                screen = QApplication.primaryScreen()
+                screen = get_overlay_screen(self.config)
                 if screen:
                     self.overlay.setGeometry(screen.geometry())
                 else:
@@ -2796,6 +3435,15 @@ class ManagerWindow(QMainWindow):
     # These prevent startup crashes if old hotkey names still exist in config.
     def save_layout(self):
         try:
+            # Pull any live overlay tile positions back into the real config
+            # before collect_forms/save_config.
+            if self.overlay and hasattr(self.overlay, "cards"):
+                for key, card in self.overlay.cards.items():
+                    if key in self.config.get("cards", {}):
+                        self.config["cards"][key]["x"] = int(card.cfg.get("x", self.config["cards"][key].get("x", 0)))
+                        self.config["cards"][key]["y"] = int(card.cfg.get("y", self.config["cards"][key].get("y", 0)))
+                        self.config["cards"][key]["w"] = int(card.cfg.get("w", self.config["cards"][key].get("w", 230)))
+                        self.config["cards"][key]["h"] = int(card.cfg.get("h", self.config["cards"][key].get("h", 88)))
             if hasattr(self, "collect_forms"):
                 self.collect_forms()
             save_config(self.config)
@@ -2832,7 +3480,7 @@ class ManagerWindow(QMainWindow):
                 self.config["cards"] = json.loads(json.dumps(DEFAULT_CONFIG["cards"]))
             save_config(self.config)
             if self.overlay:
-                screen = QApplication.primaryScreen()
+                screen = get_overlay_screen(self.config)
                 if screen:
                     self.overlay.setGeometry(screen.geometry())
                 else:

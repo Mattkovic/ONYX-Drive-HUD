@@ -1,0 +1,28 @@
+ONYX Drive HUD v5.2.2 Community Fix Notes
+
+This update responds to community feedback:
+
+1. Small-scale HUD readability
+- Scale 0.70 or lower no longer keeps the original large spacing.
+- Tile x/y position and size are now drawn with the same scale factor.
+- Fonts and label areas are based on actual scaled tile height.
+
+2. Labels
+- Added Show label.
+- Added Auto unit label.
+- Turning Auto unit label off allows a custom label text.
+- Turning Show label off removes the label entirely.
+
+3. Edit handle
+- The small circle on the right is the edit/resize handle indicator.
+- It is now less visible and only appears in Edit Mode.
+
+4. Layout/Preset behavior
+- HUD presets now keep custom labels and colors.
+- Minimal preset was adjusted for better readability.
+
+5. Second monitor
+- Added Overlay Monitor selector in General tab.
+
+Not included:
+- A true round RPM gauge/tachometer. That is a larger feature and should be added separately.

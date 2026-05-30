@@ -1,4 +1,4 @@
-# ONYX Drive HUD v5.2.0 – Security Notes
+# ONYX Drive HUD v5.2.6 – Security Notes
 
 ONYX Drive HUD is an external telemetry overlay.
 

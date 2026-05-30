@@ -1,0 +1,22 @@
+ONYX Drive HUD v5.2.4 Tachometer Gauge Notes
+
+Community request:
+- Add an RPM gauge / tachometer option like the mod banner hinted.
+
+Implementation:
+- New overlay card: tachometer
+- Displayed in Tiles tab as: RPM Gauge / Tachometer
+- Default: hidden/off
+- User must enable Visible in Tiles tab.
+- Uses the same position/size/color/save system as other overlay tiles.
+- Draws a circular RPM gauge with needle, RPM number and gear.
+
+Usage:
+1. Open Tiles tab.
+2. Select RPM Gauge / Tachometer.
+3. Enable Visible.
+4. Adjust X/Y/Width/Height.
+5. Save.
+6. If overlay is not visible after saving, press Show Overlay again.
+
+This is intentionally optional, not enabled by default.

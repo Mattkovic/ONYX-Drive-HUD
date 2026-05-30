@@ -8,7 +8,7 @@ title ONYX Drive HUD v4 OneEXE - Builder
 cd /d "%~dp0"
 
 echo ==========================================
-echo  ONYX DRIVE HUD v5.2.0 - Builder
+echo  ONYX DRIVE HUD v5.2.6 Performance Summary - Builder
 echo ==========================================
 echo.
 

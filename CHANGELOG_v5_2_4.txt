@@ -1,0 +1,23 @@
+ONYX Drive HUD v5.2.4 Tachometer Gauge
+
+Added:
+- Optional RPM Gauge / Tachometer overlay element.
+- The gauge is disabled by default and must be enabled in the Tiles tab.
+- Moveable and resizable like the other overlay elements.
+- Shows RPM with a circular dial/needle.
+- Shows current gear inside the gauge.
+- Uses the selected tile color.
+- Supports label visibility/custom label options.
+
+Improved:
+- Save popup now includes a small hint that users may need to press Show Overlay again if the overlay is hidden after saving.
+
+Not changed:
+- UDP receiver
+- Boost / bar / PSI conversion
+- Dyno / Peak Measurements
+- Performance Lab logic
+- Grip Warning logic
+- Layout save fix
+- Second monitor selector
+- Crash logging

@@ -50,7 +50,32 @@
       "h": 88,
       "label": "GRIP",
       "color": "#00ff99",
-      "visible": true
+      "visible": true,
+      "label_visible": true,
+      "label_auto": true
+    },
+    "tachometer": {
+      "x": 300,
+      "y": 90,
+      "w": 260,
+      "h": 260,
+      "label": "RPM GAUGE",
+      "color": "#ff6a00",
+      "visible": false,
+      "label_visible": true,
+      "label_auto": true
+    },
+    "drag_timer": {
+      "x": 300,
+      "y": 370,
+      "w": 260,
+      "h": 150,
+      "label": "DRAG TIMER",
+      "color": "#00d9ff",
+      "visible": false,
+      "label_visible": true,
+      "label_auto": true
     }
-  }
+  },
+  "overlay_monitor_index": -1
 }

@@ -1,0 +1,34 @@
+ONYX Drive HUD v5.2.6 Performance Summary Notes
+
+Feature:
+- Added local Vehicle Analysis / Performance Summary inside Performance Lab.
+
+Buttons:
+- Analyze Current Session
+- Copy Summary
+- Reset Summary
+
+Behavior:
+- Uses current session samples if available.
+- Falls back to live Performance Lab samples if no manual session was recorded.
+- Displays analysis directly in ONYX.
+- No report export is required.
+
+Analysis includes:
+- Telemetry score
+- Car ID if available
+- Peak speed
+- Peak RPM
+- Peak power
+- Peak boost
+- Drag times
+- Grip summary
+- Smart hints
+- Conservative tuning suggestions
+
+Limitations:
+- ONYX cannot know which upgrades, engine parts, turbo parts or tuning parts are installed.
+- It only evaluates what the telemetry shows.
+
+Documentation:
+- README now includes a full Added / Fixed / Improved history since v5.0.

@@ -1,0 +1,25 @@
+ONYX Drive HUD v5.2.5 Drag Timer Overlay Tile
+
+Added:
+- Optional Drag Timer Overlay tile.
+- Disabled by default.
+- Can be enabled in the Tiles tab.
+- Shows Drag Timer results directly on the overlay:
+  - 0-100
+  - 0-200
+  - 100-200
+  - 200-300
+- Mirrors existing Performance Lab Drag Timer values.
+- Uses a subtle transparent/glass panel style.
+- Moveable/resizable like the other HUD elements.
+- Supports label visibility/custom label settings.
+
+Not changed:
+- UDP receiver
+- Boost / bar / PSI conversion
+- Dyno / Peak Measurements
+- Grip Warning logic
+- Tachometer Gauge
+- Layout save fix
+- Second monitor selector
+- Crash logging

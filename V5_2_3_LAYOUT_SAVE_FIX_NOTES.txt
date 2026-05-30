@@ -1,0 +1,15 @@
+ONYX Drive HUD v5.2.3 Layout Save Fix Notes
+
+Cause:
+The overlay used draw-time Card objects. Dragging changed the visible Card copy, but the persistent config["cards"] data was not always updated.
+
+Result:
+Tiles moved visually, but after Save/Restart they could return to the old/default position.
+
+Fix:
+- mouseMoveEvent writes dragged coordinates into manager.config["cards"][key].
+- mouseReleaseEvent saves manager.config.
+- save_layout pulls live overlay Card positions into config before save.
+- save_from_forms does the same for the normal Save button.
+
+This is a targeted persistence fix only.

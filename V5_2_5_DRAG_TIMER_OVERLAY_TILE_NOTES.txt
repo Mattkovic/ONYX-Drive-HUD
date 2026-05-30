@@ -1,0 +1,22 @@
+ONYX Drive HUD v5.2.5 Drag Timer Overlay Tile Notes
+
+Community request:
+- Show Drag Timer results directly on the game overlay instead of only inside the ONYX window.
+
+Implementation:
+- New overlay card: drag_timer
+- Displayed in Tiles tab as: Drag Timer Overlay
+- Default: hidden/off
+- User must enable Visible in Tiles tab.
+- The tile mirrors the existing Performance Lab Drag Timer results.
+- It does not create a second independent drag timer core.
+
+Usage:
+1. Open Tiles tab.
+2. Select Drag Timer Overlay.
+3. Enable Visible.
+4. Adjust X/Y/Width/Height.
+5. Save.
+6. If the overlay is hidden after saving, press Show Overlay again.
+
+This feature is intentionally optional and disabled by default.
