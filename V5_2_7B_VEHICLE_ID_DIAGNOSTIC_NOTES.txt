@@ -1,0 +1,21 @@
+ONYX v5.2.7b Vehicle ID Diagnostic Hotfix
+
+Reason:
+A user test showed: Vehicle unknown · Car ID: 0 with 12000 samples.
+That means telemetry works, but the official Forza CarOrdinal field is being sent as 0/unavailable in that run.
+
+What changed:
+- CarOrdinal 0 is no longer displayed as a usable vehicle ID.
+- ONYX now adds diagnostic stable integer candidates from the UDP packet.
+- Performance Summary shows these candidates if no official ID exists.
+
+How to test:
+1. Start ONYX and Forza Data Out.
+2. Drive Car A for 30-60 seconds.
+3. Open Performance Lab -> Analyze Current Session or Coach Lite.
+4. Note the Vehicle ID probe candidate offsets/values.
+5. Switch to Car B and repeat.
+6. If one candidate changes with the vehicle and stays stable inside one run, that offset can be investigated.
+
+Important safety rule:
+ONYX still only uses official UDP telemetry. It does not read game memory, inject DLLs, patch files, or touch saves.

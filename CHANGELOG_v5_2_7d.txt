@@ -1,0 +1,17 @@
+ONYX Drive HUD v5.2.7d Vehicle HUD No-AI
+
+Removed:
+- Removed ONYX AI Coach Lite UI and all local AI/Odysseus/Ollama connector controls.
+- Removed AI endpoint/model settings from default config and example config.
+- Removed AI payload export button and AI report copy/reset buttons.
+
+Kept:
+- FH6 vehicle parser work from v5.2.7c.
+- Fixed vehicle overlay badge, enabled by default.
+- Vehicle status in manager header and relevant tabs.
+- Car database mapping support via car_database.json.
+- Performance Summary and existing telemetry/grip/drag/dyno features.
+
+Reason:
+- Normal users should not need Docker, API keys, external AI services or paid accounts.
+- ONYX stays free, local, simple and telemetry-focused.

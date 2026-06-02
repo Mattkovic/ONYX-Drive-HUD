@@ -77,5 +77,7 @@
       "label_auto": true
     }
   },
-  "overlay_monitor_index": -1
+  "overlay_monitor_index": -1,
+  "vehicle_badge_enabled": true,
+  "vehicle_badge_position": "Top Right"
 }

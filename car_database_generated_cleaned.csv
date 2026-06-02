@@ -1,0 +1,639 @@
+﻿car_id;display_name;year;make;model;asset;manufacturer_code;raw_model;confidence;zip_file;internal_path
+247;1969 Toyota 2000GT;1969;Toyota;2000GT;TOY_2000GT_69;TOY;2000GT;id-from-game-asset-name-auto-cleaned;TOY_2000GT_69.zip;Scene/animations/Mojo/clip/carclips_247.clipd
+249;1964 Ferrari 250 GTO;1964;Ferrari;250 GTO;FER_250GTO_64;FER;250GTO;id-from-game-asset-name-auto-cleaned;FER_250GTO_64.zip;Scene/animations/Mojo/clip/carclips_249.clipd
+251;1954 Mercedes-Benz 300 SL;1954;Mercedes-Benz;300 SL;MER_300SL_54;MER;300SL;id-from-game-asset-name-auto-cleaned;MER_300SL_54.zip;Scene/animations/Mojo/clip/carclips_251.clipd
+253;1994 Ferrari 355 Berlinetta;1994;Ferrari;355 Berlinetta;FER_355Berlinetta_94;FER;355Berlinetta;id-from-game-asset-name-auto-cleaned;FER_355Berlinetta_94.zip;Scene/animations/Mojo/clip/carclips_253.clipd
+255;1991 Ferrari 512 TR;1991;Ferrari;512 TR;FER_512TR_91;FER;512TR;id-from-game-asset-name-auto-cleaned;FER_512TR_91.zip;Scene/animations/Mojo/clip/carclips_255.clipd
+260;1973 Porsche Carrera RS;1973;Porsche;Carrera RS;por_carrerars_73;por;carrerars;id-from-game-asset-name-auto-cleaned;por_carrerars_73.zip;Scene/animations/Mojo/clip/carclips_260.clipd
+261;1995 Porsche 911 GT2;1995;Porsche;911 GT2;por_911gt2_95;por;911gt2;id-from-game-asset-name-auto-cleaned;por_911gt2_95.zip;Scene/animations/Mojo/clip/carclips_261.clipd
+262;2004 Porsche 996 GT3;2004;Porsche;996 GT3;POR_996GT3_04;POR;996GT3;id-from-game-asset-name-auto-cleaned;POR_996GT3_04.zip;Scene/animations/Mojo/clip/carclips_262.clipd
+265;1982 Porsche 911 Turbo;1982;Porsche;911 Turbo;POR_911Turbo_82;POR;911Turbo;id-from-game-asset-name-auto-cleaned;POR_911Turbo_82.zip;Scene/animations/Mojo/clip/carclips_265.clipd
+268;1989 Porsche 944 turbo;1989;Porsche;944 turbo;por_944turbo_89;por;944turbo;id-from-game-asset-name-auto-cleaned;por_944turbo_89.zip;Scene/animations/Mojo/clip/carclips_268.clipd
+269;1987 Porsche 959;1987;Porsche;959;por_959_87;por;959;id-from-game-asset-name-auto-cleaned;por_959_87.zip;Scene/animations/Mojo/clip/carclips_269.clipd
+281;1968 Plymouth Barracuda;1968;Plymouth;Barracuda;PLY_Barracuda_68;PLY;Barracuda;id-from-game-asset-name-auto-cleaned;PLY_Barracuda_68.zip;Scene/animations/Mojo/clip/carclips_281.clipd
+289;1969 Chevrolet Camaro SS;1969;Chevrolet;Camaro SS;CHE_CamaroSS_69;CHE;CamaroSS;id-from-game-asset-name-auto-cleaned;CHE_CamaroSS_69.zip;Scene/animations/Mojo/clip/carclips_289.clipd
+292;2003 Porsche Carrera GT;2003;Porsche;Carrera GT;POR_CarreraGT_03;POR;CarreraGT;id-from-game-asset-name-auto-cleaned;POR_CarreraGT_03.zip;Scene/animations/Mojo/clip/carclips_292.clipd
+295;2003 Toyota Celica SS-I;2003;Toyota;Celica SS-I;TOY_CelicaSSI_03;TOY;CelicaSSI;id-from-game-asset-name-auto-cleaned;TOY_CelicaSSI_03.zip;Scene/animations/Mojo/clip/carclips_295.clipd
+296;1998 TVR Cerbera;1998;TVR;Cerbera;TVR_Cerbera_98;TVR;Cerbera;id-from-game-asset-name-auto-cleaned;TVR_Cerbera_98.zip;Scene/animations/Mojo/clip/carclips_296.clipd
+299;1970 Chevrolet Chevelle;1970;Chevrolet;Chevelle;CHE_Chevelle_70;CHE;Chevelle;id-from-game-asset-name-auto-cleaned;CHE_Chevelle_70.zip;Scene/animations/Mojo/clip/carclips_299.clipd
+302;2004 Honda Civic Type R;2004;Honda;Civic Type R;HON_CivicR_04;HON;CivicR;id-from-game-asset-name-auto-cleaned;HON_CivicR_04.zip;Scene/animations/Mojo/clip/carclips_302.clipd
+306;1965 Shelby Cobra 427;1965;Shelby;Cobra 427;SHE_Cobra427_65;SHE;Cobra427;id-from-game-asset-name-auto-cleaned;SHE_Cobra427_65.zip;Scene/animations/Mojo/clip/carclips_306.clipd
+309;1995 Volkswagen Corrado;1995;Volkswagen;Corrado;VW_Corrado_95;VW;Corrado;id-from-game-asset-name-auto-cleaned;VW_Corrado_95.zip;Scene/animations/Mojo/clip/carclips_309.clipd
+312;1967 Chevrolet Corvette Stingray;1967;Chevrolet;Corvette Stingray;CHE_CorvetteStingray_67;CHE;CorvetteStingray;id-from-game-asset-name-auto-cleaned;CHE_CorvetteStingray_67.zip;Scene/animations/Mojo/clip/carclips_312.clipd
+314;2002 Chevrolet Corvette Z 06;2002;Chevrolet;Corvette Z 06;CHE_CorvetteZ06_02;CHE;CorvetteZ06;id-from-game-asset-name-auto-cleaned;CHE_CorvetteZ06_02.zip;Scene/animations/Mojo/clip/carclips_314.clipd
+315;1970 Chevrolet Corvette ZR 1;1970;Chevrolet;Corvette ZR 1;CHE_CorvetteZR1_70;CHE;CorvetteZR1;id-from-game-asset-name-auto-cleaned;CHE_CorvetteZR1_70.zip;Scene/animations/Mojo/clip/carclips_315.clipd
+316;1988 Lamborghini Countach;1988;Lamborghini;Countach;LAM_Countach_88;LAM;Countach;id-from-game-asset-name-auto-cleaned;LAM_Countach_88.zip;Scene/animations/Mojo/clip/carclips_316.clipd
+320;1991 Honda CR-X Si;1991;Honda;CR-X Si;HON_CRXsi_91;HON;CRXsi;id-from-game-asset-name-auto-cleaned;HON_CRXsi_91.zip;Scene/animations/Mojo/clip/carclips_320.clipd
+323;1992 Lancia Delta;1992;Lancia;Delta;LAN_Delta_92;LAN;Delta;id-from-game-asset-name-auto-cleaned;LAN_Delta_92.zip;Scene/animations/Mojo/clip/carclips_323.clipd
+324;1999 Lamborghini Diablo GTR;1999;Lamborghini;Diablo GTR;LAM_DiabloGTR_99;LAM;DiabloGTR;id-from-game-asset-name-auto-cleaned;LAM_DiabloGTR_99.zip;Scene/animations/Mojo/clip/carclips_324.clipd
+325;1997 Lamborghini Diablo SV;1997;Lamborghini;Diablo SV;LAM_DiabloSV_97;LAM;DiabloSV;id-from-game-asset-name-auto-cleaned;LAM_DiabloSV_97.zip;Scene/animations/Mojo/clip/carclips_325.clipd
+326;1969 Ferrari Dino 246;1969;Ferrari;Dino 246;FER_Dino246_69;FER;Dino246;id-from-game-asset-name-auto-cleaned;FER_Dino246_69.zip;Scene/animations/Mojo/clip/carclips_326.clipd
+327;1995 Mitsubishi Eclipse GSX;1995;Mitsubishi;Eclipse GSX;MIT_EclipseGSX_95;MIT;EclipseGSX;id-from-game-asset-name-auto-cleaned;MIT_EclipseGSX_95.zip;Scene/animations/Mojo/clip/carclips_327.clipd
+333;2002 Ferrari Enzo;2002;Ferrari;Enzo;FER_Enzo_02;FER;Enzo;id-from-game-asset-name-auto-cleaned;FER_Enzo_02.zip;Scene/animations/Mojo/clip/carclips_333.clipd
+336;1961 Jaguar Etype;1961;Jaguar;Etype;JAG_Etype_61;JAG;Etype;id-from-game-asset-name-auto-cleaned;JAG_Etype_61.zip;Scene/animations/Mojo/clip/carclips_336.clipd
+338;1997 McLaren F 1 GT;1997;McLaren;F 1 GT;MCL_F1GT_97;MCL;F1GT;id-from-game-asset-name-auto-cleaned;MCL_F1GT_97.zip;Scene/animations/Mojo/clip/carclips_338.clipd
+340;1987 Ferrari F 40;1987;Ferrari;F 40;FER_F40_87;FER;F40;id-from-game-asset-name-auto-cleaned;FER_F40_87.zip;Scene/animations/Mojo/clip/carclips_340.clipd
+342;1995 Ferrari F 50;1995;Ferrari;F 50;FER_F50_95;FER;F50;id-from-game-asset-name-auto-cleaned;FER_F50_95.zip;Scene/animations/Mojo/clip/carclips_342.clipd
+343;1969 Nissan Fairlady 432 Z;1969;Nissan;Fairlady 432 Z;NIS_Fairlady432Z_69;NIS;Fairlady432Z;id-from-game-asset-name-auto-cleaned;NIS_Fairlady432Z_69.zip;Scene/animations/Mojo/clip/carclips_343.clipd
+344;2003 Nissan Fairlady Z;2003;Nissan;Fairlady Z;NIS_FairladyZ_03;NIS;FairladyZ;id-from-game-asset-name-auto-cleaned;NIS_FairladyZ_03.zip;Scene/animations/Mojo/clip/carclips_344.clipd
+345;1994 Nissan Fairlady Zv STwin Turbo;1994;Nissan;Fairlady Zv STwin Turbo;NIS_FairladyZvSTwinTurbo_94;NIS;FairladyZvSTwinTurbo;id-from-game-asset-name-auto-cleaned;NIS_FairladyZvSTwinTurbo_94.zip;Scene/animations/Mojo/clip/carclips_345.clipd
+348;2005 Ford gt;2005;Ford;gt;for_gt_05;for;gt;id-from-game-asset-name-auto-cleaned;for_gt_05.zip;Scene/animations/Mojo/clip/carclips_348.clipd
+353;1992 Volkswagen Golf GTi 16 v Mk 2;1992;Volkswagen;Golf GTi 16 v Mk 2;VW_GolfGTi16vMk2_92;VW;GolfGTi16vMk2;id-from-game-asset-name-auto-cleaned;VW_GolfGTi16vMk2_92.zip;Scene/animations/Mojo/clip/carclips_353.clipd
+357;1997 Mitsubishi GTO;1997;Mitsubishi;GTO;MIT_GTO_97;MIT;GTO;id-from-game-asset-name-auto-cleaned;MIT_GTO_97.zip;Scene/animations/Mojo/clip/carclips_357.clipd
+358;1984 Ferrari GTO;1984;Ferrari;GTO;FER_GTO_84;FER;GTO;id-from-game-asset-name-auto-cleaned;FER_GTO_84.zip;Scene/animations/Mojo/clip/carclips_358.clipd
+363;1998 Subaru Impreza 22 b;1998;Subaru;Impreza 22 b;SUB_Impreza22b_98;SUB;Impreza22b;id-from-game-asset-name-auto-cleaned;SUB_Impreza22b_98.zip;Scene/animations/Mojo/clip/carclips_363.clipd
+364;2004 Subaru WRXSTi;2004;Subaru;WRXSTi;SUB_WRXSTi_04;SUB;WRXSTi;id-from-game-asset-name-auto-cleaned;SUB_WRXSTi_04.zip;Scene/animations/Mojo/clip/carclips_364.clipd
+365;2005 Subaru WRXSTi;2005;Subaru;WRXSTi;SUB_WRXSTi_05;SUB;WRXSTi;id-from-game-asset-name-auto-cleaned;SUB_WRXSTi_05.zip;Scene/animations/Mojo/clip/carclips_365.clipd
+368;2001 Acura Integra Type R;2001;Acura;Integra Type R;ACU_IntegraR_01;ACU;IntegraR;id-from-game-asset-name-auto-cleaned;ACU_IntegraR_01.zip;Scene/animations/Mojo/clip/carclips_368.clipd
+374;2006 Mitsubishi Lancer Evo IXMR;2006;Mitsubishi;Lancer Evo IXMR;MIT_LancerEvoIXMR_06;MIT;LancerEvoIXMR;id-from-game-asset-name-auto-cleaned;MIT_LancerEvoIXMR_06.zip;Scene/animations/Mojo/clip/carclips_374.clipd
+378;2004 Mitsubishi Lancer Evo VIIIMR;2004;Mitsubishi;Lancer Evo VIIIMR;MIT_LancerEvoVIIIMR_04;MIT;LancerEvoVIIIMR;id-from-game-asset-name-auto-cleaned;MIT_LancerEvoVIIIMR_04.zip;Scene/animations/Mojo/clip/carclips_378.clipd
+379;2005 Subaru Legacy B 4 GT;2005;Subaru;Legacy B 4 GT;SUB_LegacyB4GT_05;SUB;LegacyB4GT;id-from-game-asset-name-auto-cleaned;SUB_LegacyB4GT_05.zip;Scene/animations/Mojo/clip/carclips_379.clipd
+382;1997 BMW E 36 M 3;1997;BMW;E 36 M 3;BMW_E36M3_97;BMW;E36M3;id-from-game-asset-name-auto-cleaned;BMW_E36M3_97.zip;Scene/animations/Mojo/clip/carclips_382.clipd
+383;2005 BMW E 46 M 3;2005;BMW;E 46 M 3;BMW_E46M3_05;BMW;E46M3;id-from-game-asset-name-auto-cleaned;BMW_E46M3_05.zip;Scene/animations/Mojo/clip/carclips_383.clipd
+391;2004 Maserati MC 12;2004;Maserati;MC 12;MAS_MC12_04;MAS;MC12;id-from-game-asset-name-auto-cleaned;MAS_MC12_04.zip;Scene/animations/Mojo/clip/carclips_391.clipd
+398;1995 Toyota MR 2 GT;1995;Toyota;MR 2 GT;TOY_MR2GT_95;TOY;MR2GT;id-from-game-asset-name-auto-cleaned;TOY_MR2GT_95.zip;Scene/animations/Mojo/clip/carclips_398.clipd
+405;2000 Ford Mustang Cobra R;2000;Ford;Mustang Cobra R;FOR_MustangCobraR_00;FOR;MustangCobraR;id-from-game-asset-name-auto-cleaned;FOR_MustangCobraR_00.zip;Scene/animations/Mojo/clip/carclips_405.clipd
+411;2005 Honda NSXR;2005;Honda;NSXR;HON_NSXR_05;HON;NSXR;id-from-game-asset-name-auto-cleaned;HON_NSXR_05.zip;Scene/animations/Mojo/clip/carclips_411.clipd
+412;1992 Honda NSXR;1992;Honda;NSXR;HON_NSXR_92;HON;NSXR;id-from-game-asset-name-auto-cleaned;HON_NSXR_92.zip;Scene/animations/Mojo/clip/carclips_412.clipd
+417;1987 Buick Regal GNX;1987;Buick;Regal GNX;BUI_RegalGNX_87;BUI;RegalGNX;id-from-game-asset-name-auto-cleaned;BUI_RegalGNX_87.zip;Scene/animations/Mojo/clip/carclips_417.clipd
+419;2006 Audi RS 4;2006;Audi;RS 4;AUD_RS4_06;AUD;RS4;id-from-game-asset-name-auto-cleaned;AUD_RS4_06.zip;Scene/animations/Mojo/clip/carclips_419.clipd
+420;2003 Audi RS 6;2003;Audi;RS 6;AUD_RS6_03;AUD;RS6;id-from-game-asset-name-auto-cleaned;AUD_RS6_03.zip;Scene/animations/Mojo/clip/carclips_420.clipd
+422;2002 Acura RSX Type S;2002;Acura;RSX Type S;ACU_RSXTypeS_02;ACU;RSXTypeS;id-from-game-asset-name-auto-cleaned;ACU_RSXTypeS_02.zip;Scene/animations/Mojo/clip/carclips_422.clipd
+423;1990 Mazda RX 7;1990;Mazda;RX 7;MAZ_RX7_90;MAZ;RX7;id-from-game-asset-name-auto-cleaned;MAZ_RX7_90.zip;Scene/animations/Mojo/clip/carclips_423.clipd
+427;2003 Honda S 2000;2003;Honda;S 2000;HON_S2000_03;HON;S2000;id-from-game-asset-name-auto-cleaned;HON_S2000_03.zip;Scene/animations/Mojo/clip/carclips_427.clipd
+433;2005 TVR Sagaris;2005;TVR;Sagaris;TVR_Sagaris_05;TVR;Sagaris;id-from-game-asset-name-auto-cleaned;TVR_Sagaris_05.zip;Scene/animations/Mojo/clip/carclips_433.clipd
+440;1994 Nissan Silvia Ks;1994;Nissan;Silvia Ks;NIS_SilviaKs_94;NIS;SilviaKs;id-from-game-asset-name-auto-cleaned;NIS_SilviaKs_94.zip;Scene/animations/Mojo/clip/carclips_440.clipd
+455;1985 Toyota Sprinter;1985;Toyota;Sprinter;TOY_Sprinter_85;TOY;Sprinter;id-from-game-asset-name-auto-cleaned;TOY_Sprinter_85.zip;Scene/animations/Mojo/clip/carclips_455.clipd
+458;1974 Lancia Stratos;1974;Lancia;Stratos;LAN_Stratos_74;LAN;Stratos;id-from-game-asset-name-auto-cleaned;LAN_Stratos_74.zip;Scene/animations/Mojo/clip/carclips_458.clipd
+460;1992 Toyota Supra 20 GT;1992;Toyota;Supra 20 GT;TOY_Supra20GT_92;TOY;Supra20GT;id-from-game-asset-name-auto-cleaned;TOY_Supra20GT_92.zip;Scene/animations/Mojo/clip/carclips_460.clipd
+461;1998 Toyota Supra RZ;1998;Toyota;Supra RZ;TOY_SupraRZ_98;TOY;SupraRZ;id-from-game-asset-name-auto-cleaned;TOY_SupraRZ_98.zip;Scene/animations/Mojo/clip/carclips_461.clipd
+483;1999 Dodge Viper GTSACR;1999;Dodge;Viper GTSACR;DOD_ViperGTSACR_99;DOD;ViperGTSACR;id-from-game-asset-name-auto-cleaned;DOD_ViperGTSACR_99.zip;Scene/animations/Mojo/clip/carclips_483.clipd
+489;1993 Jaguar XJ 220;1993;Jaguar;XJ 220;JAG_XJ220_93;JAG;XJ220;id-from-game-asset-name-auto-cleaned;JAG_XJ220_93.zip;Scene/animations/Mojo/clip/carclips_489.clipd
+513;1969 Dodge Charger RT;1969;Dodge;Charger RT;DOD_ChargerRT_69;DOD;ChargerRT;id-from-game-asset-name-auto-cleaned;DOD_ChargerRT_69.zip;Scene/animations/Mojo/clip/carclips_513.clipd
+567;1998 Nissan R 390;1998;Nissan;R 390;NIS_R390_98;NIS;R390;id-from-game-asset-name-auto-cleaned;NIS_R390_98.zip;Scene/animations/Mojo/clip/carclips_567.clipd
+568;1998 Mercedes-Benz CLKGTR;1998;Mercedes-Benz;CLKGTR;MER_CLKGTR_98;MER;CLKGTR;id-from-game-asset-name-auto-cleaned;MER_CLKGTR_98.zip;Scene/animations/Mojo/clip/carclips_568.clipd
+569;2005 Honda NSXRGT;2005;Honda;NSXRGT;HON_NSXRGT_05;HON;NSXRGT;id-from-game-asset-name-auto-cleaned;HON_NSXRGT_05.zip;Scene/animations/Mojo/clip/carclips_569.clipd
+615;2007 Peugeot 207 Super 2000;2007;Peugeot;207 Super 2000;PEU_207Super2000_07;PEU;207Super2000;id-from-game-asset-name-auto-cleaned;PEU_207Super2000_07.zip;Scene/animations/Mojo/clip/carclips_615.clipd
+625;2007 Honda Civic Type R;2007;Honda;Civic Type R;HON_CivicTypeR_07;HON;CivicTypeR;id-from-game-asset-name-auto-cleaned;HON_CivicTypeR_07.zip;Scene/animations/Mojo/clip/carclips_625.clipd
+633;1983 Audi Sport Quattro;1983;Audi;Sport Quattro;AUD_SportQuattro_83;AUD;SportQuattro;id-from-game-asset-name-auto-cleaned;AUD_SportQuattro_83.zip;Scene/animations/Mojo/clip/carclips_633.clipd
+634;1980 Renault 5 Turbo;1980;Renault;5 Turbo;REN_5Turbo_80;REN;5Turbo;id-from-game-asset-name-auto-cleaned;REN_5Turbo_80.zip;Scene/animations/Mojo/clip/carclips_634.clipd
+637;1967 Lamborghini Miura P 400;1967;Lamborghini;Miura P 400;LAM_MiuraP400_67;LAM;MiuraP400;id-from-game-asset-name-auto-cleaned;LAM_MiuraP400_67.zip;Scene/animations/Mojo/clip/carclips_637.clipd
+639;1970 Dodge Challenger Hemi;1970;Dodge;Challenger Hemi;DOD_ChallengerHemi_70;DOD;ChallengerHemi;id-from-game-asset-name-auto-cleaned;DOD_ChallengerHemi_70.zip;Scene/animations/Mojo/clip/carclips_639.clipd
+641;1998 Porsche 996 GT 1;1998;Porsche;996 GT 1;POR_996GT1_98;POR;996GT1;id-from-game-asset-name-auto-cleaned;POR_996GT1_98.zip;Scene/animations/Mojo/clip/carclips_641.clipd
+1006;2005 Ferrari FXX;2005;Ferrari;FXX;FER_FXX_05;FER;FXX;id-from-game-asset-name-auto-cleaned;FER_FXX_05.zip;Scene/animations/Mojo/clip/carclips_1006.clipd
+1007;2008 Koenigsegg CCGT;2008;Koenigsegg;CCGT;KOE_CCGT_08;KOE;CCGT;id-from-game-asset-name-auto-cleaned;KOE_CCGT_08.zip;Scene/animations/Mojo/clip/carclips_1007.clipd
+1009;2008 Mitsubishi Lancer Evo XGSR;2008;Mitsubishi;Lancer Evo XGSR;MIT_LancerEvoXGSR_08;MIT;LancerEvoXGSR;id-from-game-asset-name-auto-cleaned;MIT_LancerEvoXGSR_08.zip;Scene/animations/Mojo/clip/carclips_1009.clipd
+1011;2008 BMW M 3 E 92;2008;BMW;M 3 E 92;BMW_M3E92_08;BMW;M3E92;id-from-game-asset-name-auto-cleaned;BMW_M3E92_08.zip;Scene/animations/Mojo/clip/carclips_1011.clipd
+1020;1996 Ferrari f 50 gt;1996;Ferrari;f 50 gt;fer_f50gt_96;fer;f50gt;id-from-game-asset-name-auto-cleaned;fer_f50gt_96.zip;Scene/animations/Mojo/clip/carclips_1020.clipd
+1022;2007 Ferrari F 430 Scuderia;2007;Ferrari;F 430 Scuderia;FER_F430Scuderia_07;FER;F430Scuderia;id-from-game-asset-name-auto-cleaned;FER_F430Scuderia_07.zip;Scene/animations/Mojo/clip/carclips_1022.clipd
+1023;1989 Ferrari F 40 Competizione;1989;Ferrari;F 40 Competizione;FER_F40Competizione_89;FER;F40Competizione;id-from-game-asset-name-auto-cleaned;FER_F40Competizione_89.zip;Scene/animations/Mojo/clip/carclips_1023.clipd
+1032;2008 Alfa Romeo 8 C;2008;Alfa Romeo;8 C;ALF_8C_08;ALF;8C;id-from-game-asset-name-auto-cleaned;ALF_8C_08.zip;Scene/animations/Mojo/clip/carclips_1032.clipd
+1034;1994 Toyota Celica ST 205;1994;Toyota;Celica ST 205;TOY_CelicaST205_94;TOY;CelicaST205;id-from-game-asset-name-auto-cleaned;TOY_CelicaST205_94.zip;Scene/animations/Mojo/clip/carclips_1034.clipd
+1040;1981 BMW M 1;1981;BMW;M 1;BMW_M1_81;BMW;M1;id-from-game-asset-name-auto-cleaned;BMW_M1_81.zip;Scene/animations/Mojo/clip/carclips_1040.clipd
+1041;1993 Ford Mustang SVTCobra R;1993;Ford;Mustang SVTCobra R;FOR_MustangSVTCobraR_93;FOR;MustangSVTCobraR;id-from-game-asset-name-auto-cleaned;FOR_MustangSVTCobraR_93.zip;Scene/animations/Mojo/clip/carclips_1041.clipd
+1042;1971 Nissan Skyline 2000 GTR;1971;Nissan;Skyline 2000 GTR;NIS_Skyline2000GTR_71;NIS;Skyline2000GTR;id-from-game-asset-name-auto-cleaned;NIS_Skyline2000GTR_71.zip;Scene/animations/Mojo/clip/carclips_1042.clipd
+1045;1987 Pontiac Trans Am GTA;1987;Pontiac;Trans Am GTA;PON_TransAmGTA_87;PON;TransAmGTA;id-from-game-asset-name-auto-cleaned;PON_TransAmGTA_87.zip;Scene/animations/Mojo/clip/carclips_1045.clipd
+1046;2008 Dodge Viper SRT 10 ACR;2008;Dodge;Viper SRT 10 ACR;DOD_ViperSRT10ACR_08;DOD;ViperSRT10ACR;id-from-game-asset-name-auto-cleaned;DOD_ViperSRT10ACR_08.zip;Scene/animations/Mojo/clip/carclips_1046.clipd
+1052;2006 Dodge Ram SRT 10;2006;Dodge;Ram SRT 10;DOD_RamSRT10_06;DOD;RamSRT10;id-from-game-asset-name-auto-cleaned;DOD_RamSRT10_06.zip;Scene/animations/Mojo/clip/carclips_1052.clipd
+1059;2008 BMW Z 4 MCoupe;2008;BMW;Z 4 MCoupe;BMW_Z4MCoupe_08;BMW;Z4MCoupe;id-from-game-asset-name-auto-cleaned;BMW_Z4MCoupe_08.zip;Scene/animations/Mojo/clip/carclips_1059.clipd
+1060;2008 Subaru WRXSTi;2008;Subaru;WRXSTi;SUB_WRXSTi_08;SUB;WRXSTi;id-from-game-asset-name-auto-cleaned;SUB_WRXSTi_08.zip;Scene/animations/Mojo/clip/carclips_1060.clipd
+1063;1969 Dodge Charger Daytona;1969;Dodge;Charger Daytona;DOD_ChargerDaytona_69;DOD;ChargerDaytona;id-from-game-asset-name-auto-cleaned;DOD_ChargerDaytona_69.zip;Scene/animations/Mojo/clip/carclips_1063.clipd
+1064;1979 Chevrolet Camaro Z 28;1979;Chevrolet;Camaro Z 28;CHE_CamaroZ28_79;CHE;CamaroZ28;id-from-game-asset-name-auto-cleaned;CHE_CamaroZ28_79.zip;Scene/animations/Mojo/clip/carclips_1064.clipd
+1069;2009 Chevrolet Corvette ZR 1;2009;Chevrolet;Corvette ZR 1;CHE_CorvetteZR1_09;CHE;CorvetteZR1;id-from-game-asset-name-auto-cleaned;CHE_CorvetteZR1_09.zip;Scene/animations/Mojo/clip/carclips_1069.clipd
+1086;2009 Ford Focus RS;2009;Ford;Focus RS;FOR_FocusRS_09;FOR;FocusRS;id-from-game-asset-name-auto-cleaned;FOR_FocusRS_09.zip;Scene/animations/Mojo/clip/carclips_1086.clipd
+1090;2009 Mercedes-Benz SL 65 AMG;2009;Mercedes-Benz;SL 65 AMG;MER_SL65AMG_09;MER;SL65AMG;id-from-game-asset-name-auto-cleaned;MER_SL65AMG_09.zip;Scene/animations/Mojo/clip/carclips_1090.clipd
+1093;1960 Chevrolet Corvette;1960;Chevrolet;Corvette;CHE_Corvette_60;CHE;Corvette;id-from-game-asset-name-auto-cleaned;CHE_Corvette_60.zip;Scene/animations/Mojo/clip/carclips_1093.clipd
+1103;2010 Nissan 370 Z;2010;Nissan;370 Z;NIS_370Z_10;NIS;370Z;id-from-game-asset-name-auto-cleaned;NIS_370Z_10.zip;Scene/animations/Mojo/clip/carclips_1103.clipd
+1104;1970 Nissan 510;1970;Nissan;510;NIS_510_70;NIS;510;id-from-game-asset-name-auto-cleaned;NIS_510_70.zip;Scene/animations/Mojo/clip/carclips_1104.clipd
+1105;1964 Aston Martin DB 5 Vantage;1964;Aston Martin;DB 5 Vantage;AST_DB5Vantage_64;AST;DB5Vantage;id-from-game-asset-name-auto-cleaned;AST_DB5Vantage_64.zip;Scene/animations/Mojo/clip/carclips_1105.clipd
+1108;1987 Ford RS 200 Evolution;1987;Ford;RS 200 Evolution;FOR_RS200Evolution_87;FOR;RS200Evolution;id-from-game-asset-name-auto-cleaned;FOR_RS200Evolution_87.zip;Scene/animations/Mojo/clip/carclips_1108.clipd
+1110;1994 Mazda Miata;1994;Mazda;Miata;MAZ_Miata_94;MAZ;Miata;id-from-game-asset-name-auto-cleaned;MAZ_Miata_94.zip;Scene/animations/Mojo/clip/carclips_1110.clipd
+1124;1980 Fiat 131 Abarth Stradale;1980;Fiat;131 Abarth Stradale;FIA_131AbarthStradale_80;FIA;131AbarthStradale;id-from-game-asset-name-auto-cleaned;FIA_131AbarthStradale_80.zip;Scene/animations/Mojo/clip/carclips_1124.clipd
+1126;2009 BMW M 5;2009;BMW;M 5;BMW_M5_09;BMW;M5;id-from-game-asset-name-auto-cleaned;BMW_M5_09.zip;Scene/animations/Mojo/clip/carclips_1126.clipd
+1130;2011 McLaren MP 412 C;2011;McLaren;MP 412 C;MCL_MP412C_11;MCL;MP412C;id-from-game-asset-name-auto-cleaned;MCL_MP412C_11.zip;Scene/animations/Mojo/clip/carclips_1130.clipd
+1131;2010 Ferrari F 142;2010;Ferrari;F 142;FER_F142_10;FER;F142;id-from-game-asset-name-auto-cleaned;FER_F142_10.zip;Scene/animations/Mojo/clip/carclips_1131.clipd
+1150;1965 Alfa Romeo GTA;1965;Alfa Romeo;GTA;ALF_GTA_65;ALF;GTA;id-from-game-asset-name-auto-cleaned;ALF_GTA_65.zip;Scene/animations/Mojo/clip/carclips_1150.clipd
+1155;1965 Shelby Cobra Daytona;1965;Shelby;Cobra Daytona;SHE_CobraDaytona_65;SHE;CobraDaytona;id-from-game-asset-name-auto-cleaned;SHE_CobraDaytona_65.zip;Scene/animations/Mojo/clip/carclips_1155.clipd
+1171;2010 Ferrari 599 XX;2010;Ferrari;599 XX;FER_599XX_10;FER;599XX;id-from-game-asset-name-auto-cleaned;FER_599XX_10.zip;Scene/animations/Mojo/clip/carclips_1171.clipd
+1173;2010 Lamborghini LP 6704 SV;2010;Lamborghini;LP 6704 SV;LAM_LP6704SV_10;LAM;LP6704SV;id-from-game-asset-name-auto-cleaned;LAM_LP6704SV_10.zip;Scene/animations/Mojo/clip/carclips_1173.clipd
+1175;2010 Pagani Zonda R;2010;Pagani;Zonda R;PAG_ZondaR_10;PAG;ZondaR;id-from-game-asset-name-auto-cleaned;PAG_ZondaR_10.zip;Scene/animations/Mojo/clip/carclips_1175.clipd
+1184;2009 Audi RS 6;2009;Audi;RS 6;AUD_RS6_09;AUD;RS6;id-from-game-asset-name-auto-cleaned;AUD_RS6_09.zip;Scene/animations/Mojo/clip/carclips_1184.clipd
+1200;2009 Audi R 8 LMS;2009;Audi;R 8 LMS;AUD_R8LMS_09;AUD;R8LMS;id-from-game-asset-name-auto-cleaned;AUD_R8LMS_09.zip;Scene/animations/Mojo/clip/carclips_1200.clipd
+1204;2010 Renault Megane RS 250;2010;Renault;Megane RS 250;REN_MeganeRS250_10;REN;MeganeRS250;id-from-game-asset-name-auto-cleaned;REN_MeganeRS250_10.zip;Scene/animations/Mojo/clip/carclips_1204.clipd
+1215;2000 Nissan CAR;2000;Nissan;CAR;NUL_CAR_00;NUL;CAR;id-from-game-asset-name-auto-cleaned;NUL_CAR_00.zip;Scene/animations/Mojo/clip/carclips_1215.clipd
+1216;2011 Audi RS 3;2011;Audi;RS 3;AUD_RS3_11;AUD;RS3;id-from-game-asset-name-auto-cleaned;AUD_RS3_11.zip;Scene/animations/Mojo/clip/carclips_1216.clipd
+1220;2010 Audi TTRS;2010;Audi;TTRS;AUD_TTRS_10;AUD;TTRS;id-from-game-asset-name-auto-cleaned;AUD_TTRS_10.zip;Scene/animations/Mojo/clip/carclips_1220.clipd
+1221;2010 Mazda Mazdaspeed 3;2010;Mazda;Mazdaspeed 3;MAZ_Mazdaspeed3_10;MAZ;Mazdaspeed3;id-from-game-asset-name-auto-cleaned;MAZ_Mazdaspeed3_10.zip;Scene/animations/Mojo/clip/carclips_1221.clipd
+1229;2008 Mazda Furai;2008;Mazda;Furai;MAZ_Furai_08;MAZ;Furai;id-from-game-asset-name-auto-cleaned;MAZ_Furai_08.zip;Scene/animations/Mojo/clip/carclips_1229.clipd
+1231;2010 Volkswagen Golf R;2010;Volkswagen;Golf R;VW_GolfR_10;VW;GolfR;id-from-game-asset-name-auto-cleaned;VW_GolfR_10.zip;Scene/animations/Mojo/clip/carclips_1231.clipd
+1253;2010 Noble M 600;2010;Noble;M 600;NOB_M600_10;NOB;M600;id-from-game-asset-name-auto-cleaned;NOB_M600_10.zip;Scene/animations/Mojo/clip/carclips_1253.clipd
+1260;2010 Lexus LFA;2010;Lexus;LFA;LEX_LFA_10;LEX;LFA;id-from-game-asset-name-auto-cleaned;LEX_LFA_10.zip;Scene/animations/Mojo/clip/carclips_1260.clipd
+1269;1973 BMW 2002 Turbo;1973;BMW;2002 Turbo;BMW_2002Turbo_73;BMW;2002Turbo;id-from-game-asset-name-auto-cleaned;BMW_2002Turbo_73.zip;Scene/animations/Mojo/clip/carclips_1269.clipd
+1270;1982 DeLorean DMC 12;1982;DeLorean;DMC 12;DEL_DMC12_82;DEL;DMC12;id-from-game-asset-name-auto-cleaned;DEL_DMC12_82.zip;Scene/animations/Mojo/clip/carclips_1270.clipd
+1272;1992 Ford Escort RSCosworth;1992;Ford;Escort RSCosworth;FOR_EscortRSCosworth_92;FOR;EscortRSCosworth;id-from-game-asset-name-auto-cleaned;FOR_EscortRSCosworth_92.zip;Scene/animations/Mojo/clip/carclips_1272.clipd
+1273;1997 Honda Civic Type R;1997;Honda;Civic Type R;HON_CivicTypeR_97;HON;CivicTypeR;id-from-game-asset-name-auto-cleaned;HON_CivicTypeR_97.zip;Scene/animations/Mojo/clip/carclips_1273.clipd
+1276;1977 Pontiac Firebird Trans Am;1977;Pontiac;Firebird Trans Am;PON_FirebirdTransAm_77;PON;FirebirdTransAm;id-from-game-asset-name-auto-cleaned;PON_FirebirdTransAm_77.zip;Scene/animations/Mojo/clip/carclips_1276.clipd
+1277;1971 Chrysler Cuda 426;1971;Chrysler;Cuda 426;CHR_Cuda426_71;CHR;Cuda426;id-from-game-asset-name-auto-cleaned;CHR_Cuda426_71.zip;Scene/animations/Mojo/clip/carclips_1277.clipd
+1278;1973 Ford XBFalcon GT;1973;Ford;XBFalcon GT;FOR_XBFalconGT_73;FOR;XBFalconGT;id-from-game-asset-name-auto-cleaned;FOR_XBFalconGT_73.zip;Scene/animations/Mojo/clip/carclips_1278.clipd
+1282;1994 Nissan 240 SX;1994;Nissan;240 SX;NIS_240SX_94;NIS;240SX;id-from-game-asset-name-auto-cleaned;NIS_240SX_94.zip;Scene/animations/Mojo/clip/carclips_1282.clipd
+1291;1970 Chevrolet El Camino SS;1970;Chevrolet;El Camino SS;CHE_ElCaminoSS_70;CHE;ElCaminoSS;id-from-game-asset-name-auto-cleaned;CHE_ElCaminoSS_70.zip;Scene/animations/Mojo/clip/carclips_1291.clipd
+1293;1987 Ford RS 500;1987;Ford;RS 500;FOR_RS500_87;FOR;RS500;id-from-game-asset-name-auto-cleaned;FOR_RS500_87.zip;Scene/animations/Mojo/clip/carclips_1293.clipd
+1294;1992 GMC Syclone;1992;GMC;Syclone;GMC_Syclone_92;GMC;Syclone;id-from-game-asset-name-auto-cleaned;GMC_Syclone_92.zip;Scene/animations/Mojo/clip/carclips_1294.clipd
+1296;1990 Mercedes-Benz 190 E;1990;Mercedes-Benz;190 E;MER_190E_90;MER;190E;id-from-game-asset-name-auto-cleaned;MER_190E_90.zip;Scene/animations/Mojo/clip/carclips_1296.clipd
+1299;1983 Volvo 242 Turbo;1983;Volvo;242 Turbo;VOL_242Turbo_83;VOL;242Turbo;id-from-game-asset-name-auto-cleaned;VOL_242Turbo_83.zip;Scene/animations/Mojo/clip/carclips_1299.clipd
+1300;1964 Chevrolet Impala SS;1964;Chevrolet;Impala SS;CHE_ImpalaSS_64;CHE;ImpalaSS;id-from-game-asset-name-auto-cleaned;CHE_ImpalaSS_64.zip;Scene/animations/Mojo/clip/carclips_1300.clipd
+1301;1956 Jaguar DType;1956;Jaguar;DType;JAG_DType_56;JAG;DType;id-from-game-asset-name-auto-cleaned;JAG_DType_56.zip;Scene/animations/Mojo/clip/carclips_1301.clipd
+1314;1993 McLaren F 1;1993;McLaren;F 1;MCL_F1_93;MCL;F1;id-from-game-asset-name-auto-cleaned;MCL_F1_93.zip;Scene/animations/Mojo/clip/carclips_1314.clipd
+1323;2011 Subaru WRXSTi;2011;Subaru;WRXSTi;SUB_WRXSTi_11;SUB;WRXSTi;id-from-game-asset-name-auto-cleaned;SUB_WRXSTi_11.zip;Scene/animations/Mojo/clip/carclips_1323.clipd
+1330;1970 Chevrolet Camaro Z 28;1970;Chevrolet;Camaro Z 28;CHE_CamaroZ28_70;CHE;CamaroZ28;id-from-game-asset-name-auto-cleaned;CHE_CamaroZ28_70.zip;Scene/animations/Mojo/clip/carclips_1330.clipd
+1332;1968 Dodge Dart;1968;Dodge;Dart;DOD_Dart_68;DOD;Dart;id-from-game-asset-name-auto-cleaned;DOD_Dart_68.zip;Scene/animations/Mojo/clip/carclips_1332.clipd
+1335;1991 Mazda 55 787 B;1991;Mazda;55 787 B;MAZ_55_787B_91;MAZ;55 787B;id-from-game-asset-name-auto-cleaned;MAZ_55_787B_91.zip;Scene/animations/Mojo/clip/carclips_1335.clipd
+1350;2011 BMW X 5 M;2011;BMW;X 5 M;BMW_X5M_11;BMW;X5M;id-from-game-asset-name-auto-cleaned;BMW_X5M_11.zip;Scene/animations/Mojo/clip/carclips_1350.clipd
+1352;1970 Dodge superbee;1970;Dodge;superbee;dod_superbee_70;dod;superbee;id-from-game-asset-name-auto-cleaned;dod_superbee_70.zip;Scene/animations/Mojo/clip/carclips_1352.clipd
+1355;1965 Ford Mustang;1965;Ford;Mustang;FOR_Mustang_65;FOR;Mustang;id-from-game-asset-name-auto-cleaned;FOR_Mustang_65.zip;Scene/animations/Mojo/clip/carclips_1355.clipd
+1367;2003 BMW M 5 E 39;2003;BMW;M 5 E 39;BMW_M5E39_03;BMW;M5E39;id-from-game-asset-name-auto-cleaned;BMW_M5E39_03.zip;Scene/animations/Mojo/clip/carclips_1367.clipd
+1368;1988 BMW M 5 E 28;1988;BMW;M 5 E 28;BMW_M5E28_88;BMW;M5E28;id-from-game-asset-name-auto-cleaned;BMW_M5E28_88.zip;Scene/animations/Mojo/clip/carclips_1368.clipd
+1369;2009 Pagani Zonda Cinque;2009;Pagani;Zonda Cinque;PAG_ZondaCinque_09;PAG;ZondaCinque;id-from-game-asset-name-auto-cleaned;PAG_ZondaCinque_09.zip;Scene/animations/Mojo/clip/carclips_1369.clipd
+1376;1999 Lotus Elise;1999;Lotus;Elise;LOT_Elise_99;LOT;Elise;id-from-game-asset-name-auto-cleaned;LOT_Elise_99.zip;Scene/animations/Mojo/clip/carclips_1376.clipd
+1379;1996 Chevrolet Impala SS;1996;Chevrolet;Impala SS;CHE_ImpalaSS_96;CHE;ImpalaSS;id-from-game-asset-name-auto-cleaned;CHE_ImpalaSS_96.zip;Scene/animations/Mojo/clip/carclips_1379.clipd
+1381;1992 Mitsubishi Galant VR 4;1992;Mitsubishi;Galant VR 4;MIT_GalantVR4_92;MIT;GalantVR4;id-from-game-asset-name-auto-cleaned;MIT_GalantVR4_92.zip;Scene/animations/Mojo/clip/carclips_1381.clipd
+1382;1990 Subaru Legacy RS;1990;Subaru;Legacy RS;SUB_LegacyRS_90;SUB;LegacyRS;id-from-game-asset-name-auto-cleaned;SUB_LegacyRS_90.zip;Scene/animations/Mojo/clip/carclips_1382.clipd
+1388;2012 BMW M 5;2012;BMW;M 5;BMW_M5_12;BMW;M5;id-from-game-asset-name-auto-cleaned;BMW_M5_12.zip;Scene/animations/Mojo/clip/carclips_1388.clipd
+1392;2011 Lamborghini Sesto Elemento;2011;Lamborghini;Sesto Elemento;LAM_SestoElemento_11;LAM;SestoElemento;id-from-game-asset-name-auto-cleaned;LAM_SestoElemento_11.zip;Scene/animations/Mojo/clip/carclips_1392.clipd
+1393;1992 Alfa Romeo 155;1992;Alfa Romeo;155;ALF_155_92;ALF;155;id-from-game-asset-name-auto-cleaned;ALF_155_92.zip;Scene/animations/Mojo/clip/carclips_1393.clipd
+1394;1993 GMC Typhoon;1993;GMC;Typhoon;GMC_Typhoon_93;GMC;Typhoon;id-from-game-asset-name-auto-cleaned;GMC_Typhoon_93.zip;Scene/animations/Mojo/clip/carclips_1394.clipd
+1395;1989 Toyota MR 2 SC;1989;Toyota;MR 2 SC;TOY_MR2SC_89;TOY;MR2SC;id-from-game-asset-name-auto-cleaned;TOY_MR2SC_89.zip;Scene/animations/Mojo/clip/carclips_1395.clipd
+1397;2011 Koenigsegg Agera;2011;Koenigsegg;Agera;KOE_Agera_11;KOE;Agera;id-from-game-asset-name-auto-cleaned;KOE_Agera_11.zip;Scene/animations/Mojo/clip/carclips_1397.clipd
+1398;2012 Lamborghini LP 7004;2012;Lamborghini;LP 7004;LAM_LP7004_12;LAM;LP7004;id-from-game-asset-name-auto-cleaned;LAM_LP7004_12.zip;Scene/animations/Mojo/clip/carclips_1398.clipd
+1417;2011 Audi RS 5;2011;Audi;RS 5;AUD_RS5_11;AUD;RS5;id-from-game-asset-name-auto-cleaned;AUD_RS5_11.zip;Scene/animations/Mojo/clip/carclips_1417.clipd
+1418;1995 BMW M 5;1995;BMW;M 5;BMW_M5_95;BMW;M5;id-from-game-asset-name-auto-cleaned;BMW_M5_95.zip;Scene/animations/Mojo/clip/carclips_1418.clipd
+1426;2011 Mazda RX 8 R 3;2011;Mazda;RX 8 R 3;MAZ_RX8R3_11;MAZ;RX8R3;id-from-game-asset-name-auto-cleaned;MAZ_RX8R3_11.zip;Scene/animations/Mojo/clip/carclips_1426.clipd
+1428;2011 Volkswagen Scirocco R;2011;Volkswagen;Scirocco R;VW_SciroccoR_11;VW;SciroccoR;id-from-game-asset-name-auto-cleaned;VW_SciroccoR_11.zip;Scene/animations/Mojo/clip/carclips_1428.clipd
+1429;1969 Chevrolet Nova SS;1969;Chevrolet;Nova SS;CHE_NovaSS_69;CHE;NovaSS;id-from-game-asset-name-auto-cleaned;CHE_NovaSS_69.zip;Scene/animations/Mojo/clip/carclips_1429.clipd
+1435;1966 Volkswagen Beetle;1966;Volkswagen;Beetle;VW_Beetle_66;VW;Beetle;id-from-game-asset-name-auto-cleaned;VW_Beetle_66.zip;Scene/animations/Mojo/clip/carclips_1435.clipd
+1459;1957 Chevrolet Bel Air;1957;Chevrolet;Bel Air;CHE_BelAir_57;CHE;BelAir;id-from-game-asset-name-auto-cleaned;CHE_BelAir_57.zip;Scene/animations/Mojo/clip/carclips_1459.clipd
+1477;2011 Ford Transit SSV;2011;Ford;Transit SSV;FOR_TransitSSV_11;FOR;TransitSSV;id-from-game-asset-name-auto-cleaned;FOR_TransitSSV_11.zip;Scene/animations/Mojo/clip/carclips_1477.clipd
+1478;1986 Audi 2 Sport Quattro;1986;Audi;2 Sport Quattro;AUD_2_SportQuattro_86;AUD;2 SportQuattro;id-from-game-asset-name-auto-cleaned;AUD_2_SportQuattro_86.zip;Scene/animations/Mojo/clip/carclips_1478.clipd
+1480;1985 Mazda RX 7;1985;Mazda;RX 7;MAZ_RX7_85;MAZ;RX7;id-from-game-asset-name-auto-cleaned;MAZ_RX7_85.zip;Scene/animations/Mojo/clip/carclips_1480.clipd
+1481;1965 Austin-Healey 3000;1965;Austin-Healey;3000;AH_3000_65;AH;3000;id-from-game-asset-name-auto-cleaned;AH_3000_65.zip;Scene/animations/Mojo/clip/carclips_1481.clipd
+1493;1996 BMW 850 CSi;1996;BMW;850 CSi;BMW_850CSi_96;BMW;850CSi;id-from-game-asset-name-auto-cleaned;BMW_850CSi_96.zip;Scene/animations/Mojo/clip/carclips_1493.clipd
+1500;2012 Mercedes-Benz C 63 AMG;2012;Mercedes-Benz;C 63 AMG;MER_C63AMG_12;MER;C63AMG;id-from-game-asset-name-auto-cleaned;MER_C63AMG_12.zip;Scene/animations/Mojo/clip/carclips_1500.clipd
+1513;1997 Maserati Ghibli;1997;Maserati;Ghibli;MAS_Ghibli_97;MAS;Ghibli;id-from-game-asset-name-auto-cleaned;MAS_Ghibli_97.zip;Scene/animations/Mojo/clip/carclips_1513.clipd
+1514;1973 Mazda RX 3;1973;Mazda;RX 3;MAZ_RX3_73;MAZ;RX3;id-from-game-asset-name-auto-cleaned;MAZ_RX3_73.zip;Scene/animations/Mojo/clip/carclips_1514.clipd
+1517;1990 Toyota Celica ST 185;1990;Toyota;Celica ST 185;TOY_CelicaST185_90;TOY;CelicaST185;id-from-game-asset-name-auto-cleaned;TOY_CelicaST185_90.zip;Scene/animations/Mojo/clip/carclips_1517.clipd
+1522;2012 Jeep Wrangler;2012;Jeep;Wrangler;JEE_Wrangler_12;JEE;Wrangler;id-from-game-asset-name-auto-cleaned;JEE_Wrangler_12.zip;Scene/animations/Mojo/clip/carclips_1522.clipd
+1529;1974 Ford Capri;1974;Ford;Capri;FOR_Capri_74;FOR;Capri;id-from-game-asset-name-auto-cleaned;FOR_Capri_74.zip;Scene/animations/Mojo/clip/carclips_1529.clipd
+1532;2012 Hennessey Venom GT;2012;Hennessey;Venom GT;HEN_VenomGT_12;HEN;VenomGT;id-from-game-asset-name-auto-cleaned;HEN_VenomGT_12.zip;Scene/animations/Mojo/clip/carclips_1532.clipd
+1533;1977 Holden Torana;1977;Holden;Torana;HOL_Torana_77;HOL;Torana;id-from-game-asset-name-auto-cleaned;HOL_Torana_77.zip;Scene/animations/Mojo/clip/carclips_1533.clipd
+1537;1973 Toyota Corolla SR 5;1973;Toyota;Corolla SR 5;TOY_CorollaSR5_73;TOY;CorollaSR5;id-from-game-asset-name-auto-cleaned;TOY_CorollaSR5_73.zip;Scene/animations/Mojo/clip/carclips_1537.clipd
+1549;1968 Alfa Romeo 33 Stradale;1968;Alfa Romeo;33 Stradale;ALF_33Stradale_68;ALF;33Stradale;id-from-game-asset-name-auto-cleaned;ALF_33Stradale_68.zip;Scene/animations/Mojo/clip/carclips_1549.clipd
+1559;1955 Mercedes-Benz 300 slr;1955;Mercedes-Benz;300 slr;MER_300slr_55;MER;300slr;id-from-game-asset-name-auto-cleaned;MER_300slr_55.zip;Scene/animations/Mojo/clip/carclips_1559.clipd
+1562;2013 Viper Viper;2013;Viper;Viper;VIP_Viper_13;VIP;Viper;id-from-game-asset-name-auto-cleaned;VIP_Viper_13.zip;Scene/animations/Mojo/clip/carclips_1562.clipd
+1564;1953 Chevrolet Corvette;1953;Chevrolet;Corvette;CHE_Corvette_53;CHE;Corvette;id-from-game-asset-name-auto-cleaned;CHE_Corvette_53.zip;Scene/animations/Mojo/clip/carclips_1564.clipd
+1568;1974 Honda Civic RS;1974;Honda;Civic RS;HON_CivicRS_74;HON;CivicRS;id-from-game-asset-name-auto-cleaned;HON_CivicRS_74.zip;Scene/animations/Mojo/clip/carclips_1568.clipd
+1575;1988 Chevrolet Monte Carlo;1988;Chevrolet;Monte Carlo;CHE_MonteCarlo_88;CHE;MonteCarlo;id-from-game-asset-name-auto-cleaned;CHE_MonteCarlo_88.zip;Scene/animations/Mojo/clip/carclips_1575.clipd
+1578;1963 Ferrari 250 GTLusso;1963;Ferrari;250 GTLusso;FER_250GTLusso_63;FER;250GTLusso;id-from-game-asset-name-auto-cleaned;FER_250GTLusso_63.zip;Scene/animations/Mojo/clip/carclips_1578.clipd
+1586;1962 Lincoln Continental;1962;Lincoln;Continental;LIN_Continental_62;LIN;Continental;id-from-game-asset-name-auto-cleaned;LIN_Continental_62.zip;Scene/animations/Mojo/clip/carclips_1586.clipd
+1587;1972 Mazda Cosmo;1972;Mazda;Cosmo;MAZ_Cosmo_72;MAZ;Cosmo;id-from-game-asset-name-auto-cleaned;MAZ_Cosmo_72.zip;Scene/animations/Mojo/clip/carclips_1587.clipd
+1591;1984 Peugeot 205 T 16;1984;Peugeot;205 T 16;PEU_205T16_84;PEU;205T16;id-from-game-asset-name-auto-cleaned;PEU_205T16_84.zip;Scene/animations/Mojo/clip/carclips_1591.clipd
+1598;2010 BMW M 3 GTS;2010;BMW;M 3 GTS;BMW_M3GTS_10;BMW;M3GTS;id-from-game-asset-name-auto-cleaned;BMW_M3GTS_10.zip;Scene/animations/Mojo/clip/carclips_1598.clipd
+1599;2012 Ferrari 599 XXEvolution;2012;Ferrari;599 XXEvolution;FER_599XXEvolution_12;FER;599XXEvolution;id-from-game-asset-name-auto-cleaned;FER_599XXEvolution_12.zip;Scene/animations/Mojo/clip/carclips_1599.clipd
+1601;2012 Lamborghini Gallardo LP 570 Spyder;2012;Lamborghini;Gallardo LP 570 Spyder;LAM_GallardoLP570Spyder_12;LAM;GallardoLP570Spyder;id-from-game-asset-name-auto-cleaned;LAM_GallardoLP570Spyder_12.zip;Scene/animations/Mojo/clip/carclips_1601.clipd
+1607;2013 Audi RS 4 Avant;2013;Audi;RS 4 Avant;AUD_RS4Avant_13;AUD;RS4Avant;id-from-game-asset-name-auto-cleaned;AUD_RS4Avant_13.zip;Scene/animations/Mojo/clip/carclips_1607.clipd
+1627;2013 Mercedes-Benz G 65 AMG;2013;Mercedes-Benz;G 65 AMG;MER_G65AMG_13;MER;G65AMG;id-from-game-asset-name-auto-cleaned;MER_G65AMG_13.zip;Scene/animations/Mojo/clip/carclips_1627.clipd
+1650;1986 Honda Civic Si;1986;Honda;Civic Si;HON_CivicSi_86;HON;CivicSi;id-from-game-asset-name-auto-cleaned;HON_CivicSi_86.zip;Scene/animations/Mojo/clip/carclips_1650.clipd
+1651;2013 Ariel Atom;2013;Ariel;Atom;ARI_Atom_13;ARI;Atom;id-from-game-asset-name-auto-cleaned;ARI_Atom_13.zip;Scene/animations/Mojo/clip/carclips_1651.clipd
+1654;2013 Ford Mustang GT 500;2013;Ford;Mustang GT 500;FOR_MustangGT500_13;FOR;MustangGT500;id-from-game-asset-name-auto-cleaned;FOR_MustangGT500_13.zip;Scene/animations/Mojo/clip/carclips_1654.clipd
+1655;2013 Subaru BRZ;2013;Subaru;BRZ;SUB_BRZ_13;SUB;BRZ;id-from-game-asset-name-auto-cleaned;SUB_BRZ_13.zip;Scene/animations/Mojo/clip/carclips_1655.clipd
+1658;2013 Mercedes-Benz A 45 AMG;2013;Mercedes-Benz;A 45 AMG;MER_A45AMG_13;MER;A45AMG;id-from-game-asset-name-auto-cleaned;MER_A45AMG_13.zip;Scene/animations/Mojo/clip/carclips_1658.clipd
+1661;1986 Lancia Delta S 4;1986;Lancia;Delta S 4;LAN_DeltaS4_86;LAN;DeltaS4;id-from-game-asset-name-auto-cleaned;LAN_DeltaS4_86.zip;Scene/animations/Mojo/clip/carclips_1661.clipd
+1662;1965 MINI Cooper S;1965;MINI;Cooper S;MIN_CooperS_65;MIN;CooperS;id-from-game-asset-name-auto-cleaned;MIN_CooperS_65.zip;Scene/animations/Mojo/clip/carclips_1662.clipd
+1667;2013 McLaren P 1;2013;McLaren;P 1;MCL_P1_13;MCL;P1;id-from-game-asset-name-auto-cleaned;MCL_P1_13.zip;Scene/animations/Mojo/clip/carclips_1667.clipd
+1668;1969 Ford mustangboss 302;1969;Ford;mustangboss 302;for_mustangboss302_69;for;mustangboss302;id-from-game-asset-name-auto-cleaned;for_mustangboss302_69.zip;Scene/animations/Mojo/clip/carclips_1668.clipd
+2002;2012 Nissan GT-R;2012;Nissan;GT-R;NIS_GTR_12;NIS;GTR;id-from-game-asset-name-auto-cleaned;NIS_GTR_12.zip;Scene/animations/Mojo/clip/carclips_2002.clipd
+2003;2013 MINI JCWGP;2013;MINI;JCWGP;MIN_JCWGP_13;MIN;JCWGP;id-from-game-asset-name-auto-cleaned;MIN_JCWGP_13.zip;Scene/animations/Mojo/clip/carclips_2003.clipd
+2004;2013 Mazda MX 5;2013;Mazda;MX 5;MAZ_MX5_13;MAZ;MX5;id-from-game-asset-name-auto-cleaned;MAZ_MX5_13.zip;Scene/animations/Mojo/clip/carclips_2004.clipd
+2006;1995 Chevrolet Corvette ZR 1;1995;Chevrolet;Corvette ZR 1;CHE_CorvetteZR1_95;CHE;CorvetteZR1;id-from-game-asset-name-auto-cleaned;CHE_CorvetteZR1_95.zip;Scene/animations/Mojo/clip/carclips_2006.clipd
+2007;2013 Toyota GT 86;2013;Toyota;GT 86;TOY_GT86_13;TOY;GT86;id-from-game-asset-name-auto-cleaned;TOY_GT86_13.zip;Scene/animations/Mojo/clip/carclips_2007.clipd
+2009;2013 Audi RS 7;2013;Audi;RS 7;AUD_RS7_13;AUD;RS7;id-from-game-asset-name-auto-cleaned;AUD_RS7_13.zip;Scene/animations/Mojo/clip/carclips_2009.clipd
+2010;2013 Audi R 8 Plus;2013;Audi;R 8 Plus;AUD_R8Plus_13;AUD;R8Plus;id-from-game-asset-name-auto-cleaned;AUD_R8Plus_13.zip;Scene/animations/Mojo/clip/carclips_2010.clipd
+2017;1968 Fiat 595 SS;1968;Fiat;595 SS;FIA_595SS_68;FIA;595SS;id-from-game-asset-name-auto-cleaned;FIA_595SS_68.zip;Scene/animations/Mojo/clip/carclips_2017.clipd
+2019;2003 Ford focusrs;2003;Ford;focusrs;for_focusrs_03;for;focusrs;id-from-game-asset-name-auto-cleaned;for_focusrs_03.zip;Scene/animations/Mojo/clip/carclips_2019.clipd
+2034;2013 Ferrari La Ferrari;2013;Ferrari;La Ferrari;FER_LaFerrari_13;FER;LaFerrari;id-from-game-asset-name-auto-cleaned;FER_LaFerrari_13.zip;Scene/animations/Mojo/clip/carclips_2034.clipd
+2038;2014 Alfa Romeo 4 C;2014;Alfa Romeo;4 C;ALF_4C_14;ALF;4C;id-from-game-asset-name-auto-cleaned;ALF_4C_14.zip;Scene/animations/Mojo/clip/carclips_2038.clipd
+2040;2014 BAC Mono;2014;BAC;Mono;BAC_Mono_14;BAC;Mono;id-from-game-asset-name-auto-cleaned;BAC_Mono_14.zip;Scene/animations/Mojo/clip/carclips_2040.clipd
+2042;2013 Lamborghini Veneno;2013;Lamborghini;Veneno;LAM_Veneno_13;LAM;Veneno;id-from-game-asset-name-auto-cleaned;LAM_Veneno_13.zip;Scene/animations/Mojo/clip/carclips_2042.clipd
+2119;1984 Honda CRXMugen;1984;Honda;CRXMugen;HON_CRXMugen_84;HON;CRXMugen;id-from-game-asset-name-auto-cleaned;HON_CRXMugen_84.zip;Scene/animations/Mojo/clip/carclips_2119.clipd
+2121;1994 Honda Prelude;1994;Honda;Prelude;HON_Prelude_94;HON;Prelude;id-from-game-asset-name-auto-cleaned;HON_Prelude_94.zip;Scene/animations/Mojo/clip/carclips_2121.clipd
+2128;2013 Cadillac XTSLimo;2013;Cadillac;XTSLimo;CAD_XTSLimo_13;CAD;XTSLimo;id-from-game-asset-name-auto-cleaned;CAD_XTSLimo_13.zip;Scene/animations/Mojo/clip/carclips_2128.clipd
+2131;2014 Holden HSVGTS;2014;Holden;HSVGTS;HOL_HSVGTS_14;HOL;HSVGTS;id-from-game-asset-name-auto-cleaned;HOL_HSVGTS_14.zip;Scene/animations/Mojo/clip/carclips_2131.clipd
+2133;2015 BMW i 8;2015;BMW;i 8;BMW_i8_15;BMW;i8;id-from-game-asset-name-auto-cleaned;BMW_i8_15.zip;Scene/animations/Mojo/clip/carclips_2133.clipd
+2140;1981 Subaru BRAT;1981;Subaru;BRAT;SUB_BRAT_81;SUB;BRAT;id-from-game-asset-name-auto-cleaned;SUB_BRAT_81.zip;Scene/animations/Mojo/clip/carclips_2140.clipd
+2142;2014 Volkswagen Golf R;2014;Volkswagen;Golf R;VW_GolfR_14;VW;GolfR;id-from-game-asset-name-auto-cleaned;VW_GolfR_14.zip;Scene/animations/Mojo/clip/carclips_2142.clipd
+2145;2014 Ford Ranger T 6;2014;Ford;Ranger T 6;FOR_RangerT6_14;FOR;RangerT6;id-from-game-asset-name-auto-cleaned;FOR_RangerT6_14.zip;Scene/animations/Mojo/clip/carclips_2145.clipd
+2147;1986 MG metro 6 r 4;1986;MG;metro 6 r 4;mg_metro6r4_86;mg;metro6r4;id-from-game-asset-name-auto-cleaned;mg_metro6r4_86.zip;Scene/animations/Mojo/clip/carclips_2147.clipd
+2148;2013 MINI xraidcountryman;2013;MINI;xraidcountryman;min_xraidcountryman_13;min;xraidcountryman;id-from-game-asset-name-auto-cleaned;min_xraidcountryman_13.zip;Scene/animations/Mojo/clip/carclips_2148.clipd
+2149;1993 Renault Clio Williams;1993;Renault;Clio Williams;REN_ClioWilliams_93;REN;ClioWilliams;id-from-game-asset-name-auto-cleaned;REN_ClioWilliams_93.zip;Scene/animations/Mojo/clip/carclips_2149.clipd
+2151;1963 Volkswagen Type 2;1963;Volkswagen;Type 2;VW_Type2_63;VW;Type2;id-from-game-asset-name-auto-cleaned;VW_Type2_63.zip;Scene/animations/Mojo/clip/carclips_2151.clipd
+2154;2014 BMW M 4;2014;BMW;M 4;BMW_M4_14;BMW;M4;id-from-game-asset-name-auto-cleaned;BMW_M4_14.zip;Scene/animations/Mojo/clip/carclips_2154.clipd
+2161;1965 Alfa Romeo Giulia TZ 2;1965;Alfa Romeo;Giulia TZ 2;ALF_GiuliaTZ2_65;ALF;GiuliaTZ2;id-from-game-asset-name-auto-cleaned;ALF_GiuliaTZ2_65.zip;Scene/animations/Mojo/clip/carclips_2161.clipd
+2163;2015 Honda Civic Type R;2015;Honda;Civic Type R;HON_CivicTypeR_15;HON;CivicTypeR;id-from-game-asset-name-auto-cleaned;HON_CivicTypeR_15.zip;Scene/animations/Mojo/clip/carclips_2163.clipd
+2164;2015 Lamborghini Huracan;2015;Lamborghini;Huracan;LAM_Huracan_15;LAM;Huracan;id-from-game-asset-name-auto-cleaned;LAM_Huracan_15.zip;Scene/animations/Mojo/clip/carclips_2164.clipd
+2168;2015 Subaru WRXSTI;2015;Subaru;WRXSTI;SUB_WRXSTI_15;SUB;WRXSTI;id-from-game-asset-name-auto-cleaned;SUB_WRXSTI_15.zip;Scene/animations/Mojo/clip/carclips_2168.clipd
+2171;2005 Mazda MX 5;2005;Mazda;MX 5;MAZ_MX5_05;MAZ;MX5;id-from-game-asset-name-auto-cleaned;MAZ_MX5_05.zip;Scene/animations/Mojo/clip/carclips_2171.clipd
+2175;2015 Lexus RCF;2015;Lexus;RCF;LEX_RCF_15;LEX;RCF;id-from-game-asset-name-auto-cleaned;LEX_RCF_15.zip;Scene/animations/Mojo/clip/carclips_2175.clipd
+2177;2015 Chevrolet Corvette Z 06;2015;Chevrolet;Corvette Z 06;CHE_CorvetteZ06_15;CHE;CorvetteZ06;id-from-game-asset-name-auto-cleaned;CHE_CorvetteZ06_15.zip;Scene/animations/Mojo/clip/carclips_2177.clipd
+2178;2001 Audi RS 4;2001;Audi;RS 4;AUD_RS4_01;AUD;RS4;id-from-game-asset-name-auto-cleaned;AUD_RS4_01.zip;Scene/animations/Mojo/clip/carclips_2178.clipd
+2179;2015 Audi S 1;2015;Audi;S 1;AUD_S1_15;AUD;S1;id-from-game-asset-name-auto-cleaned;AUD_S1_15.zip;Scene/animations/Mojo/clip/carclips_2179.clipd
+2180;2015 Audi RS 6;2015;Audi;RS 6;AUD_RS6_15;AUD;RS6;id-from-game-asset-name-auto-cleaned;AUD_RS6_15.zip;Scene/animations/Mojo/clip/carclips_2180.clipd
+2183;2015 Chevrolet Camaro Z 28;2015;Chevrolet;Camaro Z 28;CHE_CamaroZ28_15;CHE;CamaroZ28;id-from-game-asset-name-auto-cleaned;CHE_CamaroZ28_15.zip;Scene/animations/Mojo/clip/carclips_2183.clipd
+2184;2015 Ferrari 458 Speciale;2015;Ferrari;458 Speciale;FER_458Speciale_15;FER;458Speciale;id-from-game-asset-name-auto-cleaned;FER_458Speciale_15.zip;Scene/animations/Mojo/clip/carclips_2184.clipd
+2188;2015 Koenigsegg one;2015;Koenigsegg;one;koe_one_15;koe;one;id-from-game-asset-name-auto-cleaned;koe_one_15.zip;Scene/animations/Mojo/clip/carclips_2188.clipd
+2205;1970 Honda S 800;1970;Honda;S 800;HON_S800_70;HON;S800;id-from-game-asset-name-auto-cleaned;HON_S800_70.zip;Scene/animations/Mojo/clip/carclips_2205.clipd
+2216;1958 Plymouth Fury;1958;Plymouth;Fury;PLY_Fury_58;PLY;Fury;id-from-game-asset-name-auto-cleaned;PLY_Fury_58.zip;Scene/animations/Mojo/clip/carclips_2216.clipd
+2217;1996 Subaru SVX;1996;Subaru;SVX;SUB_SVX_96;SUB;SVX;id-from-game-asset-name-auto-cleaned;SUB_SVX_96.zip;Scene/animations/Mojo/clip/carclips_2217.clipd
+2242;2015 Mercedes-Benz AMGGT;2015;Mercedes-Benz;AMGGT;MER_AMGGT_15;MER;AMGGT;id-from-game-asset-name-auto-cleaned;MER_AMGGT_15.zip;Scene/animations/Mojo/clip/carclips_2242.clipd
+2262;2016 Cadillac ATSV;2016;Cadillac;ATSV;CAD_ATSV_16;CAD;ATSV;id-from-game-asset-name-auto-cleaned;CAD_ATSV_16.zip;Scene/animations/Mojo/clip/carclips_2262.clipd
+2263;2015 Dodge Challenger Hellcat;2015;Dodge;Challenger Hellcat;DOD_ChallengerHellcat_15;DOD;ChallengerHellcat;id-from-game-asset-name-auto-cleaned;DOD_ChallengerHellcat_15.zip;Scene/animations/Mojo/clip/carclips_2263.clipd
+2267;2016 Mazda MX 5;2016;Mazda;MX 5;MAZ_MX5_16;MAZ;MX5;id-from-game-asset-name-auto-cleaned;MAZ_MX5_16.zip;Scene/animations/Mojo/clip/carclips_2267.clipd
+2270;1973 Nissan Skyline GT-R;1973;Nissan;Skyline GT-R;NIS_SkylineGTR_73;NIS;SkylineGTR;id-from-game-asset-name-auto-cleaned;NIS_SkylineGTR_73.zip;Scene/animations/Mojo/clip/carclips_2270.clipd
+2272;1969 Datsun 2000;1969;Datsun;2000;DAT_2000_69;DAT;2000;id-from-game-asset-name-auto-cleaned;DAT_2000_69.zip;Scene/animations/Mojo/clip/carclips_2272.clipd
+2290;2014 Porsche 918 Spyder;2014;Porsche;918 Spyder;POR_918Spyder_14;POR;918Spyder;id-from-game-asset-name-auto-cleaned;POR_918Spyder_14.zip;Scene/animations/Mojo/clip/carclips_2290.clipd
+2297;2012 Porsche 911 GT 3 RS;2012;Porsche;911 GT 3 RS;POR_911GT3RS_12;POR;911GT3RS;id-from-game-asset-name-auto-cleaned;POR_911GT3RS_12.zip;Scene/animations/Mojo/clip/carclips_2297.clipd
+2357;2017 Ford Focus RS;2017;Ford;Focus RS;FOR_FocusRS_17;FOR;FocusRS;id-from-game-asset-name-auto-cleaned;FOR_FocusRS_17.zip;Scene/animations/Mojo/clip/carclips_2357.clipd
+2363;2016 Ford Phoenix;2016;Ford;Phoenix;FOR_Phoenix_16;FOR;Phoenix;id-from-game-asset-name-auto-cleaned;FOR_Phoenix_16.zip;Scene/animations/Mojo/clip/carclips_2363.clipd
+2371;2016 Ferrari FXXK;2016;Ferrari;FXXK;FER_FXXK_16;FER;FXXK;id-from-game-asset-name-auto-cleaned;FER_FXXK_16.zip;Scene/animations/Mojo/clip/carclips_2371.clipd
+2372;2032 Ford Coupe;2032;Ford;Coupe;FOR_Coupe_32;FOR;Coupe;id-from-game-asset-name-auto-cleaned;FOR_Coupe_32.zip;Scene/animations/Mojo/clip/carclips_2372.clipd
+2400;2016 Ford Shelby GT 350 R;2016;Ford;Shelby GT 350 R;FOR_ShelbyGT350R_16;FOR;ShelbyGT350R;id-from-game-asset-name-auto-cleaned;FOR_ShelbyGT350R_16.zip;Scene/animations/Mojo/clip/carclips_2400.clipd
+2412;1962 BMW isetta;1962;BMW;isetta;bmw_isetta_62;bmw;isetta;id-from-game-asset-name-auto-cleaned;bmw_isetta_62.zip;Scene/animations/Mojo/clip/carclips_2412.clipd
+2416;1971 Meyers Manx;1971;Meyers;Manx;MEY_Manx_71;MEY;Manx;id-from-game-asset-name-auto-cleaned;MEY_Manx_71.zip;Scene/animations/Mojo/clip/carclips_2416.clipd
+2420;1984 Opel manta 400;1984;Opel;manta 400;ope_manta400_84;ope;manta400;id-from-game-asset-name-auto-cleaned;ope_manta400_84.zip;Scene/animations/Mojo/clip/carclips_2420.clipd
+2421;2016 Cadillac CTSVSedan;2016;Cadillac;CTSVSedan;CAD_CTSVSedan_16;CAD;CTSVSedan;id-from-game-asset-name-auto-cleaned;CAD_CTSVSedan_16.zip;Scene/animations/Mojo/clip/carclips_2421.clipd
+2422;2016 Holden HSVGTSMaloo;2016;Holden;HSVGTSMaloo;HOL_HSVGTSMaloo_16;HOL;HSVGTSMaloo;id-from-game-asset-name-auto-cleaned;HOL_HSVGTSMaloo_16.zip;Scene/animations/Mojo/clip/carclips_2422.clipd
+2430;2016 Ariel Nomad;2016;Ariel;Nomad;ARI_Nomad_16;ARI;Nomad;id-from-game-asset-name-auto-cleaned;ARI_Nomad_16.zip;Scene/animations/Mojo/clip/carclips_2430.clipd
+2467;2016 Ferrari 488 gtb;2016;Ferrari;488 gtb;fer_488gtb_16;fer;488gtb;id-from-game-asset-name-auto-cleaned;fer_488gtb_16.zip;Scene/animations/Mojo/clip/carclips_2467.clipd
+2468;2015 Dodge chargersrthellcat;2015;Dodge;chargersrthellcat;dod_chargersrthellcat_15;dod;chargersrthellcat;id-from-game-asset-name-auto-cleaned;dod_chargersrthellcat_15.zip;Scene/animations/Mojo/clip/carclips_2468.clipd
+2469;1965 Toyota Sports 800;1965;Toyota;Sports 800;TOY_Sports800_65;TOY;Sports800;id-from-game-asset-name-auto-cleaned;TOY_Sports800_65.zip;Scene/animations/Mojo/clip/carclips_2469.clipd
+2470;2016 Aston Martin Vulcan;2016;Aston Martin;Vulcan;AST_Vulcan_16;AST;Vulcan;id-from-game-asset-name-auto-cleaned;AST_Vulcan_16.zip;Scene/animations/Mojo/clip/carclips_2470.clipd
+2471;2016 Mercedes-Benz C 63 AMGCoupe;2016;Mercedes-Benz;C 63 AMGCoupe;MER_C63AMGCoupe_16;MER;C63AMGCoupe;id-from-game-asset-name-auto-cleaned;MER_C63AMGCoupe_16.zip;Scene/animations/Mojo/clip/carclips_2471.clipd
+2472;2016 McLaren 570 S;2016;McLaren;570 S;MCL_570S_16;MCL;570S;id-from-game-asset-name-auto-cleaned;MCL_570S_16.zip;Scene/animations/Mojo/clip/carclips_2472.clipd
+2473;2016 Audi r 8 v 10 plus;2016;Audi;r 8 v 10 plus;aud_r8v10plus_16;aud;r8v10plus;id-from-game-asset-name-auto-cleaned;aud_r8v10plus_16.zip;Scene/animations/Mojo/clip/carclips_2473.clipd
+2486;2015 Radical RXC;2015;Radical;RXC;RAD_RXC_15;RAD;RXC;id-from-game-asset-name-auto-cleaned;RAD_RXC_15.zip;Scene/animations/Mojo/clip/carclips_2486.clipd
+2489;2016 Fiat 695 Abarth;2016;Fiat;695 Abarth;FIA_695Abarth_16;FIA;695Abarth;id-from-game-asset-name-auto-cleaned;FIA_695Abarth_16.zip;Scene/animations/Mojo/clip/carclips_2489.clipd
+2494;2015 Land Rover rangeroversvr;2015;Land Rover;rangeroversvr;lr_rangeroversvr_15;lr;rangeroversvr;id-from-game-asset-name-auto-cleaned;lr_rangeroversvr_15.zip;Scene/animations/Mojo/clip/carclips_2494.clipd
+2507;1955 Chevrolet 150 Utility Sedan;1955;Chevrolet;150 Utility Sedan;CHE_150UtilitySedan_55;CHE;150UtilitySedan;id-from-game-asset-name-auto-cleaned;CHE_150UtilitySedan_55.zip;Scene/animations/Mojo/clip/carclips_2507.clipd
+2512;1987 Nissan Skyline GTSR;1987;Nissan;Skyline GTSR;NIS_SkylineGTSR_87;NIS;SkylineGTSR;id-from-game-asset-name-auto-cleaned;NIS_SkylineGTSR_87.zip;Scene/animations/Mojo/clip/carclips_2512.clipd
+2515;2011 Penske Cholla;2011;Penske;Cholla;PEN_Cholla_11;PEN;Cholla;id-from-game-asset-name-auto-cleaned;PEN_Cholla_11.zip;Scene/animations/Mojo/clip/carclips_2515.clipd
+2517;2014 Ford 11 F 150 Trophy Truck;2014;Ford;11 F 150 Trophy Truck;FOR_11_F150TrophyTruck_14;FOR;11 F150TrophyTruck;id-from-game-asset-name-auto-cleaned;FOR_11_F150TrophyTruck_14.zip;Scene/animations/Mojo/clip/carclips_2517.clipd
+2526;2016 Koenigsegg regera;2016;Koenigsegg;regera;koe_regera_16;koe;regera;id-from-game-asset-name-auto-cleaned;koe_regera_16.zip;Scene/animations/Mojo/clip/carclips_2526.clipd
+2527;2017 Aston Martin DB 11;2017;Aston Martin;DB 11;AST_DB11_17;AST;DB11;id-from-game-asset-name-auto-cleaned;AST_DB11_17.zip;Scene/animations/Mojo/clip/carclips_2527.clipd
+2534;1993 Porsche 968 Turbo S;1993;Porsche;968 Turbo S;POR_968TurboS_93;POR;968TurboS;id-from-game-asset-name-auto-cleaned;POR_968TurboS_93.zip;Scene/animations/Mojo/clip/carclips_2534.clipd
+2535;1993 Porsche 928 GTS;1993;Porsche;928 GTS;POR_928GTS_93;POR;928GTS;id-from-game-asset-name-auto-cleaned;POR_928GTS_93.zip;Scene/animations/Mojo/clip/carclips_2535.clipd
+2542;2016 Alfa Romeo Giulia;2016;Alfa Romeo;Giulia;ALF_Giulia_16;ALF;Giulia;id-from-game-asset-name-auto-cleaned;ALF_Giulia_16.zip;Scene/animations/Mojo/clip/carclips_2542.clipd
+2544;2016 Dodge Viper ACR;2016;Dodge;Viper ACR;DOD_ViperACR_16;DOD;ViperACR;id-from-game-asset-name-auto-cleaned;DOD_ViperACR_16.zip;Scene/animations/Mojo/clip/carclips_2544.clipd
+2549;1970 Porsche 3 917 LH;1970;Porsche;3 917 LH;POR_3_917LH_70;POR;3 917LH;id-from-game-asset-name-auto-cleaned;POR_3_917LH_70.zip;Scene/animations/Mojo/clip/carclips_2549.clipd
+2551;2015 Ford Pursuit Ute;2015;Ford;Pursuit Ute;FOR_PursuitUte_15;FOR;PursuitUte;id-from-game-asset-name-auto-cleaned;FOR_PursuitUte_15.zip;Scene/animations/Mojo/clip/carclips_2551.clipd
+2552;2015 Ariel Class 10;2015;Ariel;Class 10;AC_Class10_15;AC;Class10;id-from-game-asset-name-auto-cleaned;AC_Class10_15.zip;Scene/animations/Mojo/clip/carclips_2552.clipd
+2563;1972 Reliant Supervan III;1972;Reliant;Supervan III;REL_SupervanIII_72;REL;SupervanIII;id-from-game-asset-name-auto-cleaned;REL_SupervanIII_72.zip;Scene/animations/Mojo/clip/carclips_2563.clipd
+2566;1975 Toyota FJ 40;1975;Toyota;FJ 40;TOY_FJ40_75;TOY;FJ40;id-from-game-asset-name-auto-cleaned;TOY_FJ40_75.zip;Scene/animations/Mojo/clip/carclips_2566.clipd
+2568;1969 Volkswagen Class 5 Bug;1969;Volkswagen;Class 5 Bug;VW_Class5Bug_69;VW;Class5Bug;id-from-game-asset-name-auto-cleaned;VW_Class5Bug_69.zip;Scene/animations/Mojo/clip/carclips_2568.clipd
+2569;2015 Ultima Evolution Coupe;2015;Ultima;Evolution Coupe;ULT_EvolutionCoupe_15;ULT;EvolutionCoupe;id-from-game-asset-name-auto-cleaned;ULT_EvolutionCoupe_15.zip;Scene/animations/Mojo/clip/carclips_2569.clipd
+2574;2015 343 Industries Warthog;2015;343 Industries;Warthog;343_Warthog_15;343;Warthog;confirmed-by-user-and-game-asset;343_Warthog_15.zip;Scene/animations/Mojo/clip/carclips_2574.clipd
+2577;2015 Ferrari F 12 tdf;2015;Ferrari;F 12 tdf;FER_F12tdf_15;FER;F12tdf;id-from-game-asset-name-auto-cleaned;FER_F12tdf_15.zip;Scene/animations/Mojo/clip/carclips_2577.clipd
+2613;1970 GMC Jimmy;1970;GMC;Jimmy;GMC_Jimmy_70;GMC;Jimmy;id-from-game-asset-name-auto-cleaned;GMC_Jimmy_70.zip;Scene/animations/Mojo/clip/carclips_2613.clipd
+2614;1968 Ford Mustang GT 390;1968;Ford;Mustang GT 390;FOR_MustangGT390_68;FOR;MustangGT390;id-from-game-asset-name-auto-cleaned;FOR_MustangGT390_68.zip;Scene/animations/Mojo/clip/carclips_2614.clipd
+2616;2017 Lamborghini Bellissima;2017;Lamborghini;Bellissima;LAM_Bellissima_17;LAM;Bellissima;id-from-game-asset-name-auto-cleaned;LAM_Bellissima_17.zip;Scene/animations/Mojo/clip/carclips_2616.clipd
+2618;2017 Nissan GT-R;2017;Nissan;GT-R;NIS_GTR_17;NIS;GTR;id-from-game-asset-name-auto-cleaned;NIS_GTR_17.zip;Scene/animations/Mojo/clip/carclips_2618.clipd
+2625;2016 Bentley bentayga;2016;Bentley;bentayga;ben_bentayga_16;ben;bentayga;id-from-game-asset-name-auto-cleaned;ben_bentayga_16.zip;Scene/animations/Mojo/clip/carclips_2625.clipd
+2628;2016 BMW M 4 GTS;2016;BMW;M 4 GTS;BMW_M4GTS_16;BMW;M4GTS;id-from-game-asset-name-auto-cleaned;BMW_M4GTS_16.zip;Scene/animations/Mojo/clip/carclips_2628.clipd
+2636;1993 Toyota 1 Baja Truck;1993;Toyota;1 Baja Truck;TOY_1_BajaTruck_93;TOY;1 BajaTruck;id-from-game-asset-name-auto-cleaned;TOY_1_BajaTruck_93.zip;Scene/animations/Mojo/clip/carclips_2636.clipd
+2647;2016 Pagani huayra;2016;Pagani;huayra;pag_huayra_16;pag;huayra;id-from-game-asset-name-auto-cleaned;pag_huayra_16.zip;Scene/animations/Mojo/clip/carclips_2647.clipd
+2649;2010 Ford crownvictoria;2010;Ford;crownvictoria;for_crownvictoria_10;for;crownvictoria;id-from-game-asset-name-auto-cleaned;for_crownvictoria_10.zip;Scene/animations/Mojo/clip/carclips_2649.clipd
+2652;1997 Mitsubishi Pajero Evo;1997;Mitsubishi;Pajero Evo;MIT_PajeroEvo_97;MIT;PajeroEvo;id-from-game-asset-name-auto-cleaned;MIT_PajeroEvo_97.zip;Scene/animations/Mojo/clip/carclips_2652.clipd
+2654;2017 Mercedes-Benz AMGGTR;2017;Mercedes-Benz;AMGGTR;MER_AMGGTR_17;MER;AMGGTR;id-from-game-asset-name-auto-cleaned;MER_AMGGTR_17.zip;Scene/animations/Mojo/clip/carclips_2654.clipd
+2659;1998 Nissan Silvia Ks;1998;Nissan;Silvia Ks;NIS_SilviaKs_98;NIS;SilviaKs;id-from-game-asset-name-auto-cleaned;NIS_SilviaKs_98.zip;Scene/animations/Mojo/clip/carclips_2659.clipd
+2663;2016 RJ Anderson 37 Pro 2 Truck;2016;RJ Anderson;37 Pro 2 Truck;RJ_37_Pro2Truck_16;RJ;37 Pro2Truck;id-from-game-asset-name-auto-cleaned;RJ_37_Pro2Truck_16.zip;Scene/animations/Mojo/clip/carclips_2663.clipd
+2711;2010 Mazda Mazdaspeed 3 Traffic;2010;Mazda;Mazdaspeed 3 Traffic;MAZ_Mazdaspeed3_Traffic_10;MAZ;Mazdaspeed3 Traffic;id-from-game-asset-name-auto-cleaned;MAZ_Mazdaspeed3_Traffic_10.zip;Scene/animations/Mojo/clip/carclips_2711.clipd
+2712;1992 Mitsubishi Galant VR 4 Traffic;1992;Mitsubishi;Galant VR 4 Traffic;MIT_GalantVR4_Traffic_92;MIT;GalantVR4 Traffic;id-from-game-asset-name-auto-cleaned;MIT_GalantVR4_Traffic_92.zip;Scene/animations/Mojo/clip/carclips_2712.clipd
+2713;2014 Playground Games Box Truck Traffic;2014;Playground Games;Box Truck Traffic;PG_BoxTruck_Traffic_14;PG;BoxTruck Traffic;id-from-game-asset-name-auto-cleaned;PG_BoxTruck_Traffic_14.zip;Scene/animations/Mojo/clip/carclips_2713.clipd
+2714;2014 Playground Games Bus Traffic;2014;Playground Games;Bus Traffic;PG_Bus_Traffic_14;PG;Bus Traffic;id-from-game-asset-name-auto-cleaned;PG_Bus_Traffic_14.zip;Scene/animations/Mojo/clip/carclips_2714.clipd
+2738;1995 Nissan gtrlm;1995;Nissan;gtrlm;nis_gtrlm_95;nis;gtrlm;id-from-game-asset-name-auto-cleaned;nis_gtrlm_95.zip;Scene/animations/Mojo/clip/carclips_2738.clipd
+2739;2017 Chevrolet camarozl 1;2017;Chevrolet;camarozl 1;che_camarozl1_17;che;camarozl1;id-from-game-asset-name-auto-cleaned;che_camarozl1_17.zip;Scene/animations/Mojo/clip/carclips_2739.clipd
+2742;2017 Jeep Trailcat;2017;Jeep;Trailcat;JEE_Trailcat_17;JEE;Trailcat;id-from-game-asset-name-auto-cleaned;JEE_Trailcat_17.zip;Scene/animations/Mojo/clip/carclips_2742.clipd
+2743;2016 Toyota Land Cruiser Arctic;2016;Toyota;Land Cruiser Arctic;TOY_LandCruiserArctic_16;TOY;LandCruiserArctic;id-from-game-asset-name-auto-cleaned;TOY_LandCruiserArctic_16.zip;Scene/animations/Mojo/clip/carclips_2743.clipd
+2745;2015 Honda Trophy Truck;2015;Honda;Trophy Truck;HON_TrophyTruck_15;HON;TrophyTruck;id-from-game-asset-name-auto-cleaned;HON_TrophyTruck_15.zip;Scene/animations/Mojo/clip/carclips_2745.clipd
+2755;2017 Porsche Raymond;2017;Porsche;Raymond;POR_Raymond_17;POR;Raymond;id-from-game-asset-name-auto-cleaned;POR_Raymond_17.zip;Scene/animations/Mojo/clip/carclips_2755.clipd
+2773;2018 Porsche Cayenne;2018;Porsche;Cayenne;POR_Cayenne_18;POR;Cayenne;id-from-game-asset-name-auto-cleaned;POR_Cayenne_18.zip;Scene/animations/Mojo/clip/carclips_2773.clipd
+2792;1966 Ford 2 GT 40;1966;Ford;2 GT 40;FOR_2_GT40_66;FOR;2 GT40;id-from-game-asset-name-auto-cleaned;FOR_2_GT40_66.zip;Scene/animations/Mojo/clip/carclips_2792.clipd
+2793;1967 Ferrari 24 330 P 4;1967;Ferrari;24 330 P 4;FER_24_330P4_67;FER;24 330P4;id-from-game-asset-name-auto-cleaned;FER_24_330P4_67.zip;Scene/animations/Mojo/clip/carclips_2793.clipd
+2794;1993 Porsche 911 Turbo S;1993;Porsche;911 Turbo S;POR_911TurboS_93;POR;911TurboS;id-from-game-asset-name-auto-cleaned;POR_911TurboS_93.zip;Scene/animations/Mojo/clip/carclips_2794.clipd
+2801;1984 Nissan 11 Skyline;1984;Nissan;11 Skyline;NIS_11_Skyline_84;NIS;11 Skyline;id-from-game-asset-name-auto-cleaned;NIS_11_Skyline_84.zip;Scene/animations/Mojo/clip/carclips_2801.clipd
+2822;1985 Nissan Safari;1985;Nissan;Safari;NIS_Safari_85;NIS;Safari;id-from-game-asset-name-auto-cleaned;NIS_Safari_85.zip;Scene/animations/Mojo/clip/carclips_2822.clipd
+2825;1997 Lotus Elise GT 1;1997;Lotus;Elise GT 1;LOT_EliseGT1_97;LOT;EliseGT1;id-from-game-asset-name-auto-cleaned;LOT_EliseGT1_97.zip;Scene/animations/Mojo/clip/carclips_2825.clipd
+2841;2018 Jeep Trackhawk;2018;Jeep;Trackhawk;JEE_Trackhawk_18;JEE;Trackhawk;id-from-game-asset-name-auto-cleaned;JEE_Trackhawk_18.zip;Scene/animations/Mojo/clip/carclips_2841.clipd
+2870;2018 Honda Civic Type R;2018;Honda;Civic Type R;HON_CivicTypeR_18;HON;CivicTypeR;id-from-game-asset-name-auto-cleaned;HON_CivicTypeR_18.zip;Scene/animations/Mojo/clip/carclips_2870.clipd
+2871;2018 Can-Am Maverick;2018;Can-Am;Maverick;CAN_Maverick_18;CAN;Maverick;id-from-game-asset-name-auto-cleaned;CAN_Maverick_18.zip;Scene/animations/Mojo/clip/carclips_2871.clipd
+2872;2019 Hyundai Veloster N;2019;Hyundai;Veloster N;HYU_VelosterN_19;HYU;VelosterN;id-from-game-asset-name-auto-cleaned;HYU_VelosterN_19.zip;Scene/animations/Mojo/clip/carclips_2872.clipd
+2902;2018 Playground Games Flatbed Truck Traffic;2018;Playground Games;Flatbed Truck Traffic;PG_FlatbedTruck_Traffic_18;PG;FlatbedTruck Traffic;id-from-game-asset-name-auto-cleaned;PG_FlatbedTruck_Traffic_18.zip;Scene/animations/Mojo/clip/carclips_2902.clipd
+2903;2005 Subaru Legacy B 4 GT Traffic;2005;Subaru;Legacy B 4 GT Traffic;SUB_LegacyB4GT_Traffic_05;SUB;LegacyB4GT Traffic;id-from-game-asset-name-auto-cleaned;SUB_LegacyB4GT_Traffic_05.zip;Scene/animations/Mojo/clip/carclips_2903.clipd
+2909;2018 Dodge Demon;2018;Dodge;Demon;DOD_Demon_18;DOD;Demon;id-from-game-asset-name-auto-cleaned;DOD_Demon_18.zip;Scene/animations/Mojo/clip/carclips_2909.clipd
+2910;2017 Koenigsegg Agera RS;2017;Koenigsegg;Agera RS;KOE_AgeraRS_17;KOE;AgeraRS;id-from-game-asset-name-auto-cleaned;KOE_AgeraRS_17.zip;Scene/animations/Mojo/clip/carclips_2910.clipd
+2935;2018 Funco F 9;2018;Funco;F 9;FUN_F9_18;FUN;F9;id-from-game-asset-name-auto-cleaned;FUN_F9_18.zip;Scene/animations/Mojo/clip/carclips_2935.clipd
+2937;2017 Ford 14 Fiesta GRC;2017;Ford;14 Fiesta GRC;FOR_14_FiestaGRC_17;FOR;14 FiestaGRC;id-from-game-asset-name-auto-cleaned;FOR_14_FiestaGRC_17.zip;Scene/animations/Mojo/clip/carclips_2937.clipd
+2968;2023 Aston Martin Valkyrie;2023;Aston Martin;Valkyrie;AST_Valkyrie_23;AST;Valkyrie;id-from-game-asset-name-auto-cleaned;AST_Valkyrie_23.zip;Scene/animations/Mojo/clip/carclips_2968.clipd
+2974;2018 Ferrari 812 Superfast;2018;Ferrari;812 Superfast;FER_812Superfast_18;FER;812Superfast;id-from-game-asset-name-auto-cleaned;FER_812Superfast_18.zip;Scene/animations/Mojo/clip/carclips_2974.clipd
+2986;2017 Mercedes-Benz Unimog;2017;Mercedes-Benz;Unimog;MER_Unimog_17;MER;Unimog;id-from-game-asset-name-auto-cleaned;MER_Unimog_17.zip;Scene/animations/Mojo/clip/carclips_2986.clipd
+2987;1962 Peel P 50;1962;Peel;P 50;PEE_P50_62;PEE;P50;id-from-game-asset-name-auto-cleaned;PEE_P50_62.zip;Scene/animations/Mojo/clip/carclips_2987.clipd
+2992;1964 Jaguar Etype Lightweight;1964;Jaguar;Etype Lightweight;JAG_EtypeLightweight_64;JAG;EtypeLightweight;id-from-game-asset-name-auto-cleaned;JAG_EtypeLightweight_64.zip;Scene/animations/Mojo/clip/carclips_2992.clipd
+2993;2018 TVR Griffith;2018;TVR;Griffith;TVR_Griffith_18;TVR;Griffith;id-from-game-asset-name-auto-cleaned;TVR_Griffith_18.zip;Scene/animations/Mojo/clip/carclips_2993.clipd
+2995;1983 Volkswagen Golf GTI;1983;Volkswagen;Golf GTI;VW_GolfGTI_83;VW;GolfGTI;id-from-game-asset-name-auto-cleaned;VW_GolfGTI_83.zip;Scene/animations/Mojo/clip/carclips_2995.clipd
+2996;2015 Ford 13 Mustang FD;2015;Ford;13 Mustang FD;FOR_13_MustangFD_15;FOR;13 MustangFD;id-from-game-asset-name-auto-cleaned;FOR_13_MustangFD_15.zip;Scene/animations/Mojo/clip/carclips_2996.clipd
+2997;2016 Holden 530 Maloo FD;2016;Holden;530 Maloo FD;HOL_530_MalooFD_16;HOL;530 MalooFD;id-from-game-asset-name-auto-cleaned;HOL_530_MalooFD_16.zip;Scene/animations/Mojo/clip/carclips_2997.clipd
+3000;1997 Nissan 777 240 SXFD;1997;Nissan;777 240 SXFD;NIS_777_240SXFD_97;NIS;777 240SXFD;id-from-game-asset-name-auto-cleaned;NIS_777_240SXFD_97.zip;Scene/animations/Mojo/clip/carclips_3000.clipd
+3003;2006 Dodge 43 Viper FD;2006;Dodge;43 Viper FD;DOD_43_ViperFD_06;DOD;43 ViperFD;id-from-game-asset-name-auto-cleaned;DOD_43_ViperFD_06.zip;Scene/animations/Mojo/clip/carclips_3003.clipd
+3007;2017 Volkswagen 34 Beetle GRC;2017;Volkswagen;34 Beetle GRC;VW_34_BeetleGRC_17;VW;34 BeetleGRC;id-from-game-asset-name-auto-cleaned;VW_34_BeetleGRC_17.zip;Scene/animations/Mojo/clip/carclips_3007.clipd
+3031;1986 Porsche 186 959;1986;Porsche;186 959;POR_186_959_86;POR;186 959;id-from-game-asset-name-auto-cleaned;POR_186_959_86.zip;Scene/animations/Mojo/clip/carclips_3031.clipd
+3035;2018 KTM XBow GT 4;2018;KTM;XBow GT 4;KTM_XBowGT4_18;KTM;XBowGT4;id-from-game-asset-name-auto-cleaned;KTM_XBowGT4_18.zip;Scene/animations/Mojo/clip/carclips_3035.clipd
+3037;1989 BMW 98 325 i FD;1989;BMW;98 325 i FD;BMW_98_325iFD_89;BMW;98 325iFD;id-from-game-asset-name-auto-cleaned;BMW_98_325iFD_89.zip;Scene/animations/Mojo/clip/carclips_3037.clipd
+3051;2017 Ford MSport Fiesta;2017;Ford;MSport Fiesta;FOR_MSportFiesta_17;FOR;MSportFiesta;id-from-game-asset-name-auto-cleaned;FOR_MSportFiesta_17.zip;Scene/animations/Mojo/clip/carclips_3051.clipd
+3055;2010 Jaguar CX 75;2010;Jaguar;CX 75;JAG_CX75_10;JAG;CX75;id-from-game-asset-name-auto-cleaned;JAG_CX75_10.zip;Scene/animations/Mojo/clip/carclips_3055.clipd
+3062;1970 Ferrari 512 S;1970;Ferrari;512 S;FER_512S_70;FER;512S;id-from-game-asset-name-auto-cleaned;FER_512S_70.zip;Scene/animations/Mojo/clip/carclips_3062.clipd
+3063;2018 Mercedes-Benz XClass;2018;Mercedes-Benz;XClass;MER_XClass_18;MER;XClass;id-from-game-asset-name-auto-cleaned;MER_XClass_18.zip;Scene/animations/Mojo/clip/carclips_3063.clipd
+3064;2018 Mercedes-Benz AMGGT 4;2018;Mercedes-Benz;AMGGT 4;MER_AMGGT4_18;MER;AMGGT4;id-from-game-asset-name-auto-cleaned;MER_AMGGT4_18.zip;Scene/animations/Mojo/clip/carclips_3064.clipd
+3072;2018 Porsche 911 GT 3 RS;2018;Porsche;911 GT 3 RS;POR_911GT3RS_18;POR;911GT3RS;id-from-game-asset-name-auto-cleaned;POR_911GT3RS_18.zip;Scene/animations/Mojo/clip/carclips_3072.clipd
+3082;2006 Maserati MC 12 Corsa;2006;Maserati;MC 12 Corsa;MAS_MC12Corsa_06;MAS;MC12Corsa;id-from-game-asset-name-auto-cleaned;MAS_MC12Corsa_06.zip;Scene/animations/Mojo/clip/carclips_3082.clipd
+3087;2014 McLaren 650 SSpider;2014;McLaren;650 SSpider;MCL_650SSpider_14;MCL;650SSpider;id-from-game-asset-name-auto-cleaned;MCL_650SSpider_14.zip;Scene/animations/Mojo/clip/carclips_3087.clipd
+3088;2018 Chevrolet Deberti Drift Truck;2018;Chevrolet;Deberti Drift Truck;CHE_DebertiDriftTruck_18;CHE;DebertiDriftTruck;id-from-game-asset-name-auto-cleaned;CHE_DebertiDriftTruck_18.zip;Scene/animations/Mojo/clip/carclips_3088.clipd
+3091;2018 Aston Martin Vantage;2018;Aston Martin;Vantage;AST_Vantage_18;AST;Vantage;id-from-game-asset-name-auto-cleaned;AST_Vantage_18.zip;Scene/animations/Mojo/clip/carclips_3091.clipd
+3107;2014 Mercedes-Benz G 63 AMG 6 x 6;2014;Mercedes-Benz;G 63 AMG 6 x 6;MER_G63AMG6x6_14;MER;G63AMG6x6;id-from-game-asset-name-auto-cleaned;MER_G63AMG6x6_14.zip;Scene/animations/Mojo/clip/carclips_3107.clipd
+3108;2018 Ford Mustang RTRSpec 5;2018;Ford;Mustang RTRSpec 5;FOR_MustangRTRSpec5_18;FOR;MustangRTRSpec5;id-from-game-asset-name-auto-cleaned;FOR_MustangRTRSpec5_18.zip;Scene/animations/Mojo/clip/carclips_3108.clipd
+3110;2013 Jeep Deberti Wrangler;2013;Jeep;Deberti Wrangler;JEE_DebertiWrangler_13;JEE;DebertiWrangler;id-from-game-asset-name-auto-cleaned;JEE_DebertiWrangler_13.zip;Scene/animations/Mojo/clip/carclips_3110.clipd
+3117;2018 Porsche 718 Cayman GTS;2018;Porsche;718 Cayman GTS;POR_718CaymanGTS_18;POR;718CaymanGTS;id-from-game-asset-name-auto-cleaned;POR_718CaymanGTS_18.zip;Scene/animations/Mojo/clip/carclips_3117.clipd
+3118;2019 Chevrolet Corvette ZR 1;2019;Chevrolet;Corvette ZR 1;CHE_CorvetteZR1_19;CHE;CorvetteZR1;id-from-game-asset-name-auto-cleaned;CHE_CorvetteZR1_19.zip;Scene/animations/Mojo/clip/carclips_3118.clipd
+3120;2019 Lamborghini Urus;2019;Lamborghini;Urus;LAM_Urus_19;LAM;Urus;id-from-game-asset-name-auto-cleaned;LAM_Urus_19.zip;Scene/animations/Mojo/clip/carclips_3120.clipd
+3123;2019 Porsche 992;2019;Porsche;992;POR_992_19;POR;992;id-from-game-asset-name-auto-cleaned;POR_992_19.zip;Scene/animations/Mojo/clip/carclips_3123.clipd
+3128;2017 Ford 25 Ultra 4 Bronco;2017;Ford;25 Ultra 4 Bronco;FOR_25_Ultra4Bronco_17;FOR;25 Ultra4Bronco;id-from-game-asset-name-auto-cleaned;FOR_25_Ultra4Bronco_17.zip;Scene/animations/Mojo/clip/carclips_3128.clipd
+3129;2008 Renault Megane R 26 R;2008;Renault;Megane R 26 R;REN_MeganeR26R_08;REN;MeganeR26R;id-from-game-asset-name-auto-cleaned;REN_MeganeR26R_08.zip;Scene/animations/Mojo/clip/carclips_3129.clipd
+3132;2018 MINI JCWBuggy;2018;MINI;JCWBuggy;MIN_JCWBuggy_18;MIN;JCWBuggy;id-from-game-asset-name-auto-cleaned;MIN_JCWBuggy_18.zip;Scene/animations/Mojo/clip/carclips_3132.clipd
+3134;2018 Renault Megane RS;2018;Renault;Megane RS;REN_MeganeRS_18;REN;MeganeRS;id-from-game-asset-name-auto-cleaned;REN_MeganeRS_18.zip;Scene/animations/Mojo/clip/carclips_3134.clipd
+3141;2018 Apollo Intensa;2018;Apollo;Intensa;APO_Intensa_18;APO;Intensa;id-from-game-asset-name-auto-cleaned;APO_Intensa_18.zip;Scene/animations/Mojo/clip/carclips_3141.clipd
+3149;2018 Chevrolet Camaro 1 LE;2018;Chevrolet;Camaro 1 LE;CHE_Camaro1LE_18;CHE;Camaro1LE;id-from-game-asset-name-auto-cleaned;CHE_Camaro1LE_18.zip;Scene/animations/Mojo/clip/carclips_3149.clipd
+3153;2019 McLaren 600 LT;2019;McLaren;600 LT;MCL_600LT_19;MCL;600LT;id-from-game-asset-name-auto-cleaned;MCL_600LT_19.zip;Scene/animations/Mojo/clip/carclips_3153.clipd
+3156;2019 McLaren Speedtail;2019;McLaren;Speedtail;MCL_Speedtail_19;MCL;Speedtail;id-from-game-asset-name-auto-cleaned;MCL_Speedtail_19.zip;Scene/animations/Mojo/clip/carclips_3156.clipd
+3170;1994 Ford Supervan 3;1994;Ford;Supervan 3;FOR_Supervan3_94;FOR;Supervan3;id-from-game-asset-name-auto-cleaned;FOR_Supervan3_94.zip;Scene/animations/Mojo/clip/carclips_3170.clipd
+3173;2019 BMW Z 4;2019;BMW;Z 4;BMW_Z4_19;BMW;Z4;id-from-game-asset-name-auto-cleaned;BMW_Z4_19.zip;Scene/animations/Mojo/clip/carclips_3173.clipd
+3176;1987 Mercedes-Benz AMGHammer;1987;Mercedes-Benz;AMGHammer;MER_AMGHammer_87;MER;AMGHammer;id-from-game-asset-name-auto-cleaned;MER_AMGHammer_87.zip;Scene/animations/Mojo/clip/carclips_3176.clipd
+3180;1991 Peugeot 205 Rallye;1991;Peugeot;205 Rallye;PEU_205Rallye_91;PEU;205Rallye;id-from-game-asset-name-auto-cleaned;PEU_205Rallye_91.zip;Scene/animations/Mojo/clip/carclips_3180.clipd
+3184;1977 Ford 5 Escort Mk 2;1977;Ford;5 Escort Mk 2;FOR_5_EscortMk2_77;FOR;5 EscortMk2;id-from-game-asset-name-auto-cleaned;FOR_5_EscortMk2_77.zip;Scene/animations/Mojo/clip/carclips_3184.clipd
+3185;2019 Aston Martin DBSSuperleggera;2019;Aston Martin;DBSSuperleggera;AST_DBSSuperleggera_19;AST;DBSSuperleggera;id-from-game-asset-name-auto-cleaned;AST_DBSSuperleggera_19.zip;Scene/animations/Mojo/clip/carclips_3185.clipd
+3187;2018 Porsche 00 Macan RR;2018;Porsche;00 Macan RR;POR_00_MacanRR_18;POR;00 MacanRR;id-from-game-asset-name-auto-cleaned;POR_00_MacanRR_18.zip;Scene/animations/Mojo/clip/carclips_3187.clipd
+3189;2018 Hennessey Velociraptor 6 x 6;2018;Hennessey;Velociraptor 6 x 6;HEN_Velociraptor6x6_18;HEN;Velociraptor6x6;id-from-game-asset-name-auto-cleaned;HEN_Velociraptor6x6_18.zip;Scene/animations/Mojo/clip/carclips_3189.clipd
+3190;2003 Ford SVTLightning;2003;Ford;SVTLightning;FOR_SVTLightning_03;FOR;SVTLightning;id-from-game-asset-name-auto-cleaned;FOR_SVTLightning_03.zip;Scene/animations/Mojo/clip/carclips_3190.clipd
+3211;2019 Aston Martin Vulcan AMRPro;2019;Aston Martin;Vulcan AMRPro;AST_VulcanAMRPro_19;AST;VulcanAMRPro;id-from-game-asset-name-auto-cleaned;AST_VulcanAMRPro_19.zip;Scene/animations/Mojo/clip/carclips_3211.clipd
+3212;2019 Zenvo TSR-S;2019;Zenvo;TSR-S;ZEN_TSRS_19;ZEN;TSRS;id-from-game-asset-name-auto-cleaned;ZEN_TSRS_19.zip;Scene/animations/Mojo/clip/carclips_3212.clipd
+3214;2019 Porsche 70 935;2019;Porsche;70 935;POR_70_935_19;POR;70 935;id-from-game-asset-name-auto-cleaned;POR_70_935_19.zip;Scene/animations/Mojo/clip/carclips_3214.clipd
+3225;2018 Ferrari Portofino;2018;Ferrari;Portofino;FER_Portofino_18;FER;Portofino;id-from-game-asset-name-auto-cleaned;FER_Portofino_18.zip;Scene/animations/Mojo/clip/carclips_3225.clipd
+3226;2017 Ferrari J 50;2017;Ferrari;J 50;FER_J50_17;FER;J50;id-from-game-asset-name-auto-cleaned;FER_J50_17.zip;Scene/animations/Mojo/clip/carclips_3226.clipd
+3227;2019 Ferrari 488 Pista;2019;Ferrari;488 Pista;FER_488Pista_19;FER;488Pista;id-from-game-asset-name-auto-cleaned;FER_488Pista_19.zip;Scene/animations/Mojo/clip/carclips_3227.clipd
+3228;1999 Ford Racing Puma;1999;Ford;Racing Puma;FOR_RacingPuma_99;FOR;RacingPuma;id-from-game-asset-name-auto-cleaned;FOR_RacingPuma_99.zip;Scene/animations/Mojo/clip/carclips_3228.clipd
+3232;2013 Chevrolet 777 Corvette FD;2013;Chevrolet;777 Corvette FD;CHE_777_CorvetteFD_13;CHE;777 CorvetteFD;id-from-game-asset-name-auto-cleaned;CHE_777_CorvetteFD_13.zip;Scene/animations/Mojo/clip/carclips_3232.clipd
+3235;1982 Volkswagen Caddy;1982;Volkswagen;Caddy;VW_Caddy_82;VW;Caddy;id-from-game-asset-name-auto-cleaned;VW_Caddy_82.zip;Scene/animations/Mojo/clip/carclips_3235.clipd
+3241;2018 Subaru 00 VT 18 X;2018;Subaru;00 VT 18 X;SUB_00_VT18X_18;SUB;00 VT18X;id-from-game-asset-name-auto-cleaned;SUB_00_VT18X_18.zip;Scene/animations/Mojo/clip/carclips_3241.clipd
+3249;2018 Ferrari 117 599 FD;2018;Ferrari;117 599 FD;FER_117_599FD_18;FER;117 599FD;id-from-game-asset-name-auto-cleaned;FER_117_599FD_18.zip;Scene/animations/Mojo/clip/carclips_3249.clipd
+3250;2018 Mercedes-Benz E 63 SAMG;2018;Mercedes-Benz;E 63 SAMG;MER_E63SAMG_18;MER;E63SAMG;id-from-game-asset-name-auto-cleaned;MER_E63SAMG_18.zip;Scene/animations/Mojo/clip/carclips_3250.clipd
+3255;2020 Jeep Gladiator;2020;Jeep;Gladiator;JEE_Gladiator_20;JEE;Gladiator;id-from-game-asset-name-auto-cleaned;JEE_Gladiator_20.zip;Scene/animations/Mojo/clip/carclips_3255.clipd
+3257;1990 Nissan Pulsar GTIR;1990;Nissan;Pulsar GTIR;NIS_PulsarGTIR_90;NIS;PulsarGTIR;id-from-game-asset-name-auto-cleaned;NIS_PulsarGTIR_90.zip;Scene/animations/Mojo/clip/carclips_3257.clipd
+3277;2020 Ford Mustang GT 500;2020;Ford;Mustang GT 500;FOR_MustangGT500_20;FOR;MustangGT500;id-from-game-asset-name-auto-cleaned;FOR_MustangGT500_20.zip;Scene/animations/Mojo/clip/carclips_3277.clipd
+3287;1991 Jaguar XJR 15;1991;Jaguar;XJR 15;JAG_XJR15_91;JAG;XJR15;id-from-game-asset-name-auto-cleaned;JAG_XJR15_91.zip;Scene/animations/Mojo/clip/carclips_3287.clipd
+3288;1993 Porsche 962 CRS;1993;Porsche;962 CRS;POR_962CRS_93;POR;962CRS;id-from-game-asset-name-auto-cleaned;POR_962CRS_93.zip;Scene/animations/Mojo/clip/carclips_3288.clipd
+3289;2019 Lamborghini Aventador SVJ;2019;Lamborghini;Aventador SVJ;LAM_AventadorSVJ_19;LAM;AventadorSVJ;id-from-game-asset-name-auto-cleaned;LAM_AventadorSVJ_19.zip;Scene/animations/Mojo/clip/carclips_3289.clipd
+3293;1993 Jaguar XJ 220 S;1993;Jaguar;XJ 220 S;JAG_XJ220S_93;JAG;XJ220S;id-from-game-asset-name-auto-cleaned;JAG_XJ220S_93.zip;Scene/animations/Mojo/clip/carclips_3293.clipd
+3307;2019 Nissan 370 ZNismo;2019;Nissan;370 ZNismo;NIS_370ZNismo_19;NIS;370ZNismo;id-from-game-asset-name-auto-cleaned;NIS_370ZNismo_19.zip;Scene/animations/Mojo/clip/carclips_3307.clipd
+3311;2018 Ferrari FXXKEvo;2018;Ferrari;FXXKEvo;FER_FXXKEvo_18;FER;FXXKEvo;id-from-game-asset-name-auto-cleaned;FER_FXXKEvo_18.zip;Scene/animations/Mojo/clip/carclips_3311.clipd
+3312;2019 Ferrari Monza SP 2;2019;Ferrari;Monza SP 2;FER_MonzaSP2_19;FER;MonzaSP2;id-from-game-asset-name-auto-cleaned;FER_MonzaSP2_19.zip;Scene/animations/Mojo/clip/carclips_3312.clipd
+3315;2020 Koenigsegg Jesko;2020;Koenigsegg;Jesko;KOE_Jesko_20;KOE;Jesko;id-from-game-asset-name-auto-cleaned;KOE_Jesko_20.zip;Scene/animations/Mojo/clip/carclips_3315.clipd
+3318;2018 Audi RS 4 Avant;2018;Audi;RS 4 Avant;AUD_RS4Avant_18;AUD;RS4Avant;id-from-game-asset-name-auto-cleaned;AUD_RS4Avant_18.zip;Scene/animations/Mojo/clip/carclips_3318.clipd
+3359;2018 Audi Etron;2018;Audi;Etron;AUD_Etron_18;AUD;Etron;id-from-game-asset-name-auto-cleaned;AUD_Etron_18.zip;Scene/animations/Mojo/clip/carclips_3359.clipd
+3363;1998 Nissan 23 Skyline;1998;Nissan;23 Skyline;NIS_23_Skyline_98;NIS;23 Skyline;id-from-game-asset-name-auto-cleaned;NIS_23_Skyline_98.zip;Scene/animations/Mojo/clip/carclips_3363.clipd
+3364;2021 Aston Martin Valhalla;2021;Aston Martin;Valhalla;AST_Valhalla_21;AST;Valhalla;id-from-game-asset-name-auto-cleaned;AST_Valhalla_21.zip;Scene/animations/Mojo/clip/carclips_3364.clipd
+3367;2020 Ferrari F 8 Tributo;2020;Ferrari;F 8 Tributo;FER_F8Tributo_20;FER;F8Tributo;id-from-game-asset-name-auto-cleaned;FER_F8Tributo_20.zip;Scene/animations/Mojo/clip/carclips_3367.clipd
+3369;2020 Chevrolet Corvette;2020;Chevrolet;Corvette;CHE_Corvette_20;CHE;Corvette;id-from-game-asset-name-auto-cleaned;CHE_Corvette_20.zip;Scene/animations/Mojo/clip/carclips_3369.clipd
+3371;2020 Lamborghini Huracan EVO;2020;Lamborghini;Huracan EVO;LAM_HuracanEVO_20;LAM;HuracanEVO;id-from-game-asset-name-auto-cleaned;LAM_HuracanEVO_20.zip;Scene/animations/Mojo/clip/carclips_3371.clipd
+3373;2019 Toyota 4 Runner TRDPro;2019;Toyota;4 Runner TRDPro;TOY_4RunnerTRDPro_19;TOY;4RunnerTRDPro;id-from-game-asset-name-auto-cleaned;TOY_4RunnerTRDPro_19.zip;Scene/animations/Mojo/clip/carclips_3373.clipd
+3374;2019 Toyota Tacoma TRDPro;2019;Toyota;Tacoma TRDPro;TOY_TacomaTRDPro_19;TOY;TacomaTRDPro;id-from-game-asset-name-auto-cleaned;TOY_TacomaTRDPro_19.zip;Scene/animations/Mojo/clip/carclips_3374.clipd
+3395;1967 Renault 8 Gordini;1967;Renault;8 Gordini;REN_8Gordini_67;REN;8Gordini;id-from-game-asset-name-auto-cleaned;REN_8Gordini_67.zip;Scene/animations/Mojo/clip/carclips_3395.clipd
+3400;2019 Mazda 99 RX 8 FD;2019;Mazda;99 RX 8 FD;MAZ_99_RX8FD_19;MAZ;99 RX8FD;id-from-game-asset-name-auto-cleaned;MAZ_99_RX8FD_19.zip;Scene/animations/Mojo/clip/carclips_3400.clipd
+3402;2020 Toyota Supra GR;2020;Toyota;Supra GR;TOY_SupraGR_20;TOY;SupraGR;id-from-game-asset-name-auto-cleaned;TOY_SupraGR_20.zip;Scene/animations/Mojo/clip/carclips_3402.clipd
+3404;2020 Ford 2069 Bronco R;2020;Ford;2069 Bronco R;FOR_2069_BroncoR_20;FOR;2069 BroncoR;id-from-game-asset-name-auto-cleaned;FOR_2069_BroncoR_20.zip;Scene/animations/Mojo/clip/carclips_3404.clipd
+3411;1995 Toyota 34 Supra Mk IV;1995;Toyota;34 Supra Mk IV;TOY_34_SupraMkIV_95;TOY;34 SupraMkIV;id-from-game-asset-name-auto-cleaned;TOY_34_SupraMkIV_95.zip;Scene/animations/Mojo/clip/carclips_3411.clipd
+3412;2019 Subaru WRXSTi S 209;2019;Subaru;WRXSTi S 209;SUB_WRXSTiS209_19;SUB;WRXSTiS209;id-from-game-asset-name-auto-cleaned;SUB_WRXSTiS209_19.zip;Scene/animations/Mojo/clip/carclips_3412.clipd
+3413;2019 Volkswagen Golf R;2019;Volkswagen;Golf R;VW_GolfR_19;VW;GolfR;id-from-game-asset-name-auto-cleaned;VW_GolfR_19.zip;Scene/animations/Mojo/clip/carclips_3413.clipd
+3414;2020 Land Rover Defender;2020;Land Rover;Defender;LR_Defender_20;LR;Defender;id-from-game-asset-name-auto-cleaned;LR_Defender_20.zip;Scene/animations/Mojo/clip/carclips_3414.clipd
+3434;2020 BMW M 2 Comp;2020;BMW;M 2 Comp;BMW_M2Comp_20;BMW;M2Comp;id-from-game-asset-name-auto-cleaned;BMW_M2Comp_20.zip;Scene/animations/Mojo/clip/carclips_3434.clipd
+3439;2019 Ford F 250 Deberti;2019;Ford;F 250 Deberti;FOR_F250Deberti_19;FOR;F250Deberti;id-from-game-asset-name-auto-cleaned;FOR_F250Deberti_19.zip;Scene/animations/Mojo/clip/carclips_3439.clipd
+3441;2019 Toyota Tacoma Deberti;2019;Toyota;Tacoma Deberti;TOY_TacomaDeberti_19;TOY;TacomaDeberti;id-from-game-asset-name-auto-cleaned;TOY_TacomaDeberti_19.zip;Scene/animations/Mojo/clip/carclips_3441.clipd
+3445;2020 Porsche Taycan Turbo S;2020;Porsche;Taycan Turbo S;POR_TaycanTurboS_20;POR;TaycanTurboS;id-from-game-asset-name-auto-cleaned;POR_TaycanTurboS_20.zip;Scene/animations/Mojo/clip/carclips_3445.clipd
+3449;2020 Lotus Evija;2020;Lotus;Evija;LOT_Evija_20;LOT;Evija;id-from-game-asset-name-auto-cleaned;LOT_Evija_20.zip;Scene/animations/Mojo/clip/carclips_3449.clipd
+3454;2020 Audi RS 3 Sedan;2020;Audi;RS 3 Sedan;AUD_RS3Sedan_20;AUD;RS3Sedan;id-from-game-asset-name-auto-cleaned;AUD_RS3Sedan_20.zip;Scene/animations/Mojo/clip/carclips_3454.clipd
+3476;2020 Ford F 450 DRW;2020;Ford;F 450 DRW;FOR_F450DRW_20;FOR;F450DRW;id-from-game-asset-name-auto-cleaned;FOR_F450DRW_20.zip;Scene/animations/Mojo/clip/carclips_3476.clipd
+3477;2020 Chevrolet Silverado LTZ 71;2020;Chevrolet;Silverado LTZ 71;CHE_SilveradoLTZ71_20;CHE;SilveradoLTZ71;id-from-game-asset-name-auto-cleaned;CHE_SilveradoLTZ71_20.zip;Scene/animations/Mojo/clip/carclips_3477.clipd
+3482;2021 McLaren 765 LT;2021;McLaren;765 LT;MCL_765LT_21;MCL;765LT;id-from-game-asset-name-auto-cleaned;MCL_765LT_21.zip;Scene/animations/Mojo/clip/carclips_3482.clipd
+3486;2012 Jeep Wrangler Traffic;2012;Jeep;Wrangler Traffic;JEE_Wrangler_Traffic_12;JEE;Wrangler Traffic;id-from-game-asset-name-auto-cleaned;JEE_Wrangler_Traffic_12.zip;Scene/animations/Mojo/clip/carclips_3486.clipd
+3498;2017 Saleen S 7 LM;2017;Saleen;S 7 LM;SAL_S7LM_17;SAL;S7LM;id-from-game-asset-name-auto-cleaned;SAL_S7LM_17.zip;Scene/animations/Mojo/clip/carclips_3498.clipd
+3518;2020 BMW M 8;2020;BMW;M 8;BMW_M8_20;BMW;M8;id-from-game-asset-name-auto-cleaned;BMW_M8_20.zip;Scene/animations/Mojo/clip/carclips_3518.clipd
+3520;2021 Lexus LC 500;2021;Lexus;LC 500;LEX_LC500_21;LEX;LC500;id-from-game-asset-name-auto-cleaned;LEX_LC500_21.zip;Scene/animations/Mojo/clip/carclips_3520.clipd
+3523;2020 Toyota 151 Supra GRFD;2020;Toyota;151 Supra GRFD;TOY_151_SupraGRFD_20;TOY;151 SupraGRFD;id-from-game-asset-name-auto-cleaned;TOY_151_SupraGRFD_20.zip;Scene/animations/Mojo/clip/carclips_3523.clipd
+3524;2019 Toyota 411 Corolla FD;2019;Toyota;411 Corolla FD;TOY_411_CorollaFD_19;TOY;411 CorollaFD;id-from-game-asset-name-auto-cleaned;TOY_411_CorollaFD_19.zip;Scene/animations/Mojo/clip/carclips_3524.clipd
+3533;2022 Volkswagen Golf R;2022;Volkswagen;Golf R;VW_GolfR_22;VW;GolfR;id-from-game-asset-name-auto-cleaned;VW_GolfR_22.zip;Scene/animations/Mojo/clip/carclips_3533.clipd
+3534;2021 MINI JCWGP;2021;MINI;JCWGP;MIN_JCWGP_21;MIN;JCWGP;id-from-game-asset-name-auto-cleaned;MIN_JCWGP_21.zip;Scene/animations/Mojo/clip/carclips_3534.clipd
+3539;2020 Sierra Cars 23 Alpha;2020;Sierra Cars;23 Alpha;SIE_23_Alpha_20;SIE;23 Alpha;id-from-game-asset-name-auto-cleaned;SIE_23_Alpha_20.zip;Scene/animations/Mojo/clip/carclips_3539.clipd
+3540;2021 Sierra Cars 00 RX 3;2021;Sierra Cars;00 RX 3;SIE_00_RX3_21;SIE;00 RX3;id-from-game-asset-name-auto-cleaned;SIE_00_RX3_21.zip;Scene/animations/Mojo/clip/carclips_3540.clipd
+3543;2022 Pagani Huayra R;2022;Pagani;Huayra R;PAG_HuayraR_22;PAG;HuayraR;id-from-game-asset-name-auto-cleaned;PAG_HuayraR_22.zip;Scene/animations/Mojo/clip/carclips_3543.clipd
+3548;2020 Wuling Hongguang S;2020;Wuling;Hongguang S;WUL_HongguangS_20;WUL;HongguangS;id-from-game-asset-name-auto-cleaned;WUL_HongguangS_20.zip;Scene/animations/Mojo/clip/carclips_3548.clipd
+3549;2020 Ariel 122 Class 1;2020;Ariel;122 Class 1;AC_122_Class1_20;AC;122 Class1;id-from-game-asset-name-auto-cleaned;AC_122_Class1_20.zip;Scene/animations/Mojo/clip/carclips_3549.clipd
+3551;2020 BMW 91 M 2 FD;2020;BMW;91 M 2 FD;BMW_91_M2FD_20;BMW;91 M2FD;id-from-game-asset-name-auto-cleaned;BMW_91_M2FD_20.zip;Scene/animations/Mojo/clip/carclips_3551.clipd
+3554;2005 Mitsubishi 1 Evo TA;2005;Mitsubishi;1 Evo TA;MIT_1_EvoTA_05;MIT;1 EvoTA;id-from-game-asset-name-auto-cleaned;MIT_1_EvoTA_05.zip;Scene/animations/Mojo/clip/carclips_3554.clipd
+3580;2019 Aston Martin DBX;2019;Aston Martin;DBX;AST_DBX_19;AST;DBX;id-from-game-asset-name-auto-cleaned;AST_DBX_19.zip;Scene/animations/Mojo/clip/carclips_3580.clipd
+3583;2021 Audi RS 6 Avant;2021;Audi;RS 6 Avant;AUD_RS6Avant_21;AUD;RS6Avant;id-from-game-asset-name-auto-cleaned;AUD_RS6Avant_21.zip;Scene/animations/Mojo/clip/carclips_3583.clipd
+3584;2021 Audi RS 7;2021;Audi;RS 7;AUD_RS7_21;AUD;RS7;id-from-game-asset-name-auto-cleaned;AUD_RS7_21.zip;Scene/animations/Mojo/clip/carclips_3584.clipd
+3590;1973 Chevrolet CKPickup;1973;Chevrolet;CKPickup;CHE_CKPickup_73;CHE;CKPickup;id-from-game-asset-name-auto-cleaned;CHE_CKPickup_73.zip;Scene/animations/Mojo/clip/carclips_3590.clipd
+3594;2021 Ferrari Roma;2021;Ferrari;Roma;FER_Roma_21;FER;Roma;id-from-game-asset-name-auto-cleaned;FER_Roma_21.zip;Scene/animations/Mojo/clip/carclips_3594.clipd
+3595;2020 Ferrari SF 90 Stradale;2020;Ferrari;SF 90 Stradale;FER_SF90Stradale_20;FER;SF90Stradale;id-from-game-asset-name-auto-cleaned;FER_SF90Stradale_20.zip;Scene/animations/Mojo/clip/carclips_3595.clipd
+3597;1983 Ford F 150;1983;Ford;F 150;FOR_F150_83;FOR;F150;id-from-game-asset-name-auto-cleaned;FOR_F150_83.zip;Scene/animations/Mojo/clip/carclips_3597.clipd
+3599;2022 Gordon Murray Automotive T 50;2022;Gordon Murray Automotive;T 50;GMA_T50_22;GMA;T50;id-from-game-asset-name-auto-cleaned;GMA_T50_22.zip;Scene/animations/Mojo/clip/carclips_3599.clipd
+3600;2021 Hennessey Venom F 5;2021;Hennessey;Venom F 5;HEN_VenomF5_21;HEN;VenomF5;id-from-game-asset-name-auto-cleaned;HEN_VenomF5_21.zip;Scene/animations/Mojo/clip/carclips_3600.clipd
+3603;2019 Jeep 4422 Trophy;2019;Jeep;4422 Trophy;JEE_4422_Trophy_19;JEE;4422 Trophy;id-from-game-asset-name-auto-cleaned;JEE_4422_Trophy_19.zip;Scene/animations/Mojo/clip/carclips_3603.clipd
+3604;2019 Jimco Hammer Head Buggy;2019;Jimco;Hammer Head Buggy;JIM_HammerHeadBuggy_19;JIM;HammerHeadBuggy;id-from-game-asset-name-auto-cleaned;JIM_HammerHeadBuggy_19.zip;Scene/animations/Mojo/clip/carclips_3604.clipd
+3605;2019 Jimco Trophy Truck;2019;Jimco;Trophy Truck;JIM_TrophyTruck_19;JIM;TrophyTruck;id-from-game-asset-name-auto-cleaned;JIM_TrophyTruck_19.zip;Scene/animations/Mojo/clip/carclips_3605.clipd
+3606;2021 Lamborghini 63 Essenza;2021;Lamborghini;63 Essenza;LAM_63_Essenza_21;LAM;63 Essenza;id-from-game-asset-name-auto-cleaned;LAM_63_Essenza_21.zip;Scene/animations/Mojo/clip/carclips_3606.clipd
+3608;2021 Lamborghini Sian Roadster;2021;Lamborghini;Sian Roadster;LAM_SianRoadster_21;LAM;SianRoadster;id-from-game-asset-name-auto-cleaned;LAM_SianRoadster_21.zip;Scene/animations/Mojo/clip/carclips_3608.clipd
+3611;2022 Maserati MC 20;2022;Maserati;MC 20;MAS_MC20_22;MAS;MC20;id-from-game-asset-name-auto-cleaned;MAS_MC20_22.zip;Scene/animations/Mojo/clip/carclips_3611.clipd
+3616;2021 Mercedes-Benz GTBlack Series;2021;Mercedes-Benz;GTBlack Series;MER_GTBlackSeries_21;MER;GTBlackSeries;id-from-game-asset-name-auto-cleaned;MER_GTBlackSeries_21.zip;Scene/animations/Mojo/clip/carclips_3616.clipd
+3617;2022 Mercedes-Benz SL 63 AMG;2022;Mercedes-Benz;SL 63 AMG;MER_SL63AMG_22;MER;SL63AMG;id-from-game-asset-name-auto-cleaned;MER_SL63AMG_22.zip;Scene/animations/Mojo/clip/carclips_3617.clipd
+3622;2019 Nissan GTRNismo;2019;Nissan;GTRNismo;NIS_GTRNismo_19;NIS;GTRNismo;id-from-game-asset-name-auto-cleaned;NIS_GTRNismo_19.zip;Scene/animations/Mojo/clip/carclips_3622.clipd
+3625;2021 Rimac Nevera;2021;Rimac;Nevera;RIM_Nevera_21;RIM;Nevera;id-from-game-asset-name-auto-cleaned;RIM_Nevera_21.zip;Scene/animations/Mojo/clip/carclips_3625.clipd
+3629;2021 Toyota Yaris GR;2021;Toyota;Yaris GR;TOY_YarisGR_21;TOY;YarisGR;id-from-game-asset-name-auto-cleaned;TOY_YarisGR_21.zip;Scene/animations/Mojo/clip/carclips_3629.clipd
+3631;2022 Aston Martin Valkyrie AMRPro;2022;Aston Martin;Valkyrie AMRPro;AST_ValkyrieAMRPro_22;AST;ValkyrieAMRPro;id-from-game-asset-name-auto-cleaned;AST_ValkyrieAMRPro_22.zip;Scene/animations/Mojo/clip/carclips_3631.clipd
+3645;2021 BMW M 4;2021;BMW;M 4;BMW_M4_21;BMW;M4;id-from-game-asset-name-auto-cleaned;BMW_M4_21.zip;Scene/animations/Mojo/clip/carclips_3645.clipd
+3650;2021 Mercedes-Benz AMGOne;2021;Mercedes-Benz;AMGOne;MER_AMGOne_21;MER;AMGOne;id-from-game-asset-name-auto-cleaned;MER_AMGOne_21.zip;Scene/animations/Mojo/clip/carclips_3650.clipd
+3655;2021 McLaren 620 R;2021;McLaren;620 R;MCL_620R_21;MCL;620R;id-from-game-asset-name-auto-cleaned;MCL_620R_21.zip;Scene/animations/Mojo/clip/carclips_3655.clipd
+3657;2022 Rivian R 1 T;2022;Rivian;R 1 T;RIV_R1T_22;RIV;R1T;id-from-game-asset-name-auto-cleaned;RIV_R1T_22.zip;Scene/animations/Mojo/clip/carclips_3657.clipd
+3661;2018 Lotus Exige Cup 430;2018;Lotus;Exige Cup 430;LOT_ExigeCup430_18;LOT;ExigeCup430;id-from-game-asset-name-auto-cleaned;LOT_ExigeCup430_18.zip;Scene/animations/Mojo/clip/carclips_3661.clipd
+3662;2020 RJ Anderson 37 Pro 4;2020;RJ Anderson;37 Pro 4;RJ_37_Pro4_20;RJ;37 Pro4;id-from-game-asset-name-auto-cleaned;RJ_37_Pro4_20.zip;Scene/animations/Mojo/clip/carclips_3662.clipd
+3665;2021 Sierra Cars 00 700 R;2021;Sierra Cars;00 700 R;SIE_00_700R_21;SIE;00 700R;id-from-game-asset-name-auto-cleaned;SIE_00_700R_21.zip;Scene/animations/Mojo/clip/carclips_3665.clipd
+3667;2021 Porsche 911 GT 3;2021;Porsche;911 GT 3;POR_911GT3_21;POR;911GT3;id-from-game-asset-name-auto-cleaned;POR_911GT3_21.zip;Scene/animations/Mojo/clip/carclips_3667.clipd
+3668;2023 McLaren Artura;2023;McLaren;Artura;MCL_Artura_23;MCL;Artura;id-from-game-asset-name-auto-cleaned;MCL_Artura_23.zip;Scene/animations/Mojo/clip/carclips_3668.clipd
+3670;2001 Ford 4 Focus WRC;2001;Ford;4 Focus WRC;FOR_4_FocusWRC_01;FOR;4 FocusWRC;id-from-game-asset-name-auto-cleaned;FOR_4_FocusWRC_01.zip;Scene/animations/Mojo/clip/carclips_3670.clipd
+3672;2021 Lamborghini Huracan STO;2021;Lamborghini;Huracan STO;LAM_HuracanSTO_21;LAM;HuracanSTO;id-from-game-asset-name-auto-cleaned;LAM_HuracanSTO_21.zip;Scene/animations/Mojo/clip/carclips_3672.clipd
+3678;2020 Hyundai i 30 N;2020;Hyundai;i 30 N;HYU_i30N_20;HYU;i30N;id-from-game-asset-name-auto-cleaned;HYU_i30N_20.zip;Scene/animations/Mojo/clip/carclips_3678.clipd
+3686;2021 Polaris 51 RZRDakar;2021;Polaris;51 RZRDakar;POL_51_RZRDakar_21;POL;51 RZRDakar;id-from-game-asset-name-auto-cleaned;POL_51_RZRDakar_21.zip;Scene/animations/Mojo/clip/carclips_3686.clipd
+3687;2021 Polaris RZRPro XP;2021;Polaris;RZRPro XP;POL_RZRProXP_21;POL;RZRProXP;id-from-game-asset-name-auto-cleaned;POL_RZRProXP_21.zip;Scene/animations/Mojo/clip/carclips_3687.clipd
+3692;2022 Ford F 150 Lightning;2022;Ford;F 150 Lightning;FOR_F150Lightning_22;FOR;F150Lightning;id-from-game-asset-name-auto-cleaned;FOR_F150Lightning_22.zip;Scene/animations/Mojo/clip/carclips_3692.clipd
+3693;2021 Ariel 6165 Class 6100;2021;Ariel;6165 Class 6100;AC_6165_Class6100_21;AC;6165 Class6100;id-from-game-asset-name-auto-cleaned;AC_6165_Class6100_21.zip;Scene/animations/Mojo/clip/carclips_3693.clipd
+3698;2022 Porsche Mission R;2022;Porsche;Mission R;POR_MissionR_22;POR;MissionR;id-from-game-asset-name-auto-cleaned;POR_MissionR_22.zip;Scene/animations/Mojo/clip/carclips_3698.clipd
+3700;2021 McLaren Sabre;2021;McLaren;Sabre;MCL_Sabre_21;MCL;Sabre;id-from-game-asset-name-auto-cleaned;MCL_Sabre_21.zip;Scene/animations/Mojo/clip/carclips_3700.clipd
+3716;2023 Lotus Emira;2023;Lotus;Emira;LOT_Emira_23;LOT;Emira;id-from-game-asset-name-auto-cleaned;LOT_Emira_23.zip;Scene/animations/Mojo/clip/carclips_3716.clipd
+3719;2022 Cadillac CT 4 VBlackwing;2022;Cadillac;CT 4 VBlackwing;CAD_CT4VBlackwing_22;CAD;CT4VBlackwing;id-from-game-asset-name-auto-cleaned;CAD_CT4VBlackwing_22.zip;Scene/animations/Mojo/clip/carclips_3719.clipd
+3720;2022 Cadillac CT 5 VBlackwing;2022;Cadillac;CT 5 VBlackwing;CAD_CT5VBlackwing_22;CAD;CT5VBlackwing;id-from-game-asset-name-auto-cleaned;CAD_CT5VBlackwing_22.zip;Scene/animations/Mojo/clip/carclips_3720.clipd
+3722;2022 GMC Hummer EV;2022;GMC;Hummer EV;GMC_HummerEV_22;GMC;HummerEV;id-from-game-asset-name-auto-cleaned;GMC_HummerEV_22.zip;Scene/animations/Mojo/clip/carclips_3722.clipd
+3724;2022 Ferrari 296 GTB;2022;Ferrari;296 GTB;FER_296GTB_22;FER;296GTB;id-from-game-asset-name-auto-cleaned;FER_296GTB_22.zip;Scene/animations/Mojo/clip/carclips_3724.clipd
+3726;2023 Acura Integra;2023;Acura;Integra;ACU_Integra_23;ACU;Integra;id-from-game-asset-name-auto-cleaned;ACU_Integra_23.zip;Scene/animations/Mojo/clip/carclips_3726.clipd
+3728;2021 Bentley Continental GTC;2021;Bentley;Continental GTC;BEN_ContinentalGTC_21;BEN;ContinentalGTC;id-from-game-asset-name-auto-cleaned;BEN_ContinentalGTC_21.zip;Scene/animations/Mojo/clip/carclips_3728.clipd
+3735;2022 Subaru BRZ;2022;Subaru;BRZ;SUB_BRZ_22;SUB;BRZ;id-from-game-asset-name-auto-cleaned;SUB_BRZ_22.zip;Scene/animations/Mojo/clip/carclips_3735.clipd
+3736;2022 Ford Bronco Raptor;2022;Ford;Bronco Raptor;FOR_BroncoRaptor_22;FOR;BroncoRaptor;id-from-game-asset-name-auto-cleaned;FOR_BroncoRaptor_22.zip;Scene/animations/Mojo/clip/carclips_3736.clipd
+3737;2022 BMW i X;2022;BMW;i X;BMW_iX_22;BMW;iX;id-from-game-asset-name-auto-cleaned;BMW_iX_22.zip;Scene/animations/Mojo/clip/carclips_3737.clipd
+3744;2023 Nissan 64 ZFD;2023;Nissan;64 ZFD;NIS_64_ZFD_23;NIS;64 ZFD;id-from-game-asset-name-auto-cleaned;NIS_64_ZFD_23.zip;Scene/animations/Mojo/clip/carclips_3744.clipd
+3745;2020 Audi R 8;2020;Audi;R 8;AUD_R8_20;AUD;R8;id-from-game-asset-name-auto-cleaned;AUD_R8_20.zip;Scene/animations/Mojo/clip/carclips_3745.clipd
+3750;1995 Mitsubishi Pajero;1995;Mitsubishi;Pajero;MIT_Pajero_95;MIT;Pajero;id-from-game-asset-name-auto-cleaned;MIT_Pajero_95.zip;Scene/animations/Mojo/clip/carclips_3750.clipd
+3753;2023 Lamborghini Huracan Tecnica;2023;Lamborghini;Huracan Tecnica;LAM_HuracanTecnica_23;LAM;HuracanTecnica;id-from-game-asset-name-auto-cleaned;LAM_HuracanTecnica_23.zip;Scene/animations/Mojo/clip/carclips_3753.clipd
+3755;2022 Ford 4 Electric Supervan;2022;Ford;4 Electric Supervan;FOR_4_ElectricSupervan_22;FOR;4 ElectricSupervan;id-from-game-asset-name-auto-cleaned;FOR_4_ElectricSupervan_22.zip;Scene/animations/Mojo/clip/carclips_3755.clipd
+3760;2022 Porsche 718 Cayman GT 4 RS;2022;Porsche;718 Cayman GT 4 RS;POR_718CaymanGT4RS_22;POR;718CaymanGT4RS;id-from-game-asset-name-auto-cleaned;POR_718CaymanGT4RS_22.zip;Scene/animations/Mojo/clip/carclips_3760.clipd
+3761;2022 Toyota GR 86;2022;Toyota;GR 86;TOY_GR86_22;TOY;GR86;id-from-game-asset-name-auto-cleaned;TOY_GR86_22.zip;Scene/animations/Mojo/clip/carclips_3761.clipd
+3763;2023 BMW M 2;2023;BMW;M 2;BMW_M2_23;BMW;M2;id-from-game-asset-name-auto-cleaned;BMW_M2_23.zip;Scene/animations/Mojo/clip/carclips_3763.clipd
+3764;2022 BMW M 5 CS;2022;BMW;M 5 CS;BMW_M5CS_22;BMW;M5CS;id-from-game-asset-name-auto-cleaned;BMW_M5CS_22.zip;Scene/animations/Mojo/clip/carclips_3764.clipd
+3766;2023 Chevrolet Corvette Z 06;2023;Chevrolet;Corvette Z 06;CHE_CorvetteZ06_23;CHE;CorvetteZ06;id-from-game-asset-name-auto-cleaned;CHE_CorvetteZ06_23.zip;Scene/animations/Mojo/clip/carclips_3766.clipd
+3767;2022 Acura NSX Type S;2022;Acura;NSX Type S;ACU_NSXTypeS_22;ACU;NSXTypeS;id-from-game-asset-name-auto-cleaned;ACU_NSXTypeS_22.zip;Scene/animations/Mojo/clip/carclips_3767.clipd
+3771;2023 Chevrolet Corvette ERay;2023;Chevrolet;Corvette ERay;CHE_CorvetteERay_23;CHE;CorvetteERay;id-from-game-asset-name-auto-cleaned;CHE_CorvetteERay_23.zip;Scene/animations/Mojo/clip/carclips_3771.clipd
+3773;2023 Honda Civic Type R;2023;Honda;Civic Type R;HON_CivicTypeR_23;HON;CivicTypeR;id-from-game-asset-name-auto-cleaned;HON_CivicTypeR_23.zip;Scene/animations/Mojo/clip/carclips_3773.clipd
+3774;2023 Lamborghini Countach;2023;Lamborghini;Countach;LAM_Countach_23;LAM;Countach;id-from-game-asset-name-auto-cleaned;LAM_Countach_23.zip;Scene/animations/Mojo/clip/carclips_3774.clipd
+3775;2022 Lamborghini Aventador Ultimae;2022;Lamborghini;Aventador Ultimae;LAM_AventadorUltimae_22;LAM;AventadorUltimae;id-from-game-asset-name-auto-cleaned;LAM_AventadorUltimae_22.zip;Scene/animations/Mojo/clip/carclips_3775.clipd
+3781;2023 Porsche 911 GT 3 RS;2023;Porsche;911 GT 3 RS;POR_911GT3RS_23;POR;911GT3RS;id-from-game-asset-name-auto-cleaned;POR_911GT3RS_23.zip;Scene/animations/Mojo/clip/carclips_3781.clipd
+3783;1989 Volkswagen Golf Rallye;1989;Volkswagen;Golf Rallye;VW_GolfRallye_89;VW;GolfRallye;id-from-game-asset-name-auto-cleaned;VW_GolfRallye_89.zip;Scene/animations/Mojo/clip/carclips_3783.clipd
+3785;1997 Toyota Soarer;1997;Toyota;Soarer;TOY_Soarer_97;TOY;Soarer;id-from-game-asset-name-auto-cleaned;TOY_Soarer_97.zip;Scene/animations/Mojo/clip/carclips_3785.clipd
+3789;2022 Wuling Mini EV;2022;Wuling;Mini EV;WUL_MiniEV_22;WUL;MiniEV;id-from-game-asset-name-auto-cleaned;WUL_MiniEV_22.zip;Scene/animations/Mojo/clip/carclips_3789.clipd
+3795;2023 Meyers Manx;2023;Meyers;Manx;MEY_Manx_23;MEY;Manx;id-from-game-asset-name-auto-cleaned;MEY_Manx_23.zip;Scene/animations/Mojo/clip/carclips_3795.clipd
+3798;2017 Mazda 00 MX 5 Cup;2017;Mazda;00 MX 5 Cup;MAZ_00_MX5Cup_17;MAZ;00 MX5Cup;id-from-game-asset-name-auto-cleaned;MAZ_00_MX5Cup_17.zip;Scene/animations/Mojo/clip/carclips_3798.clipd
+3811;2023 Lucid Air;2023;Lucid;Air;LUC_Air_23;LUC;Air;id-from-game-asset-name-auto-cleaned;LUC_Air_23.zip;Scene/animations/Mojo/clip/carclips_3811.clipd
+3819;2022 Subaru WRX;2022;Subaru;WRX;SUB_WRX_22;SUB;WRX;id-from-game-asset-name-auto-cleaned;SUB_WRX_22.zip;Scene/animations/Mojo/clip/carclips_3819.clipd
+3823;2022 Mazda MX 5 RF;2022;Mazda;MX 5 RF;MAZ_MX5RF_22;MAZ;MX5RF;id-from-game-asset-name-auto-cleaned;MAZ_MX5RF_22.zip;Scene/animations/Mojo/clip/carclips_3823.clipd
+3827;2023 Hyundai Ioniq 5 N;2023;Hyundai;Ioniq 5 N;HYU_Ioniq5N_23;HYU;Ioniq5N;id-from-game-asset-name-auto-cleaned;HYU_Ioniq5N_23.zip;Scene/animations/Mojo/clip/carclips_3827.clipd
+3829;2022 Hyundai NVision 74;2022;Hyundai;NVision 74;HYU_NVision74_22;HYU;NVision74;id-from-game-asset-name-auto-cleaned;HYU_NVision74_22.zip;Scene/animations/Mojo/clip/carclips_3829.clipd
+3840;2023 Lamborghini Huracan Sterrato;2023;Lamborghini;Huracan Sterrato;LAM_HuracanSterrato_23;LAM;HuracanSterrato;id-from-game-asset-name-auto-cleaned;LAM_HuracanSterrato_23.zip;Scene/animations/Mojo/clip/carclips_3840.clipd
+3846;2024 Ford Mustang GT;2024;Ford;Mustang GT;FOR_MustangGT_24;FOR;MustangGT;id-from-game-asset-name-auto-cleaned;FOR_MustangGT_24.zip;Scene/animations/Mojo/clip/carclips_3846.clipd
+3847;2024 Ford Mustang Dark Horse;2024;Ford;Mustang Dark Horse;FOR_MustangDarkHorse_24;FOR;MustangDarkHorse;id-from-game-asset-name-auto-cleaned;FOR_MustangDarkHorse_24.zip;Scene/animations/Mojo/clip/carclips_3847.clipd
+3848;2023 Toyota Camry TRD;2023;Toyota;Camry TRD;TOY_CamryTRD_23;TOY;CamryTRD;id-from-game-asset-name-auto-cleaned;TOY_CamryTRD_23.zip;Scene/animations/Mojo/clip/carclips_3848.clipd
+3849;2023 Ford F 150 Raptor R;2023;Ford;F 150 Raptor R;FOR_F150RaptorR_23;FOR;F150RaptorR;id-from-game-asset-name-auto-cleaned;FOR_F150RaptorR_23.zip;Scene/animations/Mojo/clip/carclips_3849.clipd
+3850;2021 Dodge Durango Hellcat;2021;Dodge;Durango Hellcat;DOD_DurangoHellcat_21;DOD;DurangoHellcat;id-from-game-asset-name-auto-cleaned;DOD_DurangoHellcat_21.zip;Scene/animations/Mojo/clip/carclips_3850.clipd
+3851;1991 Toyota Sera;1991;Toyota;Sera;TOY_Sera_91;TOY;Sera;id-from-game-asset-name-auto-cleaned;TOY_Sera_91.zip;Scene/animations/Mojo/clip/carclips_3851.clipd
+3852;1991 Honda Beat;1991;Honda;Beat;HON_Beat_91;HON;Beat;id-from-game-asset-name-auto-cleaned;HON_Beat_91.zip;Scene/animations/Mojo/clip/carclips_3852.clipd
+3854;1993 ATS AZ 1;1993;ATS;AZ 1;AZM_AZ1_93;AZM;AZ1;id-from-game-asset-name-auto-cleaned;AZM_AZ1_93.zip;Scene/animations/Mojo/clip/carclips_3854.clipd
+3855;1991 Nissan Figaro;1991;Nissan;Figaro;NIS_Figaro_91;NIS;Figaro;id-from-game-asset-name-auto-cleaned;NIS_Figaro_91.zip;Scene/animations/Mojo/clip/carclips_3855.clipd
+3856;1987 Nissan BE 1;1987;Nissan;BE 1;NIS_BE1_87;NIS;BE1;id-from-game-asset-name-auto-cleaned;NIS_BE1_87.zip;Scene/animations/Mojo/clip/carclips_3856.clipd
+3858;1997 Nissan Stagea;1997;Nissan;Stagea;NIS_Stagea_97;NIS;Stagea;id-from-game-asset-name-auto-cleaned;NIS_Stagea_97.zip;Scene/animations/Mojo/clip/carclips_3858.clipd
+3859;1984 Honda City;1984;Honda;City;HON_City_84;HON;City;id-from-game-asset-name-auto-cleaned;HON_City_84.zip;Scene/animations/Mojo/clip/carclips_3859.clipd
+3860;1989 Nissan SCargo;1989;Nissan;SCargo;NIS_SCargo_89;NIS;SCargo;id-from-game-asset-name-auto-cleaned;NIS_SCargo_89.zip;Scene/animations/Mojo/clip/carclips_3860.clipd
+3865;1994 Honda Acty;1994;Honda;Acty;HON_Acty_94;HON;Acty;id-from-game-asset-name-auto-cleaned;HON_Acty_94.zip;Scene/animations/Mojo/clip/carclips_3865.clipd
+3880;2023 Toyota GRCorolla;2023;Toyota;GRCorolla;TOY_GRCorolla_23;TOY;GRCorolla;id-from-game-asset-name-auto-cleaned;TOY_GRCorolla_23.zip;Scene/animations/Mojo/clip/carclips_3880.clipd
+3886;1995 Mitsubishi Lancer Evo III;1995;Mitsubishi;Lancer Evo III;MIT_LancerEvoIII_95;MIT;LancerEvoIII;id-from-game-asset-name-auto-cleaned;MIT_LancerEvoIII_95.zip;Scene/animations/Mojo/clip/carclips_3886.clipd
+3891;2024 Lamborghini Revuelto;2024;Lamborghini;Revuelto;LAM_Revuelto_24;LAM;Revuelto;id-from-game-asset-name-auto-cleaned;LAM_Revuelto_24.zip;Scene/animations/Mojo/clip/carclips_3891.clipd
+3895;2020 Mercedes-Benz SLC 43 AMG;2020;Mercedes-Benz;SLC 43 AMG;MER_SLC43AMG_20;MER;SLC43AMG;id-from-game-asset-name-auto-cleaned;MER_SLC43AMG_20.zip;Scene/animations/Mojo/clip/carclips_3895.clipd
+3903;2023 Ford Fiesta ST;2023;Ford;Fiesta ST;FOR_FiestaST_23;FOR;FiestaST;id-from-game-asset-name-auto-cleaned;FOR_FiestaST_23.zip;Scene/animations/Mojo/clip/carclips_3903.clipd
+3904;2022 Ford Focus ST;2022;Ford;Focus ST;FOR_FocusST_22;FOR;FocusST;id-from-game-asset-name-auto-cleaned;FOR_FocusST_22.zip;Scene/animations/Mojo/clip/carclips_3904.clipd
+3908;2022 Honda e;2022;Honda;e;HON_e_22;HON;e;id-from-game-asset-name-auto-cleaned;HON_e_22.zip;Scene/animations/Mojo/clip/carclips_3908.clipd
+3910;2023 Porsche 911 Dakar;2023;Porsche;911 Dakar;POR_911Dakar_23;POR;911Dakar;id-from-game-asset-name-auto-cleaned;POR_911Dakar_23.zip;Scene/animations/Mojo/clip/carclips_3910.clipd
+3914;1991 Toyota Chaser GT;1991;Toyota;Chaser GT;TOY_ChaserGT_91;TOY;ChaserGT;id-from-game-asset-name-auto-cleaned;TOY_ChaserGT_91.zip;Scene/animations/Mojo/clip/carclips_3914.clipd
+3917;2023 Audi R 8 GT;2023;Audi;R 8 GT;AUD_R8GT_23;AUD;R8GT;id-from-game-asset-name-auto-cleaned;AUD_R8GT_23.zip;Scene/animations/Mojo/clip/carclips_3917.clipd
+3918;1995 Nissan Gloria;1995;Nissan;Gloria;NIS_Gloria_95;NIS;Gloria;id-from-game-asset-name-auto-cleaned;NIS_Gloria_95.zip;Scene/animations/Mojo/clip/carclips_3918.clipd
+3921;2024 Nissan ZNismo;2024;Nissan;ZNismo;NIS_ZNismo_24;NIS;ZNismo;id-from-game-asset-name-auto-cleaned;NIS_ZNismo_24.zip;Scene/animations/Mojo/clip/carclips_3921.clipd
+3928;2022 Hyundai i 20 N;2022;Hyundai;i 20 N;HYU_i20N_22;HYU;i20N;id-from-game-asset-name-auto-cleaned;HYU_i20N_22.zip;Scene/animations/Mojo/clip/carclips_3928.clipd
+3929;1989 Nissan Pao;1989;Nissan;Pao;NIS_Pao_89;NIS;Pao;id-from-game-asset-name-auto-cleaned;NIS_Pao_89.zip;Scene/animations/Mojo/clip/carclips_3929.clipd
+3933;1997 Toyota Chaser;1997;Toyota;Chaser;TOY_Chaser_97;TOY;Chaser;id-from-game-asset-name-auto-cleaned;TOY_Chaser_97.zip;Scene/animations/Mojo/clip/carclips_3933.clipd
+3953;2023 Porsche 911 Turbo S;2023;Porsche;911 Turbo S;POR_911TurboS_23;POR;911TurboS;id-from-game-asset-name-auto-cleaned;POR_911TurboS_23.zip;Scene/animations/Mojo/clip/carclips_3953.clipd
+3955;2024 Ram TRX;2024;Ram;TRX;RAM_TRX_24;RAM;TRX;id-from-game-asset-name-auto-cleaned;RAM_TRX_24.zip;Scene/animations/Mojo/clip/carclips_3955.clipd
+3959;2022 Dodge Challenger SRT;2022;Dodge;Challenger SRT;DOD_ChallengerSRT_22;DOD;ChallengerSRT;id-from-game-asset-name-auto-cleaned;DOD_ChallengerSRT_22.zip;Scene/animations/Mojo/clip/carclips_3959.clipd
+3960;1994 Subaru Vivio RXR;1994;Subaru;Vivio RXR;SUB_VivioRXR_94;SUB;VivioRXR;id-from-game-asset-name-auto-cleaned;SUB_VivioRXR_94.zip;Scene/animations/Mojo/clip/carclips_3960.clipd
+3983;2024 BMW X 6 M;2024;BMW;X 6 M;BMW_X6M_24;BMW;X6M;id-from-game-asset-name-auto-cleaned;BMW_X6M_24.zip;Scene/animations/Mojo/clip/carclips_3983.clipd
+3999;2002 Nissan Silvia Spec R;2002;Nissan;Silvia Spec R;NIS_SilviaSpecR_02;NIS;SilviaSpecR;id-from-game-asset-name-auto-cleaned;NIS_SilviaSpecR_02.zip;Scene/animations/Mojo/clip/carclips_3999.clipd
+4038;1999 Toyota Altezza;1999;Toyota;Altezza;TOY_Altezza_99;TOY;Altezza;id-from-game-asset-name-auto-cleaned;TOY_Altezza_99.zip;Scene/animations/Mojo/clip/carclips_4038.clipd
+4055;1996 Toyota Starlet Glanza;1996;Toyota;Starlet Glanza;TOY_StarletGlanza_96;TOY;StarletGlanza;id-from-game-asset-name-auto-cleaned;TOY_StarletGlanza_96.zip;Scene/animations/Mojo/clip/carclips_4055.clipd
+4057;1997 Nissan Skyline GT-R;1997;Nissan;Skyline GT-R;NIS_SkylineGTR_97;NIS;SkylineGTR;id-from-game-asset-name-auto-cleaned;NIS_SkylineGTR_97.zip;Scene/animations/Mojo/clip/carclips_4057.clipd
+4069;1988 BMW M 3;1988;BMW;M 3;BMW_M3_88;BMW;M3;id-from-game-asset-name-auto-cleaned;BMW_M3_88.zip;Scene/animations/Mojo/clip/carclips_4069.clipd
+4081;2024 Koenigsegg Gemera;2024;Koenigsegg;Gemera;KOE_Gemera_24;KOE;Gemera;id-from-game-asset-name-auto-cleaned;KOE_Gemera_24.zip;Scene/animations/Mojo/clip/carclips_4081.clipd
+4084;1972 Datsun 269 240 Z;1972;Datsun;269 240 Z;DAT_269_240Z_72;DAT;269 240Z;id-from-game-asset-name-auto-cleaned;DAT_269_240Z_72.zip;Scene/animations/Mojo/clip/carclips_4084.clipd
+4085;1990 Mitsubishi 269 Minicab;1990;Mitsubishi;269 Minicab;MIT_269_Minicab_90;MIT;269 Minicab;id-from-game-asset-name-auto-cleaned;MIT_269_Minicab_90.zip;Scene/animations/Mojo/clip/carclips_4085.clipd
+4090;2001 Mitsubishi Lancer Evo VITME;2001;Mitsubishi;Lancer Evo VITME;MIT_LancerEvoVITME_01;MIT;LancerEvoVITME;id-from-game-asset-name-auto-cleaned;MIT_LancerEvoVITME_01.zip;Scene/animations/Mojo/clip/carclips_4090.clipd
+4094;2024 Nissan GTRNISMO;2024;Nissan;GTRNISMO;NIS_GTRNISMO_24;NIS;GTRNISMO;id-from-game-asset-name-auto-cleaned;NIS_GTRNISMO_24.zip;Scene/animations/Mojo/clip/carclips_4094.clipd
+4114;1992 Nissan Skyline GT-R;1992;Nissan;Skyline GT-R;NIS_SkylineGTR_92;NIS;SkylineGTR;confirmed-by-user-and-game-asset;NIS_SkylineGTR_92.zip;Scene/animations/Mojo/clip/carclips_4114.clipd
+4119;1998 Nissan Skyline Autech;1998;Nissan;Skyline Autech;NIS_SkylineAutech_98;NIS;SkylineAutech;id-from-game-asset-name-auto-cleaned;NIS_SkylineAutech_98.zip;Scene/animations/Mojo/clip/carclips_4119.clipd
+4124;2013 Mercedes-Benz G 65 AMG Traffic;2013;Mercedes-Benz;G 65 AMG Traffic;MER_G65AMG_Traffic_13;MER;G65AMG Traffic;id-from-game-asset-name-auto-cleaned;MER_G65AMG_Traffic_13.zip;Scene/animations/Mojo/clip/carclips_4124.clipd
+4125;1994 Honda Acty Traffic;1994;Honda;Acty Traffic;HON_Acty_Traffic_94;HON;Acty Traffic;id-from-game-asset-name-auto-cleaned;HON_Acty_Traffic_94.zip;Scene/animations/Mojo/clip/carclips_4125.clipd
+4126;2022 Honda e Traffic;2022;Honda;e Traffic;HON_e_Traffic_22;HON;e Traffic;id-from-game-asset-name-auto-cleaned;HON_e_Traffic_22.zip;Scene/animations/Mojo/clip/carclips_4126.clipd
+4127;1995 Mitsubishi Pajero Traffic;1995;Mitsubishi;Pajero Traffic;MIT_Pajero_Traffic_95;MIT;Pajero Traffic;id-from-game-asset-name-auto-cleaned;MIT_Pajero_Traffic_95.zip;Scene/animations/Mojo/clip/carclips_4127.clipd
+4128;2022 Subaru WRX Traffic;2022;Subaru;WRX Traffic;SUB_WRX_Traffic_22;SUB;WRX Traffic;id-from-game-asset-name-auto-cleaned;SUB_WRX_Traffic_22.zip;Scene/animations/Mojo/clip/carclips_4128.clipd
+4129;1997 Nissan Stagea Traffic;1997;Nissan;Stagea Traffic;NIS_Stagea_Traffic_97;NIS;Stagea Traffic;id-from-game-asset-name-auto-cleaned;NIS_Stagea_Traffic_97.zip;Scene/animations/Mojo/clip/carclips_4129.clipd
+4144;1992 Mazda RX 7;1992;Mazda;RX 7;MAZ_RX7_92;MAZ;RX7;id-from-game-asset-name-auto-cleaned;MAZ_RX7_92.zip;Scene/animations/Mojo/clip/carclips_4144.clipd
+4145;1974 Mazda 123 808 Wagon;1974;Mazda;123 808 Wagon;MAZ_123_808Wagon_74;MAZ;123 808Wagon;id-from-game-asset-name-auto-cleaned;MAZ_123_808Wagon_74.zip;Scene/animations/Mojo/clip/carclips_4145.clipd
+4158;2010 Lexus LFAFE;2010;Lexus;LFAFE;LEX_LFAFE_10;LEX;LFAFE;id-from-game-asset-name-auto-cleaned;LEX_LFAFE_10.zip;Scene/animations/Mojo/clip/carclips_4158.clipd
+4160;1989 Nissan SCargo FE;1989;Nissan;SCargo FE;NIS_SCargoFE_89;NIS;SCargoFE;id-from-game-asset-name-auto-cleaned;NIS_SCargoFE_89.zip;Scene/animations/Mojo/clip/carclips_4160.clipd
+4162;1985 Toyota Sprinter FE;1985;Toyota;Sprinter FE;TOY_SprinterFE_85;TOY;SprinterFE;id-from-game-asset-name-auto-cleaned;TOY_SprinterFE_85.zip;Scene/animations/Mojo/clip/carclips_4162.clipd
+4163;2020 Wuling Hongguang SFE;2020;Wuling;Hongguang SFE;WUL_HongguangSFE_20;WUL;HongguangSFE;id-from-game-asset-name-auto-cleaned;WUL_HongguangSFE_20.zip;Scene/animations/Mojo/clip/carclips_4163.clipd
+4164;2022 Subaru BRZFE;2022;Subaru;BRZFE;SUB_BRZFE_22;SUB;BRZFE;id-from-game-asset-name-auto-cleaned;SUB_BRZFE_22.zip;Scene/animations/Mojo/clip/carclips_4164.clipd
+4165;1973 Mazda RX 3 FE;1973;Mazda;RX 3 FE;MAZ_RX3FE_73;MAZ;RX3FE;id-from-game-asset-name-auto-cleaned;MAZ_RX3FE_73.zip;Scene/animations/Mojo/clip/carclips_4165.clipd
+4166;2023 BMW M 2 FE;2023;BMW;M 2 FE;BMW_M2FE_23;BMW;M2FE;id-from-game-asset-name-auto-cleaned;BMW_M2FE_23.zip;Scene/animations/Mojo/clip/carclips_4166.clipd
+4167;2012 Nissan GTRFE;2012;Nissan;GTRFE;NIS_GTRFE_12;NIS;GTRFE;id-from-game-asset-name-auto-cleaned;NIS_GTRFE_12.zip;Scene/animations/Mojo/clip/carclips_4167.clipd
+4168;1968 Ford Mustang GT 390 FE;1968;Ford;Mustang GT 390 FE;FOR_MustangGT390FE_68;FOR;MustangGT390FE;id-from-game-asset-name-auto-cleaned;FOR_MustangGT390FE_68.zip;Scene/animations/Mojo/clip/carclips_4168.clipd
+4169;1990 Mercedes-Benz 190 EFE;1990;Mercedes-Benz;190 EFE;MER_190EFE_90;MER;190EFE;id-from-game-asset-name-auto-cleaned;MER_190EFE_90.zip;Scene/animations/Mojo/clip/carclips_4169.clipd
+4171;1983 Ford F 150 FE;1983;Ford;F 150 FE;FOR_F150FE_83;FOR;F150FE;id-from-game-asset-name-auto-cleaned;FOR_F150FE_83.zip;Scene/animations/Mojo/clip/carclips_4171.clipd
+4175;2020 Ford F 450 DRWFE;2020;Ford;F 450 DRWFE;FOR_F450DRWFE_20;FOR;F450DRWFE;id-from-game-asset-name-auto-cleaned;FOR_F450DRWFE_20.zip;Scene/animations/Mojo/clip/carclips_4175.clipd
+4179;1990 Nissan 12 Skyline GTR;1990;Nissan;12 Skyline GTR;NIS_12_SkylineGTR_90;NIS;12 SkylineGTR;id-from-game-asset-name-auto-cleaned;NIS_12_SkylineGTR_90.zip;Scene/animations/Mojo/clip/carclips_4179.clipd
+4197;1994 Mazda Miata FE;1994;Mazda;Miata FE;MAZ_MiataFE_94;MAZ;MiataFE;id-from-game-asset-name-auto-cleaned;MAZ_MiataFE_94.zip;Scene/animations/Mojo/clip/carclips_4197.clipd
+4198;1999 Dodge Viper GTSACRFE;1999;Dodge;Viper GTSACRFE;DOD_ViperGTSACRFE_99;DOD;ViperGTSACRFE;id-from-game-asset-name-auto-cleaned;DOD_ViperGTSACRFE_99.zip;Scene/animations/Mojo/clip/carclips_4198.clipd
+4199;2019 Toyota Tacoma TRDPro FE;2019;Toyota;Tacoma TRDPro FE;TOY_TacomaTRDProFE_19;TOY;TacomaTRDProFE;id-from-game-asset-name-auto-cleaned;TOY_TacomaTRDProFE_19.zip;Scene/animations/Mojo/clip/carclips_4199.clipd
+4200;2020 Lotus Evija FE;2020;Lotus;Evija FE;LOT_EvijaFE_20;LOT;EvijaFE;id-from-game-asset-name-auto-cleaned;LOT_EvijaFE_20.zip;Scene/animations/Mojo/clip/carclips_4200.clipd
+4210;2018 Lotus 00 Exige WTA;2018;Lotus;00 Exige WTA;LOT_00_ExigeWTA_18;LOT;00 ExigeWTA;id-from-game-asset-name-auto-cleaned;LOT_00_ExigeWTA_18.zip;Scene/animations/Mojo/clip/carclips_4210.clipd
+4211;1990 Honda 19 CRXWTA;1990;Honda;19 CRXWTA;HON_19_CRXWTA_90;HON;19 CRXWTA;id-from-game-asset-name-auto-cleaned;HON_19_CRXWTA_90.zip;Scene/animations/Mojo/clip/carclips_4211.clipd
+4212;1993 Nissan 32 Skyline WTA;1993;Nissan;32 Skyline WTA;NIS_32_SkylineWTA_93;NIS;32 SkylineWTA;id-from-game-asset-name-auto-cleaned;NIS_32_SkylineWTA_93.zip;Scene/animations/Mojo/clip/carclips_4212.clipd
+4213;2000 Nissan 36 Silvia WTA;2000;Nissan;36 Silvia WTA;NIS_36_SilviaWTA_00;NIS;36 SilviaWTA;id-from-game-asset-name-auto-cleaned;NIS_36_SilviaWTA_00.zip;Scene/animations/Mojo/clip/carclips_4213.clipd
+4214;1995 Toyota 00 Supra WTA;1995;Toyota;00 Supra WTA;TOY_00_SupraWTA_95;TOY;00 SupraWTA;id-from-game-asset-name-auto-cleaned;TOY_00_SupraWTA_95.zip;Scene/animations/Mojo/clip/carclips_4214.clipd
+4216;1994 Honda Acty Jobs;1994;Honda;Acty Jobs;HON_Acty_Jobs_94;HON;Acty Jobs;id-from-game-asset-name-auto-cleaned;HON_Acty_Jobs_94.zip;Scene/animations/Mojo/clip/carclips_4216.clipd
+4221;2026 Toyota Scallop;2026;Toyota;Scallop;TOY_Scallop_26;TOY;Scallop;id-from-game-asset-name-auto-cleaned;TOY_Scallop_26.zip;Scene/animations/Mojo/clip/carclips_4221.clipd
+4222;1989 Nissan Silvia Ks;1989;Nissan;Silvia Ks;NIS_SilviaKs_89;NIS;SilviaKs;id-from-game-asset-name-auto-cleaned;NIS_SilviaKs_89.zip;Scene/animations/Mojo/clip/carclips_4222.clipd
+4223;2000 Nissan Skyline GTRVSpec II;2000;Nissan;Skyline GTRVSpec II;NIS_SkylineGTRVSpecII_00;NIS;SkylineGTRVSpecII;id-from-game-asset-name-auto-cleaned;NIS_SkylineGTRVSpecII_00.zip;Scene/animations/Mojo/clip/carclips_4223.clipd
+4231;2004 Honda 52 S 2000 WTA;2004;Honda;52 S 2000 WTA;HON_52_S2000WTA_04;HON;52 S2000WTA;id-from-game-asset-name-auto-cleaned;HON_52_S2000WTA_04.zip;Scene/animations/Mojo/clip/carclips_4231.clipd
+4232;2005 Porsche 00 Cayman WTA;2005;Porsche;00 Cayman WTA;POR_00_CaymanWTA_05;POR;00 CaymanWTA;id-from-game-asset-name-auto-cleaned;POR_00_CaymanWTA_05.zip;Scene/animations/Mojo/clip/carclips_4232.clipd
+4234;2008 Honda Civic Type R;2008;Honda;Civic Type R;HON_CivicTypeR_08;HON;CivicTypeR;id-from-game-asset-name-auto-cleaned;HON_CivicTypeR_08.zip;Scene/animations/Mojo/clip/carclips_4234.clipd
+4250;1985 Toyota Sprinter TG;1985;Toyota;Sprinter TG;TOY_SprinterTG_85;TOY;SprinterTG;id-from-game-asset-name-auto-cleaned;TOY_SprinterTG_85.zip;Scene/animations/Mojo/clip/carclips_4250.clipd
+4251;2003 Honda S 2000 TG;2003;Honda;S 2000 TG;HON_S2000TG_03;HON;S2000TG;id-from-game-asset-name-auto-cleaned;HON_S2000TG_03.zip;Scene/animations/Mojo/clip/carclips_4251.clipd
+4252;1998 Subaru Impreza 22 BTG;1998;Subaru;Impreza 22 BTG;SUB_Impreza22BTG_98;SUB;Impreza22BTG;id-from-game-asset-name-auto-cleaned;SUB_Impreza22BTG_98.zip;Scene/animations/Mojo/clip/carclips_4252.clipd
+4254;2001 Honda 33 Integra WTA;2001;Honda;33 Integra WTA;HON_33_IntegraWTA_01;HON;33 IntegraWTA;id-from-game-asset-name-auto-cleaned;HON_33_IntegraWTA_01.zip;Scene/animations/Mojo/clip/carclips_4254.clipd
+4255;2005 Toyota Crown Taxi;2005;Toyota;Crown Taxi;TOY_CrownTaxi_05;TOY;CrownTaxi;id-from-game-asset-name-auto-cleaned;TOY_CrownTaxi_05.zip;Scene/animations/Mojo/clip/carclips_4255.clipd
+4257;2017 Toyota JPNTaxi;2017;Toyota;JPNTaxi;TOY_JPNTaxi_17;TOY;JPNTaxi;id-from-game-asset-name-auto-cleaned;TOY_JPNTaxi_17.zip;Scene/animations/Mojo/clip/carclips_4257.clipd
+4259;2013 Toyota GT 86 Stories;2013;Toyota;GT 86 Stories;TOY_GT86_Stories_13;TOY;GT86 Stories;id-from-game-asset-name-auto-cleaned;TOY_GT86_Stories_13.zip;Scene/animations/Mojo/clip/carclips_4259.clipd
+4260;2024 Nissan GTRNISMOID;2024;Nissan;GTRNISMOID;NIS_GTRNISMOID_24;NIS;GTRNISMOID;id-from-game-asset-name-auto-cleaned;NIS_GTRNISMOID_24.zip;Scene/animations/Mojo/clip/carclips_4260.clipd
+4261;1995 Porsche 911 GT 2 ID;1995;Porsche;911 GT 2 ID;POR_911GT2ID_95;POR;911GT2ID;id-from-game-asset-name-auto-cleaned;POR_911GT2ID_95.zip;Scene/animations/Mojo/clip/carclips_4261.clipd
+4263;2026 Toyota Scallop ID;2026;Toyota;Scallop ID;TOY_ScallopID_26;TOY;ScallopID;id-from-game-asset-name-auto-cleaned;TOY_ScallopID_26.zip;Scene/animations/Mojo/clip/carclips_4263.clipd
+4264;2018 Ferrari FXXKEvo WP;2018;Ferrari;FXXKEvo WP;FER_FXXKEvoWP_18;FER;FXXKEvoWP;id-from-game-asset-name-auto-cleaned;FER_FXXKEvoWP_18.zip;Scene/animations/Mojo/clip/carclips_4264.clipd
+4265;2021 Mercedes-Benz GTBlack Series WP;2021;Mercedes-Benz;GTBlack Series WP;MER_GTBlackSeriesWP_21;MER;GTBlackSeriesWP;id-from-game-asset-name-auto-cleaned;MER_GTBlackSeriesWP_21.zip;Scene/animations/Mojo/clip/carclips_4265.clipd
+4266;2021 BMW M 4 WP;2021;BMW;M 4 WP;BMW_M4WP_21;BMW;M4WP;id-from-game-asset-name-auto-cleaned;BMW_M4WP_21.zip;Scene/animations/Mojo/clip/carclips_4266.clipd
+4267;2004 Mitsubishi Lancer Evo VIIIMRWP;2004;Mitsubishi;Lancer Evo VIIIMRWP;MIT_LancerEvoVIIIMRWP_04;MIT;LancerEvoVIIIMRWP;id-from-game-asset-name-auto-cleaned;MIT_LancerEvoVIIIMRWP_04.zip;Scene/animations/Mojo/clip/carclips_4267.clipd
+4268;2023 Ford F 150 Raptor RWP;2023;Ford;F 150 Raptor RWP;FOR_F150RaptorRWP_23;FOR;F150RaptorRWP;id-from-game-asset-name-auto-cleaned;FOR_F150RaptorRWP_23.zip;Scene/animations/Mojo/clip/carclips_4268.clipd
+4277;1992 Honda 21 Civic WTA;1992;Honda;21 Civic WTA;HON_21_CivicWTA_92;HON;21 CivicWTA;id-from-game-asset-name-auto-cleaned;HON_21_CivicWTA_92.zip;Scene/animations/Mojo/clip/carclips_4277.clipd
+4278;2025 Toyota Land Cruiser;2025;Toyota;Land Cruiser;TOY_LandCruiser_25;TOY;LandCruiser;id-from-game-asset-name-auto-cleaned;TOY_LandCruiser_25.zip;Scene/animations/Mojo/clip/carclips_4278.clipd
+4287;1994 Subaru Vivio RXRFE;1994;Subaru;Vivio RXRFE;SUB_VivioRXRFE_94;SUB;VivioRXRFE;id-from-game-asset-name-auto-cleaned;SUB_VivioRXRFE_94.zip;Scene/animations/Mojo/clip/carclips_4287.clipd
+4303;2012 Nissan GTRTG;2012;Nissan;GTRTG;NIS_GTRTG_12;NIS;GTRTG;id-from-game-asset-name-auto-cleaned;NIS_GTRTG_12.zip;Scene/animations/Mojo/clip/carclips_4303.clipd
+4313;1970 Porsche 3 917 LHFE;1970;Porsche;3 917 LHFE;POR_3_917LHFE_70;POR;3 917LHFE;id-from-game-asset-name-auto-cleaned;POR_3_917LHFE_70.zip;Scene/animations/Mojo/clip/carclips_4313.clipd
+4315;1962 Peel P 50 Trolli;1962;Peel;P 50 Trolli;PEE_P50Trolli_62;PEE;P50Trolli;id-from-game-asset-name-auto-cleaned;PEE_P50Trolli_62.zip;Scene/animations/Mojo/clip/carclips_4315.clipd
+4332;2005 Toyota Crown Taxi Traffic;2005;Toyota;Crown Taxi Traffic;TOY_CrownTaxi_Traffic_05;TOY;CrownTaxi Traffic;id-from-game-asset-name-auto-cleaned;TOY_CrownTaxi_Traffic_05.zip;Scene/animations/Mojo/clip/carclips_4332.clipd
+4333;2017 Toyota JPNTaxi Traffic;2017;Toyota;JPNTaxi Traffic;TOY_JPNTaxi_Traffic_17;TOY;JPNTaxi Traffic;id-from-game-asset-name-auto-cleaned;TOY_JPNTaxi_Traffic_17.zip;Scene/animations/Mojo/clip/carclips_4333.clipd
+4341;2017 Ferrari J 50 PO;2017;Ferrari;J 50 PO;FER_J50PO_17;FER;J50PO;id-from-game-asset-name-auto-cleaned;FER_J50PO_17.zip;Scene/animations/Mojo/clip/carclips_4341.clipd
+4342;1965 Toyota Sports 800 Fanta;1965;Toyota;Sports 800 Fanta;TOY_Sports800Fanta_65;TOY;Sports800Fanta;id-from-game-asset-name-auto-cleaned;TOY_Sports800Fanta_65.zip;Scene/animations/Mojo/clip/carclips_4342.clipd

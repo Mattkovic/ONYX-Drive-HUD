@@ -1,0 +1,10 @@
+ONYX Drive HUD v5.2.7b Vehicle ID Diagnostic Hotfix
+
+Fixed / clarified:
+- Official Forza CarOrdinal value of 0 is now treated as unavailable, not as a real car ID.
+- Added Vehicle ID diagnostic probe candidates to Performance Summary.
+- Added stable integer candidate display so users can compare values after switching cars.
+- This does not use memory reading, injection, DLLs, save editing, or game-file parsing.
+
+Important:
+If Official CarOrdinal stays 0, the current Forza UDP stream is not exposing a confirmed vehicle ID through the standard Data Out field. ONYX will not fake a vehicle name. Use probe candidates only for testing and comparison.

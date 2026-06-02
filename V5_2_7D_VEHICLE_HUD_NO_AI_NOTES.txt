@@ -1,0 +1,22 @@
+ONYX Drive HUD v5.2.7d Vehicle HUD No-AI Notes
+
+This build removes the experimental AI Coach and local AI connector from the prototype branch.
+
+Why:
+- Odysseus currently requires extra setup such as Docker and/or model/API configuration.
+- That is not suitable for a normal public ONYX release.
+- ONYX should remain free, simple and immediately usable without API keys.
+
+What remains:
+- Vehicle ID / CarOrdinal parser work.
+- Fixed vehicle badge in the overlay.
+- Vehicle status labels across the manager UI.
+- car_database.json mapping support.
+- Performance Lab, Smart Hints, Grip Monitor, Drag Timer, Dyno and existing telemetry tools.
+
+Test focus:
+1. Confirm ONYX starts cleanly.
+2. Confirm no AI Coach / Odysseus / Ollama controls are visible.
+3. Confirm vehicle badge still appears in the overlay.
+4. Confirm Performance Summary still works.
+5. Confirm existing HUD tiles, presets, layout save and units still work.

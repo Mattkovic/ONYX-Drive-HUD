@@ -13,7 +13,7 @@ import sys
 import threading
 import time
 import traceback
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from queue import Queue, Empty
 
@@ -78,7 +78,7 @@ LANGUAGES = {
 
 TEXT = {
     "en": {
-        "title": "ONYX Drive HUD v5.2.6",
+        "title": "ONYX Drive HUD v5.2.7e Vehicle Database No-AI",
         "subtitle": "DRIVE HUD CONTROL CENTER · ONE PROCESS · PERFORMANCE LAB",
         "general": "General", "tiles": "Tiles", "peak": "Peak Measurements", "prototype": "Performance Lab",
         "design": "Design", "language": "Language", "hotkeys": "Keybinds", "units": "Units", "stability": "Stability",
@@ -101,7 +101,7 @@ TEXT = {
         "dyno_perf_note": "DynoPerformanceFix: graph and labels are throttled so long recordings do not freeze the manager window.",
     },
     "de": {
-        "title": "ONYX Drive HUD v5.2.6",
+        "title": "ONYX Drive HUD v5.2.7e Vehicle Database No-AI",
         "subtitle": "DRIVE HUD CONTROL CENTER · ONE PROCESS · PERFORMANCE LAB",
         "general": "Allgemein", "tiles": "Kacheln", "peak": "Peak-Werte", "prototype": "Performance Lab",
         "design": "Design", "language": "Sprache", "hotkeys": "Tasten", "units": "Einheiten", "stability": "Stabilität",
@@ -171,6 +171,8 @@ DEFAULT_CONFIG = {
     "active_profile": "Default",
     "prototype_enabled": True,
     "performance_lab_enabled": True,
+        "vehicle_badge_enabled": True,
+    "vehicle_badge_position": "Top Right",
     "live_graph_paused": False,
     "drag_recording": False,
     "grip_recording": False,
@@ -368,6 +370,17 @@ def boost_label(cfg):
 class Telemetry:
     timestamp: float = 0.0
     raw_packet_size: int = 0
+    car_ordinal: int | None = None
+    car_class: int | None = None
+    car_performance_index: int | None = None
+    drivetrain_type: int | None = None
+    num_cylinders: int | None = None
+    car_group: int | None = None
+    official_car_ordinal_raw: int | None = None
+    vehicle_id_source: str = ""
+    vehicle_id_confidence: str = ""
+    vehicle_tuple_candidates: list = field(default_factory=list)
+    car_id_probe_candidates: list = field(default_factory=list)
     engine_max_rpm: float = 0.0
     current_engine_rpm: float = 0.0
     velocity_x: float = 0.0
@@ -449,9 +462,68 @@ class ForzaParser:
             t.rear_combined_slip = (abs(combined[2]) + abs(combined[3])) / 2
             for _ in range(4): read("f")  # suspension travel meters
             if o + 20 <= len(data):
-                for _ in range(5): read("i")
+                # FH6 official Data Out layout: CarOrdinal begins after the Sled block.
+                # Important: a raw 0 is not a usable vehicle ID; keep it as diagnostic
+                # raw value but do not claim that vehicle ID 0 is real.
+                raw_car_ordinal = read("i")
+                t.official_car_ordinal_raw = raw_car_ordinal
+                t.car_class = read("i")
+                t.car_performance_index = read("i")
+                t.drivetrain_type = read("i")
+                t.num_cylinders = read("i")
+                if raw_car_ordinal and raw_car_ordinal > 0:
+                    t.car_ordinal = raw_car_ordinal
+                    t.vehicle_id_source = "FH6 official CarOrdinal @ offset 212"
+                    t.vehicle_id_confidence = "high"
+
+            # FH6 adds CarGroup / SmashableVelDiff / SmashableMass after NumCylinders.
+            # The official packet is 324 bytes. Read CarGroup by absolute offset so older
+            # configs/parsers do not shift the rest of the Dash values by accident.
+            try:
+                if len(data) >= 236:
+                    t.car_group = struct.unpack_from("<I", data, 232)[0]
+            except Exception:
+                pass
+
+            # Vehicle tuple resolver: if raw official CarOrdinal is 0, test nearby known
+            # layouts without guessing a name. A candidate only wins if the following
+            # Class/PI/Drivetrain/Cylinders fields look like real Forza values.
+            try:
+                tuple_candidates = []
+                for off in range(196, min(len(data) - 20, 280) + 1, 4):
+                    try:
+                        cid, cls, pi, drive, cyl = struct.unpack_from("<iiiii", data, off)
+                        if 1 <= cid <= 5000000 and 0 <= cls <= 7 and 100 <= pi <= 999 and 0 <= drive <= 2 and 0 <= cyl <= 24:
+                            item = {"offset": off, "car_id": cid, "class": cls, "pi": pi, "drive": drive, "cylinders": cyl}
+                            tuple_candidates.append(item)
+                    except Exception:
+                        pass
+                t.vehicle_tuple_candidates = tuple_candidates[:12]
+                if (not t.car_ordinal) and tuple_candidates:
+                    best = tuple_candidates[0]
+                    t.car_ordinal = int(best["car_id"])
+                    t.car_class = int(best["class"])
+                    t.car_performance_index = int(best["pi"])
+                    t.drivetrain_type = int(best["drive"])
+                    t.num_cylinders = int(best["cylinders"])
+                    t.vehicle_id_source = f"Vehicle tuple candidate @ offset {best['offset']}"
+                    t.vehicle_id_confidence = "medium"
+            except Exception:
+                pass
+
+            try:
+                probe = []
+                limit = min(len(data) - 4, 512)
+                for off in range(0, limit + 1, 4):
+                    val = struct.unpack_from("<i", data, off)[0]
+                    if 1 <= val <= 5000000:
+                        probe.append({"offset": off, "value": val})
+                t.car_id_probe_candidates = probe[:80]
+            except Exception:
+                t.car_id_probe_candidates = []
+
             candidates = []
-            for base in (o, 232, 244):
+            for base in (244, 232, o):
                 if base + 79 <= len(data):
                     try:
                         speed = struct.unpack_from("<f", data, base + 12)[0]
@@ -858,6 +930,7 @@ class OverlayWindow(QWidget):
             p.setRenderHint(QPainter.RenderHint.Antialiasing)
             if self.config.get("edit_mode", True):
                 self.draw_hint(p)
+            self.draw_vehicle_badge(p)
             for c in self.cards.values():
                 if c.cfg.get("visible", True):
                     self.draw_card(p, c)
@@ -871,6 +944,41 @@ class OverlayWindow(QWidget):
         p.drawText(18, 28, "ONYX ONEEXE | EDIT MODE | one UDP receiver")
         p.setFont(QFont("Segoe UI", 8))
         p.drawText(18, 48, f"UDP {self.config['udp_port']} | Raw {r.raw_count} | Parsed {r.parsed_count} | {r.last_sender}")
+        p.drawText(18, 66, vehicle_summary_text(self.telemetry, compact=True))
+
+    def draw_vehicle_badge(self, p):
+        try:
+            if not bool(self.config.get("vehicle_badge_enabled", True)):
+                return
+            scale = float(self.config.get("scale", 1.0))
+            w = max(360, int(430 * scale))
+            h = max(58, int(66 * scale))
+            margin = max(14, int(20 * scale))
+            pos = str(self.config.get("vehicle_badge_position", "Top Right"))
+            if "Bottom" in pos:
+                y = self.height() - h - margin
+            else:
+                y = margin
+            if "Left" in pos:
+                x = margin
+            else:
+                x = self.width() - w - margin
+            rect = QRectF(x, y, w, h)
+            col = QColor(0, 217, 255)
+            p.setPen(QPen(QColor(0, 217, 255, 150), max(1, int(1.4 * scale))))
+            p.setBrush(QBrush(QColor(2, 8, 14, min(185, int(self.config.get("background_alpha", 115)) + 45))))
+            p.drawRoundedRect(rect, max(10, int(14 * scale)), max(10, int(14 * scale)))
+            p.setFont(QFont(self.config.get("font_family", "Segoe UI"), max(8, int(10 * scale)), QFont.Weight.Bold))
+            p.setPen(QColor(0, 217, 255, 230))
+            p.drawText(QRectF(x + 12*scale, y + 6*scale, w - 24*scale, 18*scale), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, "CURRENT VEHICLE")
+            p.setFont(QFont(self.config.get("font_family", "Segoe UI"), max(9, int(12 * scale)), QFont.Weight.Bold))
+            p.setPen(QColor(235, 250, 255, 230))
+            txt = vehicle_summary_text(self.telemetry, compact=True)
+            if txt.startswith("Vehicle: "):
+                txt = txt[len("Vehicle: "):]
+            p.drawText(QRectF(x + 12*scale, y + 26*scale, w - 24*scale, h - 30*scale), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, txt)
+        except Exception as exc:
+            log_error("OverlayWindow.draw_vehicle_badge", exc)
 
     def draw_drag_timer_card(self, p, c):
         try:
@@ -1398,8 +1506,8 @@ class PeakTab(QWidget):
         grid = QGridLayout(box)
         root.addWidget(box)
         self.labels = {}
-        names = ["status","samples","peak_speed","peak_rpm","peak_ps","peak_nm","100_200","200_300"]
-        defaults = ["Status: stopped","Samples: 0","Peak Speed: 0 km/h","Peak RPM: 0","Peak PS: 0","Peak NM: 0","100–200: -","200–300: -"]
+        names = ["status","vehicle","samples","peak_speed","peak_rpm","peak_ps","peak_nm","100_200","200_300"]
+        defaults = ["Status: stopped","Vehicle: waiting for telemetry","Samples: 0","Peak Speed: 0 km/h","Peak RPM: 0","Peak PS: 0","Peak NM: 0","100–200: -","200–300: -"]
         for i,(n,dv) in enumerate(zip(names,defaults)):
             lab = QLabel(dv)
             lab.setStyleSheet("font-weight:bold; color:#d9f7ff;")
@@ -1550,6 +1658,7 @@ class PeakTab(QWidget):
 
     def update_labels(self):
         if not self.samples:
+            self.labels["vehicle"].setText(vehicle_summary_text(getattr(self.manager, "latest", None)))
             self.labels["samples"].setText("Samples: 0")
             self.labels["peak_speed"].setText("Peak Speed: 0 km/h")
             self.labels["peak_rpm"].setText("Peak RPM: 0")
@@ -1558,6 +1667,7 @@ class PeakTab(QWidget):
             self.labels["100_200"].setText("100–200: -")
             self.labels["200_300"].setText("200–300: -")
             return
+        self.labels["vehicle"].setText(vehicle_summary_text(self.samples[-1]))
         peak_speed = max(self.samples, key=lambda s:s.speed_kmh)
         peak_rpm = max(self.samples, key=lambda s:s.rpm)
         peak_ps = max(self.samples, key=lambda s:s.power_ps)
@@ -1634,6 +1744,7 @@ class PeakTab(QWidget):
             max_len = max(len(str(c.value)) if c.value is not None else 0 for c in col)
             ws.column_dimensions[col[0].column_letter].width = min(max_len + 2, 22)
         summary = wb.create_sheet("Summary")
+        self.labels["vehicle"].setText(vehicle_summary_text(self.samples[-1]))
         peak_speed = max(self.samples, key=lambda s:s.speed_kmh)
         peak_rpm = max(self.samples, key=lambda s:s.rpm)
         peak_ps = max(self.samples, key=lambda s:s.power_ps)
@@ -1876,6 +1987,271 @@ class LiveGraphWidget(QWidget):
 
 
 
+VEHICLE_DB_PATH = Path("car_database.json")
+VEHICLE_DB_GENERATED_PATH = Path("car_database_generated_cleaned.json")
+VEHICLE_DB_CUSTOM_PATH = Path("car_database_custom.json")
+UNKNOWN_VEHICLES_PATH = Path("unknown_vehicles.json")
+
+_VEHICLE_DB_CACHE = None
+_VEHICLE_DB_CACHE_MTIMES = None
+
+
+def _load_vehicle_db_file(path: Path):
+    try:
+        if not path.exists():
+            return {}
+        data = json.loads(path.read_text(encoding="utf-8"))
+        if isinstance(data, dict) and isinstance(data.get("cars"), dict):
+            return data.get("cars", {})
+        if isinstance(data, dict) and isinstance(data.get("vehicles"), dict):
+            return data.get("vehicles", {})
+        if isinstance(data, dict):
+            return data
+    except Exception as exc:
+        log_error(f"load_vehicle_database:{path}", exc)
+    return {}
+
+
+def load_vehicle_database(force_reload: bool = False):
+    """Load CarOrdinal -> vehicle metadata.
+
+    Priority:
+    1) car_database_generated_cleaned.json / car_database.json = generated game-asset scan
+    2) car_database_custom.json = user/community corrections, overrides generated names
+
+    This keeps ONYX free/offline and avoids AI/API/Docker requirements.
+    """
+    global _VEHICLE_DB_CACHE, _VEHICLE_DB_CACHE_MTIMES
+    paths = [VEHICLE_DB_GENERATED_PATH, VEHICLE_DB_PATH, VEHICLE_DB_CUSTOM_PATH]
+    mtimes = tuple((str(p), p.stat().st_mtime if p.exists() else None) for p in paths)
+    if (not force_reload) and _VEHICLE_DB_CACHE is not None and _VEHICLE_DB_CACHE_MTIMES == mtimes:
+        return _VEHICLE_DB_CACHE
+    db = {}
+    for path in paths:
+        part = _load_vehicle_db_file(path)
+        for k, v in part.items():
+            try:
+                # Keep only numeric car IDs as lookup entries.
+                key = str(int(k))
+            except Exception:
+                continue
+            db[key] = v
+    _VEHICLE_DB_CACHE = db
+    _VEHICLE_DB_CACHE_MTIMES = mtimes
+    return db
+
+
+def vehicle_entry_for_id(car_id):
+    if car_id is None:
+        return None
+    db = load_vehicle_database()
+    return db.get(str(car_id))
+
+
+def vehicle_name_for_id(car_id):
+    entry = vehicle_entry_for_id(car_id)
+    if isinstance(entry, str):
+        return entry
+    if isinstance(entry, dict):
+        for k in ("display_name", "name", "vehicle", "car"):
+            if entry.get(k):
+                return str(entry.get(k))
+        year = entry.get("year")
+        make = entry.get("make") or entry.get("manufacturer")
+        model = entry.get("model") or entry.get("raw_model")
+        parts = []
+        if year:
+            parts.append(str(year))
+        if make:
+            parts.append(str(make))
+        if model:
+            parts.append(str(model))
+        if parts:
+            return " ".join(parts)
+        if entry.get("asset"):
+            return str(entry.get("asset"))
+    return None
+
+
+def vehicle_asset_for_id(car_id):
+    entry = vehicle_entry_for_id(car_id)
+    if isinstance(entry, dict):
+        return entry.get("asset") or entry.get("zip_file") or ""
+    return ""
+
+
+def vehicle_database_stats():
+    try:
+        db = load_vehicle_database()
+        generated = len(_load_vehicle_db_file(VEHICLE_DB_GENERATED_PATH if VEHICLE_DB_GENERATED_PATH.exists() else VEHICLE_DB_PATH))
+        custom = len(_load_vehicle_db_file(VEHICLE_DB_CUSTOM_PATH))
+        return len(db), generated, custom
+    except Exception as exc:
+        log_error("vehicle_database_stats", exc)
+        return 0, 0, 0
+
+
+def vehicle_class_label(cls):
+    try:
+        mapping = {0: "D", 1: "C", 2: "B", 3: "A", 4: "S1", 5: "S2", 6: "X", 7: "X"}
+        return mapping.get(int(cls), str(cls))
+    except Exception:
+        return "-"
+
+
+def drivetrain_label(v):
+    try:
+        return {0: "FWD", 1: "RWD", 2: "AWD"}.get(int(v), str(v))
+    except Exception:
+        return "-"
+
+
+def effective_car_id(tel):
+    try:
+        cid = getattr(tel, "car_ordinal", None)
+        if cid is not None and int(cid) > 0:
+            return int(cid)
+    except Exception:
+        pass
+    return None
+
+
+def vehicle_display_name(tel):
+    cid = effective_car_id(tel)
+    if cid is None:
+        return None
+    return vehicle_name_for_id(cid)
+
+
+def vehicle_summary_text(tel, compact=False):
+    if tel is None:
+        return "Vehicle: waiting for telemetry"
+    try:
+        cid = effective_car_id(tel)
+        raw = getattr(tel, "official_car_ordinal_raw", None)
+        name = vehicle_display_name(tel)
+        if cid is None:
+            if raw == 0:
+                return "Vehicle: unknown · Car ID unavailable · official raw 0"
+            return "Vehicle: unknown · Car ID unavailable"
+        cls = vehicle_class_label(getattr(tel, "car_class", None))
+        pi = getattr(tel, "car_performance_index", None)
+        drive = drivetrain_label(getattr(tel, "drivetrain_type", None))
+        display = name or "Unknown vehicle"
+        base = f"Vehicle: {display} · ID {cid}"
+        if pi is not None:
+            base += f" · {cls} {pi}"
+        if not compact:
+            base += f" · {drive}"
+            cyl = getattr(tel, "num_cylinders", None)
+            if cyl is not None:
+                base += f" · {cyl} cyl"
+            group = getattr(tel, "car_group", None)
+            if group not in (None, 0):
+                base += f" · Group {group}"
+            asset = vehicle_asset_for_id(cid)
+            if asset:
+                base += f" · {asset}"
+            src = getattr(tel, "vehicle_id_source", "")
+            conf = getattr(tel, "vehicle_id_confidence", "")
+            if src:
+                base += f" · {conf or 'detected'}"
+        return base
+    except Exception as exc:
+        log_error("vehicle_summary_text", exc)
+        return "Vehicle: status error"
+
+
+def current_vehicle_unknown_entry(tel):
+    cid = effective_car_id(tel)
+    if cid is None:
+        return None
+    if vehicle_name_for_id(cid):
+        return None
+    return {
+        "car_id": int(cid),
+        "display_name": "",
+        "year": None,
+        "make": "",
+        "model": "",
+        "asset": "",
+        "class": vehicle_class_label(getattr(tel, "car_class", None)),
+        "pi": getattr(tel, "car_performance_index", None),
+        "drivetrain": drivetrain_label(getattr(tel, "drivetrain_type", None)),
+        "cylinders": getattr(tel, "num_cylinders", None),
+        "car_group": getattr(tel, "car_group", None),
+        "source": "ONYX unknown vehicle logger",
+        "confidence": "needs-user-confirmation",
+        "notes": "Fill display_name/year/make/model, then copy this entry into car_database_custom.json."
+    }
+
+
+def log_unknown_vehicle(tel):
+    entry = current_vehicle_unknown_entry(tel)
+    if not entry:
+        return False
+    try:
+        data = {"unknown_vehicles": {}}
+        if UNKNOWN_VEHICLES_PATH.exists():
+            existing = json.loads(UNKNOWN_VEHICLES_PATH.read_text(encoding="utf-8"))
+            if isinstance(existing, dict):
+                data.update(existing)
+            if not isinstance(data.get("unknown_vehicles"), dict):
+                data["unknown_vehicles"] = {}
+        key = str(entry["car_id"])
+        old = data["unknown_vehicles"].get(key, {})
+        if isinstance(old, dict):
+            old.update(entry)
+            entry = old
+        entry["last_seen"] = time.strftime("%Y-%m-%d %H:%M:%S")
+        data["unknown_vehicles"][key] = entry
+        UNKNOWN_VEHICLES_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+        return True
+    except Exception as exc:
+        log_error("log_unknown_vehicle", exc)
+        return False
+
+
+def unknown_vehicle_clipboard_text(tel):
+    entry = current_vehicle_unknown_entry(tel)
+    if not entry:
+        cid = effective_car_id(tel)
+        if cid is None:
+            return "No active vehicle ID detected yet."
+        name = vehicle_name_for_id(cid)
+        return f"Vehicle already known: {cid} = {name}"
+    return json.dumps({str(entry["car_id"]): entry}, ensure_ascii=False, indent=2)
+
+
+def summarize_vehicle_id_probe(samples, max_items=8):
+    """Return stable integer candidates seen in the current UDP packet stream.
+
+    Official Forza CarOrdinal is the only value ONYX treats as a confirmed car ID.
+    Probe candidates are diagnostics only: switch cars and compare whether one
+    offset/value changes with the vehicle while normal telemetry stays valid.
+    """
+    if not samples:
+        return []
+    counts = {}
+    window = samples[-2000:]
+    window_total = len(window)
+    for s in window:
+        for item in getattr(s, "car_id_probe_candidates", []) or []:
+            try:
+                key = (int(item.get("offset")), int(item.get("value")))
+            except Exception:
+                continue
+            counts[key] = counts.get(key, 0) + 1
+    if not counts:
+        return []
+    result = []
+    for (offset, value), count in counts.items():
+        if count >= max(20, int(window_total * 0.75)):
+            result.append({"offset": offset, "value": value, "seen": count})
+    result.sort(key=lambda x: (-x["seen"], x["offset"], x["value"]))
+    return result[:max_items]
+
+
 class PrototypeLabTab(QWidget):
     """
     Performance Lab Prototype:
@@ -1933,6 +2309,11 @@ class PrototypeLabTab(QWidget):
         subtitle = QLabel("Internal test area: Live Graph, Drag Timer, Grip Monitor, Smart Hints, Session Report, HUD Presets, Profiles and Support Info.")
         subtitle.setWordWrap(True)
         outer.addWidget(subtitle)
+
+        self.lbl_vehicle_live = QLabel("Vehicle: waiting for telemetry")
+        self.lbl_vehicle_live.setWordWrap(True)
+        self.lbl_vehicle_live.setStyleSheet("font-weight:800; color:#00d9ff; background:rgba(2,8,14,130); border:1px solid rgba(0,217,255,80); border-radius:9px; padding:8px;")
+        outer.addWidget(self.lbl_vehicle_live)
 
         self.build_live_graph_section(outer)
         self.build_drag_section(outer)
@@ -2194,6 +2575,8 @@ class PrototypeLabTab(QWidget):
         try:
             if t is None:
                 return
+            if hasattr(self, "lbl_vehicle_live"):
+                self.lbl_vehicle_live.setText(vehicle_summary_text(t))
 
             self.samples.append(t)
             if len(self.samples) > 12000:
@@ -2523,6 +2906,8 @@ class PrototypeLabTab(QWidget):
             if hasattr(source[-1], attr):
                 try:
                     car_id = getattr(source[-1], attr)
+                    if car_id == 0:
+                        car_id = None
                     break
                 except Exception:
                     pass
@@ -2642,8 +3027,23 @@ class PrototypeLabTab(QWidget):
         lines.append(f"Telemetry Score: {score}/100")
         if car_id is not None:
             lines.append(f"Detected Car ID: {car_id}")
+            vehicle_name = vehicle_name_for_id(car_id)
+            if vehicle_name:
+                lines.append(f"Detected Vehicle: {vehicle_name}")
+            else:
+                lines.append("Detected Vehicle: unknown (add mapping to car_database.json)")
         else:
+            raw_ordinal = getattr(source[-1], "official_car_ordinal_raw", None)
             lines.append("Detected Car ID: unavailable")
+            lines.append(f"Official CarOrdinal raw: {raw_ordinal}")
+            lines.append("Detected Vehicle: unavailable")
+            probe = summarize_vehicle_id_probe(source)
+            if probe:
+                lines.append("Vehicle ID probe candidates, compare after switching car:")
+                for item in probe[:5]:
+                    lines.append(f"- offset {item.get('offset')}: {item.get('value')} seen {item.get('seen')}x")
+            else:
+                lines.append("Vehicle ID probe: no stable alternative candidates found")
         lines.append(f"Samples analyzed: {len(source)}")
         lines.append("")
         lines.append("Peaks:")
@@ -2723,7 +3123,7 @@ class PrototypeLabTab(QWidget):
             drag_times = self.calc_drag_times_for_samples(samples)
 
             with path.open("w", encoding="utf-8") as f:
-                f.write("ONYX Drive HUD v5.2.6 Report\n")
+                f.write("ONYX Drive HUD v5.2.7e Vehicle Database No-AI Report\n")
                 f.write("="*70 + "\n")
                 f.write(f"Samples: {len(samples)}\n")
                 f.write(f"Peak Speed: {speed_value(peak_speed,cfg):.2f} {speed_label(cfg)}\n")
@@ -2959,6 +3359,8 @@ class ManagerWindow(QMainWindow):
         self.drag_overlay_record_times = {}
         self.drag_overlay_recording = False
         self.overlay = None
+        self.vehicle_status_labels = []
+        self.logged_unknown_vehicle_ids = set()
         self.setWindowTitle(tr(self.lang(), "title"))
         if ICON_PATH.exists():
             self.setWindowIcon(QIcon(str(ICON_PATH)))
@@ -2976,6 +3378,7 @@ class ManagerWindow(QMainWindow):
         return self.config.get("language", "en")
 
     def build_ui(self):
+        self.vehicle_status_labels = []
         central = QWidget()
         self.setCentralWidget(central)
         root = QVBoxLayout(central)
@@ -2985,7 +3388,7 @@ class ManagerWindow(QMainWindow):
         hl = QVBoxLayout(header)
         title = QLabel("ONYX"); title.setObjectName("TitleLabel")
         sub = QLabel(tr(self.lang(), "subtitle")); sub.setObjectName("SubtitleLabel")
-        hl.addWidget(title); hl.addWidget(sub)
+        hl.addWidget(title); hl.addWidget(sub); hl.addWidget(self.make_vehicle_status_label())
         root.addWidget(header)
         self.tabs = QTabWidget()
         root.addWidget(self.tabs, 1)
@@ -3027,6 +3430,58 @@ class ManagerWindow(QMainWindow):
             except Exception:
                 pass
 
+    def make_vehicle_status_label(self):
+        lab = QLabel(vehicle_summary_text(getattr(self, "latest", None)))
+        lab.setWordWrap(True)
+        lab.setStyleSheet("font-weight:800; color:#00d9ff; background:rgba(2,8,14,120); border:1px solid rgba(0,217,255,80); border-radius:9px; padding:7px;")
+        if not hasattr(self, "vehicle_status_labels"):
+            self.vehicle_status_labels = []
+        self.vehicle_status_labels.append(lab)
+        return lab
+
+    def update_vehicle_status_labels(self):
+        try:
+            text = vehicle_summary_text(getattr(self, "latest", None))
+            for lab in getattr(self, "vehicle_status_labels", []):
+                try:
+                    lab.setText(text)
+                except Exception:
+                    pass
+        except Exception as exc:
+            log_error("ManagerWindow.update_vehicle_status_labels", exc)
+
+    def copy_current_vehicle_entry(self):
+        try:
+            txt = unknown_vehicle_clipboard_text(getattr(self, "latest", None))
+            QApplication.clipboard().setText(txt)
+            QMessageBox.information(self, "Vehicle Database", "Current vehicle entry copied to clipboard.")
+        except Exception as exc:
+            log_error("ManagerWindow.copy_current_vehicle_entry", exc)
+            QMessageBox.warning(self, "Vehicle Database", "Could not copy vehicle entry.")
+
+    def open_vehicle_database_folder(self):
+        try:
+            folder = Path.cwd().resolve()
+            if sys.platform.startswith("win"):
+                os.startfile(str(folder))
+            elif sys.platform == "darwin":
+                subprocess.Popen(["open", str(folder)])
+            else:
+                subprocess.Popen(["xdg-open", str(folder)])
+        except Exception as exc:
+            log_error("ManagerWindow.open_vehicle_database_folder", exc)
+            QMessageBox.information(self, "Vehicle Database", f"Database folder:\n{Path.cwd().resolve()}")
+
+    def reload_vehicle_database(self):
+        try:
+            load_vehicle_database(force_reload=True)
+            self.update_vehicle_status_labels()
+            total, generated, custom = vehicle_database_stats()
+            QMessageBox.information(self, "Vehicle Database", f"Vehicle database reloaded.\n\nTotal IDs: {total}\nGenerated: {generated}\nCustom/override: {custom}")
+        except Exception as exc:
+            log_error("ManagerWindow.reload_vehicle_database", exc)
+            QMessageBox.warning(self, "Vehicle Database", "Could not reload vehicle database.")
+
     def build_general_tab(self):
         w = QWidget(); outer = QVBoxLayout(w)
         box = QGroupBox(tr(self.lang(), "system")); form = QFormLayout(box); outer.addWidget(box)
@@ -3041,6 +3496,33 @@ class ManagerWindow(QMainWindow):
         self.populate_overlay_monitor_select()
         form.addRow("Overlay Monitor:", self.overlay_monitor)
 
+        form.addRow("Current Vehicle:", self.make_vehicle_status_label())
+        self.vehicle_badge_enabled = QCheckBox("show fixed vehicle badge")
+        self.vehicle_badge_enabled.setChecked(bool(self.config.get("vehicle_badge_enabled", True)))
+        form.addRow("Vehicle Overlay:", self.vehicle_badge_enabled)
+        self.vehicle_badge_position = QComboBox()
+        self.vehicle_badge_position.addItems(["Top Right", "Bottom Right", "Top Left", "Bottom Left"])
+        idx = self.vehicle_badge_position.findText(str(self.config.get("vehicle_badge_position", "Top Right")))
+        if idx >= 0:
+            self.vehicle_badge_position.setCurrentIndex(idx)
+        form.addRow("Vehicle Badge Position:", self.vehicle_badge_position)
+
+        total_db, generated_db, custom_db = vehicle_database_stats()
+        self.vehicle_database_info = QLabel(f"{total_db} IDs loaded · generated {generated_db} · custom {custom_db}")
+        self.vehicle_database_info.setWordWrap(True)
+        form.addRow("Vehicle Database:", self.vehicle_database_info)
+        vehicle_db_row = QHBoxLayout()
+        btn_copy_vehicle = QPushButton("Copy current/unknown vehicle entry")
+        btn_copy_vehicle.clicked.connect(self.copy_current_vehicle_entry)
+        vehicle_db_row.addWidget(btn_copy_vehicle)
+        btn_open_vehicle_db = QPushButton("Open DB folder")
+        btn_open_vehicle_db.clicked.connect(self.open_vehicle_database_folder)
+        vehicle_db_row.addWidget(btn_open_vehicle_db)
+        btn_reload_vehicle_db = QPushButton("Reload DB")
+        btn_reload_vehicle_db.clicked.connect(self.reload_vehicle_database)
+        vehicle_db_row.addWidget(btn_reload_vehicle_db)
+        form.addRow(vehicle_db_row)
+
         self.bg_alpha = QSpinBox(); self.bg_alpha.setRange(0,255); self.bg_alpha.setValue(int(self.config["background_alpha"]))
         form.addRow(tr(self.lang(),"tile_bg")+":", self.bg_alpha)
         self.edit_mode = QCheckBox("enabled"); self.edit_mode.setChecked(bool(self.config["edit_mode"]))
@@ -3052,6 +3534,7 @@ class ManagerWindow(QMainWindow):
 
     def build_tiles_tab(self):
         w = QWidget(); layout = QVBoxLayout(w)
+        layout.addWidget(self.make_vehicle_status_label())
         box_sel = QGroupBox(tr(self.lang(),"select_tile")); row = QHBoxLayout(box_sel)
         self.card_select = QComboBox()
         for key,label in CARD_LABELS.items(): self.card_select.addItem(label, key)
@@ -3078,6 +3561,7 @@ class ManagerWindow(QMainWindow):
 
     def build_design_tab(self):
         w = QWidget(); outer = QVBoxLayout(w)
+        outer.addWidget(self.make_vehicle_status_label())
         box = QGroupBox("Manager Design / Theme"); form = QFormLayout(box); outer.addWidget(box)
         self.theme_select = QComboBox()
         for name in THEMES: self.theme_select.addItem(name)
@@ -3091,6 +3575,7 @@ class ManagerWindow(QMainWindow):
     def build_units_tab(self):
         w = QWidget()
         outer = QVBoxLayout(w)
+        outer.addWidget(self.make_vehicle_status_label())
 
         box = QGroupBox(tr(self.lang(), "unit_system"))
         form = QFormLayout(box)
@@ -3181,6 +3666,7 @@ class ManagerWindow(QMainWindow):
     def build_stability_tab(self):
         w = QWidget()
         outer = QVBoxLayout(w)
+        outer.addWidget(self.make_vehicle_status_label())
         box = QGroupBox(tr(self.lang(), "stability"))
         form = QFormLayout(box)
         outer.addWidget(box)
@@ -3292,6 +3778,10 @@ class ManagerWindow(QMainWindow):
         self.config["background_alpha"] = int(self.bg_alpha.value())
         if hasattr(self, "overlay_monitor"):
             self.config["overlay_monitor_index"] = int(self.overlay_monitor.currentData())
+        if hasattr(self, "vehicle_badge_enabled"):
+            self.config["vehicle_badge_enabled"] = self.vehicle_badge_enabled.isChecked()
+        if hasattr(self, "vehicle_badge_position"):
+            self.config["vehicle_badge_position"] = self.vehicle_badge_position.currentText()
         self.config["edit_mode"] = self.edit_mode.isChecked()
         self.config["click_through"] = self.click.isChecked()
         self.config["manager_theme"] = self.theme_select.currentText() if hasattr(self,"theme_select") else self.config.get("manager_theme","Blackout Blue")
@@ -3536,6 +4026,16 @@ class ManagerWindow(QMainWindow):
             pass
         except Exception as exc:
             log_error("ManagerWindow.tick.queue", exc)
+
+        if changed:
+            try:
+                cid = effective_car_id(getattr(self, "latest", None))
+                if cid is not None and cid not in getattr(self, "logged_unknown_vehicle_ids", set()):
+                    if log_unknown_vehicle(self.latest):
+                        self.logged_unknown_vehicle_ids.add(cid)
+            except Exception as exc:
+                log_error("ManagerWindow.tick.vehicle_unknown_logger", exc)
+            self.update_vehicle_status_labels()
 
         if changed and self.overlay:
             try:

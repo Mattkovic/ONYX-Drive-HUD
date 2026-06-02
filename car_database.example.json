@@ -1,0 +1,10 @@
+{
+  "cars": {
+    "123456": {
+      "name": "Example Vehicle Name",
+      "make": "Example Make",
+      "model": "Example Model",
+      "notes": "Replace 123456 with the detected Forza CarOrdinal shown by ONYX. Community/user maintained mapping."
+    }
+  }
+}

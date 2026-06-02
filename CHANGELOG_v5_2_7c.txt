@@ -1,0 +1,15 @@
+ONYX Drive HUD v5.2.7c FH6 Vehicle HUD Prototype
+
+Added
+- FH6 vehicle parser alignment for CarOrdinal / Class / PI / Drivetrain / Cylinders / CarGroup.
+- Fixed overlay vehicle badge, enabled by default, with selectable corner position.
+- Current Vehicle status in Manager header, General, Tiles, Peak Measurements, Performance Lab, Design, Units and Stability.
+- AI payload vehicle debug fields: source, confidence, tuple candidates and CarGroup.
+
+Fixed
+- Car ID 0 is no longer treated as a real vehicle ID.
+- Performance Summary now uses official raw CarOrdinal separately from the resolved vehicle ID.
+
+Notes
+- Readable car names still require car_database.json.
+- This is a prototype / test build, not a Nexus main-file candidate until real in-game validation is done.

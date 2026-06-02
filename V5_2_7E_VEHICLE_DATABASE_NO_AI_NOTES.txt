@@ -1,0 +1,23 @@
+ONYX Drive HUD v5.2.7e FH6 Vehicle Database No-AI Notes
+
+This version integrates the FH6 vehicle ID database generated from the game's Media/Cars asset ZIPs.
+
+Core idea:
+- ONYX reads CarOrdinal from Forza Data Out.
+- The readable vehicle name comes from a local JSON database.
+- No AI, no API key, no Docker, no cloud dependency.
+
+Database files:
+- car_database.json: active bundled database
+- car_database_generated_cleaned.json: generated FH6 asset scan database
+- car_database_custom.json: user/community overrides
+- unknown_vehicles.json: auto-filled when ONYX sees an unmapped vehicle ID
+
+Known confirmed test entries:
+- 4114 = 1992 Nissan Skyline GT-R
+- 2574 = 2015 343 Industries Warthog
+
+Caution:
+- The CarOrdinal ID is reliable.
+- Some display names are cleaned from internal asset names and may not perfectly match the exact in-game localized name.
+- Use car_database_custom.json to override any imperfect names without changing code.

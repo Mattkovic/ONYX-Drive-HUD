@@ -1,0 +1,21 @@
+v5.2.7c FH6 Vehicle HUD Prototype
+
+Purpose:
+Fix the vehicle detection path and make the current vehicle visible directly in the overlay and manager UI.
+
+What changed:
+- Parser now keeps official raw CarOrdinal separately.
+- If raw CarOrdinal is 0, ONYX reports unavailable instead of claiming ID 0.
+- Nearby tuple resolver checks for plausible CarOrdinal/Class/PI/Drive/Cylinders layouts.
+- Fixed vehicle badge is shown in the overlay, default top-right.
+- Vehicle status labels were added to important manager areas.
+
+Validation steps:
+1. Enable Forza Data Out to 127.0.0.1 / port 5607.
+2. Start ONYX.
+3. Drive for 30-60 seconds.
+4. Check the overlay vehicle badge.
+5. Open Performance Lab -> Analyze Current Session.
+6. Compare Car ID after switching vehicles.
+
+If ONYX shows a numeric Car ID but unknown vehicle name, add that ID to car_database.json.

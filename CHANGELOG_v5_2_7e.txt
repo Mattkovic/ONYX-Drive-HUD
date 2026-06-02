@@ -1,0 +1,29 @@
+ONYX Drive HUD v5.2.7e - FH6 Vehicle Database No-AI
+
+Added:
+- Integrated FH6 vehicle database generated from Sebastian's game asset scan.
+- Added 638 CarOrdinal -> vehicle asset/name entries.
+- Added confirmed mappings:
+  - 4114 = 1992 Nissan Skyline GT-R
+  - 2574 = 2015 343 Industries Warthog
+- Added database fallback loading:
+  - car_database_generated_cleaned.json
+  - car_database.json
+  - car_database_custom.json
+- Added unknown_vehicles.json logger for detected IDs missing from the database.
+- Added General-tab vehicle database controls:
+  - Copy current/unknown vehicle entry
+  - Open DB folder
+  - Reload DB
+
+Changed:
+- Overlay vehicle badge now uses the integrated database instead of showing Unknown vehicle for known IDs.
+- Vehicle status labels show asset/debug info in full UI view.
+- Build script copies vehicle database files into the release folder.
+
+Removed:
+- No AI/Odysseus/Ollama/API features. ONYX remains free/offline/no-Docker.
+
+Notes:
+- Pretty names are generated from game asset names and may need cleanup for some vehicles.
+- Car IDs are strong because they were extracted from carclips_XXXX.clipd inside FH6 car asset ZIPs.

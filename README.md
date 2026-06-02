@@ -1,4 +1,4 @@
-# ONYX Drive HUD v5.2.6
+# ONYX Drive HUD v5.2.7
 
 ONYX Drive HUD is an external telemetry overlay for Forza Horizon 6 using the official Forza Data Out UDP telemetry feature.
 
@@ -398,3 +398,54 @@ It does not:
 It only listens to local Forza Data Out UDP telemetry and renders a local overlay.
 
 The EXE version is built with PyInstaller. Some antivirus engines may flag PyInstaller-built EXE files because they bundle the Python runtime. This does not automatically mean the file is malicious. The source code is included for inspection and local rebuilding.
+
+
+## v5.2.7e Vehicle Database No-AI
+
+This build removes the experimental AI Coach / Odysseus / Ollama connector again. ONYX stays a free local telemetry overlay and does not require Docker, API keys, paid AI accounts or external model setup.
+
+Kept from the prototype branch:
+
+- FH6 vehicle parser / CarOrdinal work.
+- Fixed vehicle badge in the transparent overlay.
+- Vehicle status labels in the manager UI.
+- `car_database.json` support for mapping numeric IDs to readable vehicle names.
+- Existing Performance Lab, Drag Timer, Grip Monitor, Dyno, Smart Hints and Performance Summary features.
+
+Removed:
+
+- AI Coach Lite section.
+- Local AI endpoint/model settings.
+- Odysseus/Ollama connector buttons.
+- AI payload export button.
+
+## v5.2.7c FH6 Vehicle HUD Prototype
+
+Prototype test build focused on vehicle detection and display. Added:
+
+- FH6 official Data Out parser alignment for vehicle fields: `CarOrdinal`, `CarClass`, `CarPerformanceIndex`, `DrivetrainType`, `NumCylinders` and `CarGroup`.
+- Raw `CarOrdinal` value is kept separately, so `0` is shown as unavailable instead of being treated as a real car ID.
+- Vehicle tuple resolver checks nearby documented/shifted layouts and only accepts candidates when Class/PI/Drivetrain/Cylinders look valid.
+- Fixed vehicle badge in the transparent overlay, enabled by default and positioned top-right.
+- Vehicle status is also visible in the manager header, General, Tiles, Peak Measurements, Performance Lab, Design, Units and Stability areas.
+
+Important: ONYX still does not invent readable vehicle names. If the CarOrdinal is detected but no mapping exists, it shows the numeric ID and asks for a `car_database.json` mapping.
+
+
+## v5.2.7e - FH6 Vehicle Database No-AI
+
+This version adds the first integrated FH6 vehicle database generated from the game asset scan. ONYX now maps detected CarOrdinal IDs to readable vehicle names offline. No AI, no API key, no Docker and no cloud setup are required.
+
+Included database files:
+
+- `car_database.json` - active bundled database
+- `car_database_generated_cleaned.json` - generated from FH6 car asset ZIPs
+- `car_database_custom.json` - user/community overrides
+- `unknown_vehicles.json` - auto-filled when a detected ID is missing
+
+Confirmed mappings from live tests:
+
+- `4114` = `1992 Nissan Skyline GT-R`
+- `2574` = `2015 343 Industries Warthog`
+
+The vehicle badge and all vehicle status panels use this database. Some display names are cleaned from internal asset names and may still need manual correction. Put corrected entries into `car_database_custom.json`.
